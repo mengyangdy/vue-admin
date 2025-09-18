@@ -3,7 +3,6 @@ import { URL, fileURLToPath } from "node:url";
 import { setupVitePlugins } from "./build/plugins";
 import { createViteProxy, getBuildTime } from "./build/config";
 
-// https://vite.dev/config/
 export default defineConfig((configEnv) => {
   const viteEnv = loadEnv(
     configEnv.mode,

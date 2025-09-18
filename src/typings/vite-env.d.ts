@@ -11,6 +11,7 @@ declare namespace Env {
      * This prefix is start with the icon prefix
      */
     readonly VITE_ICON_LOCAL_PREFIX: "local-icon";
+    readonly VITE_SERVICE_BASE_URL: string;
   }
 }
 

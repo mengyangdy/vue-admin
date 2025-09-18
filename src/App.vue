@@ -1,11 +1,11 @@
 <template>
   <NConfigProvider>
     <AppProvider>
-      <RouterView v-slot="{ Component }">
+      <Router-view v-slot="{ Component }">
         <transition>
           <component :is="Component" />
         </transition>
-      </RouterView>
+      </Router-view>
     </AppProvider>
   </NConfigProvider>
 </template>
