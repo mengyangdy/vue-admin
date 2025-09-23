@@ -1,4 +1,4 @@
-import { SetupStoreId } from "@/enum";
+import { SetupStoreId } from "@/constants";
 import { PiniaPluginContext } from "pinia";
 
 /**

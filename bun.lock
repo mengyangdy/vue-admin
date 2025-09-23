@@ -17,7 +17,7 @@
       },
       "devDependencies": {
         "@dylanjs/cli": "^1.0.4",
-        "@dylanjs/utils": "^0.2.7",
+        "@dylanjs/utils": "^0.2.9",
         "@iconify/json": "^2.2.384",
         "@types/node": "^24.4.0",
         "@unocss/preset-icons": "^66.5.1",
@@ -116,7 +116,7 @@
 
     "@dylanjs/cli": ["@dylanjs/cli@1.0.4", "", { "dependencies": { "@types/cli-progress": "^3.11.6", "bumpp": "^10.1.0", "c12": "^1.10.0", "cac": "^6.7.14", "cli-progress": "^3.12.0", "consola": "^3.4.2", "convert-gitmoji": "^0.1.5", "dayjs": "^1.11.13", "enquirer": "2.4.1", "execa": "^8.0.1", "kolorist": "^1.8.0", "ofetch": "^1.4.1", "rimraf": "^6.0.1", "semver": "^7.7.1" }, "bin": { "dylan": "dist/index.cjs", "dy": "dist/index.cjs" } }, "sha512-lelbtyLlA/ecy7v6QfYN9J4n5Gb5kvo+iQ/Rms/agLn9sLGufBKGXeTZujBEih4PwcYA5oFZURdZ0P9bIc7G3w=="],
 
-    "@dylanjs/utils": ["@dylanjs/utils@0.2.7", "", { "dependencies": { "@unocss/core": "^66.3.2", "@unocss/preset-uno": "^66.3.2", "axios": "^1.9.0", "axios-retry": "^4.5.0", "colord": "^2.9.3", "localforage": "^1.10.0", "nanoid": "^5.1.5", "qs": "^6.14.0" } }, "sha512-Qq/6gQJ+i6eUkGsYDn6T7Usv6Emu5MZNQGfXLqxoNQMjvDbncxDHf+/MegZRl+lrvYXUv3K0vmAaJbARJgLQSQ=="],
+    "@dylanjs/utils": ["@dylanjs/utils@0.2.9", "", { "dependencies": { "@unocss/core": "^66.5.1", "@unocss/preset-uno": "^66.5.1", "axios": "^1.9.0", "axios-retry": "^4.5.0", "colord": "^2.9.3", "localforage": "^1.10.0", "nanoid": "^5.1.5", "qs": "^6.14.0" } }, "sha512-XMTG/dGVWmSV2SGsqhi2KMbO7qWU9vMf/+4+O62PfDDOroeqx4SQnhna33xl58TZfZiXf0vaBafLLeFPR7RN8g=="],
 
     "@emotion/hash": ["@emotion/hash@0.8.0", "", {}, "sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow=="],
 

@@ -26,6 +26,8 @@ export async function setupRouter(app: App) {
     plugins: [
       rbacAccessPlugin({
         service: async () => {
+          console.log(11111, "1111");
+
           const appStore = useAppStore();
           const userStore = useUserStore();
           if (userStore.user.token && userStore.user.roles.length <= 0) {

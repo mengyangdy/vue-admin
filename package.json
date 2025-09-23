@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@dylanjs/cli": "^1.0.4",
-    "@dylanjs/utils": "^0.2.7",
+    "@dylanjs/utils": "^0.2.9",
     "@iconify/json": "^2.2.384",
     "@types/node": "^24.4.0",
     "@unocss/preset-icons": "^66.5.1",

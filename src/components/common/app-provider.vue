@@ -3,9 +3,8 @@
     <NDialogProvider>
       <NNotificationProvider>
         <NMessageProvider>
-          <ContextHolder>
-            <slot></slot>
-          </ContextHolder>
+          <ContextHolder />
+          <slot></slot>
         </NMessageProvider>
       </NNotificationProvider>
     </NDialogProvider>
@@ -34,6 +33,8 @@ const ContextHolder = defineComponent({
       window.$notification = useNotification();
     }
     register();
+    console.log(createTextVNode(), "aaaa");
+
     return () => createTextVNode();
   },
 });

@@ -4,6 +4,7 @@ import transformerVariantGroup from "@unocss/transformer-variant-group";
 import presetWind3 from "@unocss/preset-wind3";
 import type { Theme } from "@unocss/preset-uno";
 // import { themeVars } from "./src/theme/vars";
+import { presetDylanAdmin } from "@dylanjs/utils";
 
 export default defineConfig<Theme>({
   content: {
@@ -25,5 +26,5 @@ export default defineConfig<Theme>({
     "card-wrapper": "rd-8px shadow-sm",
   },
   transformers: [transformerDirectives(), transformerVariantGroup()],
-  presets: [presetWind3({ dark: "class" })],
+  presets: [presetWind3({ dark: "class" }), presetDylanAdmin()],
 });
