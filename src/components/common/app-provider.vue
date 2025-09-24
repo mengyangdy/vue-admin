@@ -33,8 +33,6 @@ const ContextHolder = defineComponent({
       window.$notification = useNotification();
     }
     register();
-    console.log(createTextVNode(), "aaaa");
-
     return () => createTextVNode();
   },
 });

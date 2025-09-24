@@ -9,7 +9,14 @@ import {
   generateRouteComponentName,
   isRouteName,
 } from "../utils/route";
-import { ROUTE_NAME } from "../constant";
+import { ROUTE_COMPONENT_NAME, ROUTE_NAME } from "../constant";
+
+declare module "vue-router" {
+  interface RouteMeta {
+    [ROUTE_NAME]?: string | symbol;
+    [ROUTE_COMPONENT_NAME]?: string | undefined;
+  }
+}
 
 export function normalizeRoutesPlugin(): ProRouterPlugin {
   return {
@@ -21,6 +28,7 @@ export function normalizeRoutesPlugin(): ProRouterPlugin {
     },
     install: ({ router }) => {
       const originalAddRoute = router.addRoute;
+
       router.addRoute = function addRoute(
         parentOrRoute: NonNullable<RouteRecordNameGeneric> | RouteRecordRaw,
         route?: RouteRecordRaw
@@ -29,12 +37,23 @@ export function normalizeRoutesPlugin(): ProRouterPlugin {
           ? originalAddRoute(parentOrRoute, normalizeRoutes([route!])[0])
           : originalAddRoute(normalizeRoutes([parentOrRoute])[0]);
       };
+
       router.beforeResolve((to) => {
         const namespace = "default";
         const normalizedComponent = normalizeRouteResolvedComponent(
           to,
           namespace
         );
+        if (normalizedComponent) {
+          const currentRoute = to.matched[to.matched.length - 1];
+          if (currentRoute.components) {
+            currentRoute.components[namespace] = { ...normalizedComponent };
+          }
+          currentRoute.meta = {
+            ...currentRoute.meta,
+            [ROUTE_COMPONENT_NAME]: normalizedComponent.__name,
+          };
+        }
       });
     },
   };
@@ -75,7 +94,7 @@ function normalizeRouteResolvedComponent(
   }
   if (
     currentRouteComponent.name &&
-    currentRouteComponent.name !== (currentRouteComponent as any).__namne
+    currentRouteComponent.name !== (currentRouteComponent as any).__name
   ) {
     return {
       ...currentRouteComponent,

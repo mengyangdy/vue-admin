@@ -5,7 +5,7 @@
     :rules="rules"
     size="large"
     :show-label="false"
-    @keyup.enter="handleSubmit"
+    @submit.prevent="handleSubmit"
   >
     <n-form-item path="userName">
       <n-input v-model:value="model.userName" placeholder="请输入账号" />
@@ -25,7 +25,7 @@
           >忘记密码?</n-button
         >
       </div>
-      <loading-button type="primary" size="large" block @click="handleSubmit"
+      <loading-button attr-type="submit" type="primary" size="large" block
         >登录</loading-button
       >
       <div class="flex-y-center justify-between gap-12px">
@@ -57,6 +57,9 @@ const emit = defineEmits<Emits>();
 const authStore = useAuthStore();
 const { formRef, validate } = useNaiveForm();
 
+// 防重复提交
+const isSubmitting = ref(false);
+
 interface FormModel {
   userName: string;
   password: string;
@@ -74,8 +77,26 @@ const rules = computed(() => {
   };
 });
 async function handleSubmit() {
-  await validate();
-  await authStore.login(model.value.userName, model.value.password);
+  console.log(
+    "handleSubmit 被调用",
+    new Date().toISOString(),
+    "调用栈:",
+    new Error().stack
+  );
+
+  // 防重复提交
+  if (isSubmitting.value) {
+    console.log("正在提交中，跳过重复提交");
+    return;
+  }
+
+  try {
+    isSubmitting.value = true;
+    await validate();
+    await authStore.login(model.value.userName, model.value.password);
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 
 const toggleLoginModule = (module: string) => {

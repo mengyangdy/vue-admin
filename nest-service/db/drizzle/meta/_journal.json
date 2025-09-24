@@ -15,6 +15,13 @@
       "when": 1758608773805,
       "tag": "0001_naive_jocasta",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1758613243594,
+      "tag": "0002_fair_tomorrow_man",
+      "breakpoints": true
     }
   ]
 }

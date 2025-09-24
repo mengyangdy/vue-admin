@@ -12,6 +12,10 @@ declare namespace Env {
      */
     readonly VITE_ICON_LOCAL_PREFIX: "local-icon";
     readonly VITE_SERVICE_BASE_URL: string;
+    readonly VITE_ROUTE_HOME: string;
+    readonly VITE_HTTP_PROXY?: CommonType.YesOrNo;
+    readonly VITE_PROXY_LOG?: CommonType.YesOrNo;
+    readonly VITE_SERVICE_SUCCESS_CODE: string;
   }
 }
 

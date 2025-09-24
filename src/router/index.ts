@@ -16,8 +16,8 @@ import {
   accessRoutes,
   pageMap,
 } from "./routes";
-import { useAppStore } from "@/store/modules/app";
-import { useUserStore } from "@/store/modules/user";
+
+import { useAuthStore } from "@/store/modules/auth";
 
 export async function setupRouter(app: App) {
   const router = createRouter({
@@ -26,20 +26,19 @@ export async function setupRouter(app: App) {
     plugins: [
       rbacAccessPlugin({
         service: async () => {
-          console.log(11111, "1111");
-
-          const appStore = useAppStore();
-          const userStore = useUserStore();
-          if (userStore.user.token && userStore.user.roles.length <= 0) {
-            await userStore.fetchUpdateUserInfo();
-          }
+          const authStore = useAuthStore();
+          // && userStore.user.roles.length <= 0
+          // if (authStore.token) {
+          //   await authStore.getUserInfo();
+          // }
           const baseInfo: RbacAccessPluginBaseServiceReturned = {
-            logined: !!userStore.user.token,
-            homePath: userStore.homePath,
+            logined: !!authStore.token,
+            homePath: import.meta.env.VITE_ROUTE_HOME,
             loginPath: LOGIN_ROUTE_PATH,
             parentNameForAddRoute: ROOT_ROUTE_NAME,
             onRoutesBuilt: (routes) => {
-              userStore.routes = routes;
+              console.log("🚀 ~ index.ts:40 ~ setupRouter ~ routes:", routes);
+              // userStore.routes = routes;
             },
           };
 
@@ -48,16 +47,17 @@ export async function setupRouter(app: App) {
               ...baseInfo,
               mode: "frontend",
               routes: accessRoutes,
-              roles: userStore.user.roles,
+              roles: [],
             };
           }
           return {
             ...baseInfo,
             mode: "backend",
             fetchRoutes: async () => {
-              await userStore.getMenuAll(); // 获取菜单
-              // 将 RouteRecordRaw[] 转换为 RouteRecordRawWithStringComponent[]
-              return userStore.routes as RbacAccessPluginRouteRecordRawWithStringComponent[];
+              // await userStore.getMenuAll(); // 获取菜单
+              // // 将 RouteRecordRaw[] 转换为 RouteRecordRawWithStringComponent[]
+              // return userStore.routes as RbacAccessPluginRouteRecordRawWithStringComponent[];
+              return [];
             },
             resolveComponent: (component) => {
               let dynamicComponent = pageMap[component];

@@ -97,7 +97,7 @@ export interface RbacAccessPluginOptions {
 export function rbacAccessPlugin(
   options: RbacAccessPluginOptions
 ): ProRouterPlugin {
-  return ({ router, onUnmount, runWithApp }) => {
+  return ({ router, onUnmount }) => {
     const { on: onCleanup, trigger: cleanup } = createEventHook();
     router.beforeEach(async (to) => {
       const resolvedOptions = await resolveOptions(options);
