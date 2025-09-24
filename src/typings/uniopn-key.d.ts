@@ -20,4 +20,6 @@ declare namespace UnionKey {
     | "none";
 
   type PageTabMode = "button" | "chrome";
+
+  type LoginModule = "pwd-login" | "code-login" | "register" | "reset-pwd";
 }

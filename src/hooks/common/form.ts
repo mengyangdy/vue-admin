@@ -29,7 +29,7 @@ export function useFormRules() {
       pattern: REG_EMAIL,
       message: "请输入正确的邮箱",
     },
-    codeSix: {
+    code: {
       pattern: REG_CODE_SIX,
       message: "请输入6位验证码",
       trigger: "change",
@@ -40,7 +40,7 @@ export function useFormRules() {
     userName: [createRequiredRule("请输入账号"), patternRules.userName],
     phone: [createRequiredRule("请输入手机号"), patternRules.phone],
     password: [createRequiredRule("请输入密码"), patternRules.password],
-    codeSix: [createRequiredRule("请输入验证码"), patternRules.codeSix],
+    code: [createRequiredRule("请输入验证码"), patternRules.code],
     email: [createRequiredRule("请输入邮箱"), patternRules.email],
   };
   const defaultRequireRule = createRequiredRule("必填");
@@ -55,7 +55,7 @@ export function useFormRules() {
   function createConfirmPwdRule(
     pwd: string | Ref<string> | ComputedRef<string>
   ) {
-    const confirmPwdRule = [
+    const confirmPwdRule: App.Global.FormRule[] = [
       {
         required: true,
         message: "必填",

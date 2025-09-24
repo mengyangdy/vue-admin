@@ -4,7 +4,6 @@ import { getToken } from "./shared";
 import { computed, reactive, ref } from "vue";
 import { fetchGetUserInfo, fetchLogin } from "@/service/api/auth";
 import { localStg } from "@/utils/storage";
-import { userInfo } from "os";
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const token = ref(getToken());
@@ -15,6 +14,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     buttons: [],
   });
   const isLogin = computed(() => Boolean(token.value));
+
+  const currentLoginComponent = ref<UnionKey.LoginModule>("pwd-login");
+
+  const changeLoginComponent = (component: UnionKey.LoginModule) => {
+    currentLoginComponent.value = component;
+  };
 
   const login = async (userName: string, password: string, redirect = true) => {
     const { data: LoginToken, error } = await fetchLogin(userName, password);
@@ -62,5 +67,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     login,
     getUserInfo,
     resetStore,
+    currentLoginComponent,
+    changeLoginComponent,
   };
 });

@@ -21,7 +21,7 @@
     <n-flex vertical :size="24">
       <div class="flex-y-center justify-between">
         <n-checkbox>记住我</n-checkbox>
-        <n-button quaternary @click="toggleLoginModule('reset-pwd')"
+        <n-button quaternary @click="authStore.changeLoginComponent('reset-pwd')"
           >忘记密码?</n-button
         >
       </div>
@@ -29,10 +29,10 @@
         >登录</loading-button
       >
       <div class="flex-y-center justify-between gap-12px">
-        <n-button class="flex-1" block @click="toggleLoginModule('code-login')"
+        <n-button class="flex-1" block @click="authStore.changeLoginComponent('code-login')"
           >验证码登录</n-button
         >
-        <n-button class="flex-1" block @click="toggleLoginModule('register')"
+        <n-button class="flex-1" block @click="authStore.changeLoginComponent('register')"
           >注册账号</n-button
         >
       </div>
@@ -50,15 +50,12 @@ defineOptions({
   name: "PwdLogin",
 });
 
-interface Emits {
-  (e: "changeLoginModule", module: string): void;
-}
-const emit = defineEmits<Emits>();
+// interface Emits {
+//   (e: "changeLoginModule", module: string): void;
+// }
+// const emit = defineEmits<Emits>();
 const authStore = useAuthStore();
 const { formRef, validate } = useNaiveForm();
-
-// 防重复提交
-const isSubmitting = ref(false);
 
 interface FormModel {
   userName: string;
@@ -77,29 +74,7 @@ const rules = computed(() => {
   };
 });
 async function handleSubmit() {
-  console.log(
-    "handleSubmit 被调用",
-    new Date().toISOString(),
-    "调用栈:",
-    new Error().stack
-  );
-
-  // 防重复提交
-  if (isSubmitting.value) {
-    console.log("正在提交中，跳过重复提交");
-    return;
-  }
-
-  try {
-    isSubmitting.value = true;
     await validate();
     await authStore.login(model.value.userName, model.value.password);
-  } finally {
-    isSubmitting.value = false;
-  }
 }
-
-const toggleLoginModule = (module: string) => {
-  emit("changeLoginModule", module);
-};
 </script>

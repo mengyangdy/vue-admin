@@ -40,7 +40,7 @@
           </div>
           <div class="mb-12">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
-              密码登录
+              {{ activeModule.label }}
             </h1>
           </div>
           <div class="pt-24px">
@@ -61,26 +61,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import { useThemeStore } from "@/store/modules/theme";
 import IKun from "./modules/ikun.vue";
 import PwdLogin from "./modules/pwd-login.vue";
 import CodeLogin from "./modules/code-login.vue";
+
+import { useAuthStore } from "@/store/modules/auth";
+
+const authStore = useAuthStore();
 
 const themeStore = useThemeStore();
 const via = computed(() => {
   return themeStore.darkMode ? "#07070915" : "#D5E6FF";
 });
 
-type LoginModule = "pwd-login" | "code-login";
-
-const currentComponent = ref<LoginModule>("pwd-login");
-
-const changeLoginModule = (module: LoginModule) => {
-  currentComponent.value = module;
-};
-
-const moduleMap: Record<LoginModule, { label: string; component: any }> = {
+const moduleMap: Record<
+  UnionKey.LoginModule,
+  { label: string; component: any }
+> = {
   "pwd-login": {
     label: "密码登录",
     component: PwdLogin,
@@ -90,7 +89,7 @@ const moduleMap: Record<LoginModule, { label: string; component: any }> = {
     component: CodeLogin,
   },
 };
-const activeModule = computed(() => moduleMap[currentComponent.value]);
+const activeModule = computed(() => moduleMap[authStore.currentLoginComponent]);
 </script>
 
 <script scoped></script>

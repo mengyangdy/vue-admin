@@ -36,31 +36,35 @@ declare namespace App {
         animate: boolean;
         animateMode: UnionKey.ThemePageAnimateMode;
       };
-      logo:{
-        visible:boolean
-      }
+      logo: {
+        visible: boolean;
+      };
       header: {
         visible: boolean;
         height: number;
-        fixed:boolean
+        fixed: boolean;
       };
       tab: {
         visible: boolean;
         height: number;
         mode: UnionKey.PageTabMode;
       };
-      sider:{
-        visible:boolean
-        siderCollapse:boolean
-        width:number
-        sidebarExtra:boolean
-        collapsedWidth:number
-      }
-      footer:{
-        visible:boolean
-        height:number
-        fixed:boolean
-      }
+      sider: {
+        visible: boolean;
+        siderCollapse: boolean;
+        width: number;
+        sidebarExtra: boolean;
+        collapsedWidth: number;
+      };
+      footer: {
+        visible: boolean;
+        height: number;
+        fixed: boolean;
+      };
     }
+  }
+  namespace Global {
+    type VNode = import("vue").VNode;
+    type FormRule = import("naive-ui").FormItemRule;
   }
 }
