@@ -66,6 +66,7 @@ import { useThemeStore } from "@/store/modules/theme";
 import IKun from "./modules/ikun.vue";
 import PwdLogin from "./modules/pwd-login.vue";
 import CodeLogin from "./modules/code-login.vue";
+import Register from "./modules/register.vue";
 
 import { useAuthStore } from "@/store/modules/auth";
 
@@ -87,6 +88,10 @@ const moduleMap: Record<
   "code-login": {
     label: "验证码登录",
     component: CodeLogin,
+  },
+  register: {
+    label: "注册账号",
+    component: Register,
   },
 };
 const activeModule = computed(() => moduleMap[authStore.currentLoginComponent]);
