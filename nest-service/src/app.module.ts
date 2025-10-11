@@ -6,6 +6,8 @@ import { AuthModule } from "./auth/auth.module";
 import { JwtModule } from "@nestjs/jwt";
 import { APP_GUARD } from "@nestjs/core";
 import { LoginGuard } from "./login.guard";
+import { UserModule } from './user/user.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { LoginGuard } from "./login.guard";
       },
       secret: "my",
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [

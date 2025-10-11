@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1758606942488,
-      "tag": "0000_lonely_champions",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1758608773805,
-      "tag": "0001_naive_jocasta",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1758613243594,
-      "tag": "0002_fair_tomorrow_man",
+      "when": 1760165184408,
+      "tag": "0000_sloppy_maximus",
       "breakpoints": true
     }
   ]

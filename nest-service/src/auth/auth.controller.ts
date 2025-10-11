@@ -41,10 +41,6 @@ export class AuthController {
 
   @Get("/getUserInfo")
   getUserInfo(@CurrentUser() user: any) {
-    console.log(
-      "🚀 ~ auth.controller.ts:44 ~ AuthController ~ getUserInfo ~ user:",
-      user
-    );
     // 现在可以通过 user.userId 获取到 token 中的用户ID
     const id = user.userId;
     return this.authService.getUserInfo(id);

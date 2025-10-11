@@ -1,9 +1,15 @@
 CREATE TABLE `menus` (
 	`id` serial AUTO_INCREMENT NOT NULL,
+	`type` int NOT NULL,
 	`name` varchar(50) NOT NULL,
-	`path` varchar(255),
+	`route_name` varchar(50),
+	`route_path` varchar(255),
+	`path_param` varchar(255),
+	`order` int DEFAULT 0,
 	`parent_id` int DEFAULT 0,
+	`icon_type` int DEFAULT 1,
 	`icon` varchar(100),
+	`status` int DEFAULT 1,
 	`created_at` datetime DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `menus_id` PRIMARY KEY(`id`)
@@ -38,10 +44,12 @@ CREATE TABLE `users` (
 	`username` varchar(50) NOT NULL,
 	`password` varchar(255) NOT NULL,
 	`email` varchar(100),
+	`phone` varchar(20),
+	`avatar` varchar(255),
+	`nickname` varchar(50),
+	`status` int DEFAULT 1,
 	`created_at` datetime DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `users_id` PRIMARY KEY(`id`),
 	CONSTRAINT `users_username_unique` UNIQUE(`username`)
 );
---> statement-breakpoint
-DROP TABLE `user`;

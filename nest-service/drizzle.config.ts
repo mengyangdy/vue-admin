@@ -5,10 +5,10 @@ export default defineConfig({
   dialect:'mysql',
   out:'./db/drizzle',
   dbCredentials:{
-    host:'119.8.103.97',
+    host:'localhost',
     port:3306,
     user:'root',
-    password:'MENgyang110.',
+    password:'123456',
     database:'nest_admin_sql'
   }
 })
