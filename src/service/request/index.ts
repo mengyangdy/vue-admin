@@ -17,8 +17,6 @@ const { baseURL, otherBaseURL } = getServiceBaseURL(
   import.meta.env,
   isHttpProxy
 );
-console.log("🚀 ~ index.ts:20 ~ otherBaseURL:", otherBaseURL);
-console.log("🚀 ~ index.ts:20 ~ baseURL:", baseURL);
 
 export const request = createFlatRequest<
   App.Service.Response,
@@ -35,6 +33,7 @@ export const request = createFlatRequest<
       return config;
     },
     isBackendSuccess(response) {
+      console.log("🚀 ~ isBackendSuccess ~ response:", response)
       // when the backend response code is "0000"(default), it means the request is success
       // to change this logic by yourself, you can modify the `VITE_SERVICE_SUCCESS_CODE` in `.env` file
       return (

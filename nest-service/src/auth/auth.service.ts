@@ -1,25 +1,78 @@
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { UserAuthDto } from "./dto/user-auth.dto";
 
 import { users } from "../../db/schema";
 import { db } from "../../db";
 import { eq } from "drizzle-orm";
 import { JwtService } from "@nestjs/jwt";
+import { RegisterDto } from "./dto/register.dto";
+import * as argon2 from "argon2";
 
 @Injectable()
 export class AuthService {
   @Inject(JwtService)
   private jwtService: JwtService;
+  async register(registerDto: RegisterDto) {
+    const existingUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.username, registerDto.username));
+    if (existingUser.length > 0) {
+      throw new ConflictException("用户名已存在");
+    }
+
+    const hashedPassword = await argon2.hash(registerDto.password);
+    const result = await db.insert(users).values({
+      username: registerDto.username,
+      password: hashedPassword,
+      phone: registerDto.phone,
+      email: registerDto.email,
+      nickname: registerDto.nickname,
+      avatar: registerDto.avatar,
+    });
+    // 返回创建的用户信息（不包含密码）
+    const newUser = await db
+      .select({
+        id: users.id,
+        username: users.username,
+        email: users.email,
+        phone: users.phone,
+        avatar: users.avatar,
+        nickname: users.nickname,
+        status: users.status,
+        createdAt: users.createdAt,
+        updatedAt: users.updatedAt,
+      })
+      .from(users)
+      .where(eq(users.id, result[0].insertId));
+
+    // return newUser[0];
+    return {
+      success: true,
+      message: "注册成功",
+    };
+  }
   async login(userAuthDto: UserAuthDto) {
     const user = await db
       .select()
       .from(users)
       .where(eq(users.username, userAuthDto.username))
       .limit(1);
+    console.log("🚀 ~ AuthService ~ login ~ user:", user);
     if (user.length === 0) {
       throw new UnauthorizedException("用户不存在");
     }
-    if (user[0].password !== userAuthDto.password) {
+    let isPasswordValid = await argon2.verify(
+      user[0].password,
+      userAuthDto.password
+    );
+    console.log("🚀 ~ AuthService ~ login ~ isPasswordValid:", isPasswordValid);
+    if (!isPasswordValid) {
       throw new UnauthorizedException("用户名或密码错误");
     }
     return user[0].id;
@@ -32,8 +85,7 @@ export class AuthService {
 
     const { password: _, ...userWithoutPassword } = user[0];
     return {
-      success: true,
-      message: "登录成功",
+      msg: "登录成功",
       data: userWithoutPassword,
     };
   }

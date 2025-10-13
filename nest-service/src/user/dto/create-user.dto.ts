@@ -1,20 +1,22 @@
-import { IsString, IsEmail, IsOptional, IsInt, MinLength } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsInt, MinLength, Matches, Length } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
-  @MinLength(3)
+  @MinLength(3, { message: "用户名至少3个字符" })
   username: string;
 
   @IsString()
-  @MinLength(6)
+  @MinLength(6, { message: "密码至少6个字符" })
   password: string;
 
   @IsOptional()
-  @IsEmail()
+  @IsEmail({}, { message: "邮箱格式不正确" })
   email?: string;
 
   @IsOptional()
   @IsString()
+  @Length(11, 11, { message: "手机号必须是11位" })
+  @Matches(/^1[3-9]\d{9}$/, { message: "手机号格式不正确" })
   phone?: string;
 
   @IsOptional()

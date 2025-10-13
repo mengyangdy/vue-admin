@@ -4,7 +4,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { db } from "../../db";
 import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -17,33 +16,32 @@ export class UserService {
 
     // 加密密码
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(createUserDto.password, saltRounds);
 
-    // 创建用户
-    const result = await db.insert(users).values({
-      username: createUserDto.username,
-      password: hashedPassword,
-      email: createUserDto.email,
-      phone: createUserDto.phone,
-      avatar: createUserDto.avatar,
-      nickname: createUserDto.nickname,
-      status: createUserDto.status || 1,
-    });
+    // // 创建用户
+    // const result = await db.insert(users).values({
+    //   username: createUserDto.username,
+    //   // password: hashedPassword,
+    //   email: createUserDto.email,
+    //   phone: createUserDto.phone,
+    //   avatar: createUserDto.avatar,
+    //   nickname: createUserDto.nickname,
+    //   status: createUserDto.status || 1,
+    // });
 
-    // 返回创建的用户信息（不包含密码）
-    const newUser = await db.select({
-      id: users.id,
-      username: users.username,
-      email: users.email,
-      phone: users.phone,
-      avatar: users.avatar,
-      nickname: users.nickname,
-      status: users.status,
-      createdAt: users.createdAt,
-      updatedAt: users.updatedAt,
-    }).from(users).where(eq(users.id, result[0].insertId));
+    // // 返回创建的用户信息（不包含密码）
+    // const newUser = await db.select({
+    //   id: users.id,
+    //   username: users.username,
+    //   email: users.email,
+    //   phone: users.phone,
+    //   avatar: users.avatar,
+    //   nickname: users.nickname,
+    //   status: users.status,
+    //   createdAt: users.createdAt,
+    //   updatedAt: users.updatedAt,
+    // }).from(users).where(eq(users.id, result[0].insertId));
 
-    return newUser[0];
+    // return newUser[0];
   }
 
   findAll() {
@@ -101,7 +99,6 @@ export class UserService {
     // 如果更新密码，需要加密
     if (updateUserDto.password) {
       const saltRounds = 10;
-      updateData.password = await bcrypt.hash(updateUserDto.password, saltRounds);
     }
 
     // 执行更新

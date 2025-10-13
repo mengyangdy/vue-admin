@@ -2,7 +2,7 @@ import { SetupStoreId } from "@/constants";
 import { defineStore } from "pinia";
 import { getToken } from "./shared";
 import { computed, reactive, ref } from "vue";
-import { fetchGetUserInfo, fetchLogin } from "@/service/api/auth";
+import { fetchGetUserInfo, fetchLogin, fetchRegister } from "@/service/api/auth";
 import { localStg } from "@/utils/storage";
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
@@ -19,6 +19,19 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const changeLoginComponent = (component: UnionKey.LoginModule) => {
     currentLoginComponent.value = component;
+  };
+
+  const register = async (username: string, phone: string, password: string) => {
+    const { data, error } = await fetchRegister(username, phone, password);
+    console.log("🚀 ~ register ~ error:", error)
+    console.log("🚀 ~ register ~ data:", data)
+    if(!error){
+        window.$notification?.success({
+          title: "注册成功,请登陆",
+          content: `欢迎注册，${username}`,
+          duration: 4500,
+        });
+    }
   };
 
   const login = async (userName: string, password: string, redirect = true) => {
@@ -65,6 +78,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     userInfo,
     isLogin,
     login,
+    register,
     getUserInfo,
     resetStore,
     currentLoginComponent,

@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Inject, Get } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { UserAuthDto } from "./dto/user-auth.dto";
+import { RegisterDto } from "./dto/register.dto";
 import { JwtService } from "@nestjs/jwt";
 import { Public } from "../login.guard";
 import { CurrentUser } from "../decorators/current-user.decorator";
@@ -15,6 +16,7 @@ export class AuthController {
   @Public()
   @Post("/login")
   async login(@Body() userAuthDto: UserAuthDto) {
+    console.log("🚀 ~ AuthController ~ login ~ userAuthDto:", userAuthDto);
     const id = await this.authService.login(userAuthDto);
     const token = this.jwtService.sign(
       {
@@ -37,6 +39,12 @@ export class AuthController {
       token,
       refresh_token,
     };
+  }
+
+  @Public()
+  @Post("/register")
+  async register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
   }
 
   @Get("/getUserInfo")

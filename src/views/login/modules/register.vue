@@ -7,6 +7,9 @@
     :show-label="false"
     @submit.prevent="handleSubmit"
   >
+    <n-form-item path="username">
+      <n-input v-model:value="model.username" placeholder="请输入账号" />
+    </n-form-item>
     <n-form-item path="phone">
       <n-input v-model:value="model.phone" placeholder="请输入手机号" />
     </n-form-item>
@@ -39,24 +42,26 @@
         placeholder="请输入确认密码"
       />
     </n-form-item>
-    <loading-button attr-type="submit" type="primary" size="large" block
-      >登录</loading-button
-    >
-    <div class="flex-y-center justify-between gap-12px">
-      <n-button
-        class="flex-1"
-        block
-        @click="authStore.changeLoginComponent('pwd-login')"
-        >密码登录</n-button
+    <n-flex vertical :size="24">
+      <loading-button attr-type="submit" type="primary" size="large" block
+        >注册</loading-button
       >
-      <n-button
-        class="flex-1"
-        block
-        @click="authStore.changeLoginComponent('code-login')"
-        >验证码登录</n-button
-      >
-    </div>
-    <n-divider class="text-14px text-#666 !m-0">其他账号登录</n-divider>
+      <div class="flex-y-center justify-between gap-12px">
+        <n-button
+          class="flex-1"
+          block
+          @click="authStore.changeLoginComponent('pwd-login')"
+          >密码登录</n-button
+        >
+        <n-button
+          class="flex-1"
+          block
+          @click="authStore.changeLoginComponent('code-login')"
+          >验证码登录</n-button
+        >
+      </div>
+      <n-divider class="text-14px text-#666 !m-0">其他账号登录</n-divider>
+    </n-flex>
   </n-form>
 </template>
 
@@ -71,6 +76,7 @@ const { formRef, validate } = useNaiveForm();
 const { label, isCounting, loading, getCaptcha } = useCaptcha(60);
 
 interface FormModel {
+  username: string;
   phone: string;
   code: string;
   password: string;
@@ -78,10 +84,11 @@ interface FormModel {
 }
 
 const model = ref<FormModel>({
-  phone: "",
-  code: "",
-  password: "",
-  confirmPassword: "",
+  username: "dylan",
+  phone: "13937594982",
+  code: "000000",
+  password: "123456",
+  confirmPassword: "123456",
 });
 
 const rules = computed(() => {
@@ -95,7 +102,7 @@ const rules = computed(() => {
 });
 async function handleSubmit() {
   await validate();
+  await authStore.register(model.value.username, model.value.phone, model.value.password);
   // request to register
-  window.$message?.success(`验证成功`);
 }
 </script>
