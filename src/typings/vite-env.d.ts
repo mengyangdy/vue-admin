@@ -16,6 +16,7 @@ declare namespace Env {
     readonly VITE_HTTP_PROXY?: CommonType.YesOrNo;
     readonly VITE_PROXY_LOG?: CommonType.YesOrNo;
     readonly VITE_SERVICE_SUCCESS_CODE: string;
+    readonly VITE_APP_TITLE: string;
   }
 }
 

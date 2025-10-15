@@ -26,6 +26,7 @@ export class AuthService {
       throw new ConflictException("用户名已存在");
     }
 
+    // TODO：手机号去重校验
     const hashedPassword = await argon2.hash(registerDto.password);
     const result = await db.insert(users).values({
       username: registerDto.username,

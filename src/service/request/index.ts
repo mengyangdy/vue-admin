@@ -26,14 +26,15 @@ export const request = createFlatRequest<
     baseURL,
   },
   {
+    // 请求拦截器
     async onRequest(config) {
       const Authorization = getAuthorization();
       Object.assign(config.headers, { Authorization });
-
       return config;
     },
+
     isBackendSuccess(response) {
-      console.log("🚀 ~ isBackendSuccess ~ response:", response)
+      console.log("🚀 ~ isBackendSuccess ~ response:", response);
       // when the backend response code is "0000"(default), it means the request is success
       // to change this logic by yourself, you can modify the `VITE_SERVICE_SUCCESS_CODE` in `.env` file
       return (
@@ -41,17 +42,16 @@ export const request = createFlatRequest<
       );
     },
     async onBackendFail(response, instance) {
+      console.log("🚀 ~ onBackendFail ~ response:", response);
       const authStore = useAuthStore();
       const responseCode = String(response.data.code);
 
       function handleLogout() {
         authStore.resetStore();
       }
-
       function logoutAndCleanup() {
         handleLogout();
         window.removeEventListener("beforeunload", handleLogout);
-
         request.state.errMsgStack = request.state.errMsgStack.filter(
           (msg) => msg !== response.data.msg
         );
@@ -114,32 +114,37 @@ export const request = createFlatRequest<
       return null;
     },
     transformBackendResponse(response) {
+      console.log("🚀 ~ transformBackendResponse ~ response:", response);
       return response.data.data;
     },
+    // 后台返回错误处理
     onError(error) {
-      // when the request is fail, you can show error message
-
       let message = error.message;
       let backendErrorCode = "";
 
-      // get backend error message and code
+      // 业务逻辑错误（HTTP 200，但业务 code 不对）
       if (error.code === BACKEND_ERROR_CODE) {
         message = error.response?.data?.msg || message;
         backendErrorCode = String(error.response?.data?.code || "");
-      }
 
-      // the error message is displayed in the modal
-      const modalLogoutCodes =
-        import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(",") || [];
-      if (modalLogoutCodes.includes(backendErrorCode)) {
-        return;
-      }
+        // 这些错误已在 onBackendFail 中处理，不需要再显示
+        const modalLogoutCodes =
+          import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(",") || [];
+        if (modalLogoutCodes.includes(backendErrorCode)) {
+          return;
+        }
 
-      // when the token is expired, refresh token and retry request, so no need to show error message
-      const expiredTokenCodes =
-        import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(",") || [];
-      if (expiredTokenCodes.includes(backendErrorCode)) {
-        return;
+        const expiredTokenCodes =
+          import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(",") || [];
+        if (expiredTokenCodes.includes(backendErrorCode)) {
+          return;
+        }
+      }
+      // HTTP 错误（400/500 等）- 直接提取并显示
+      else if (error.response?.data) {
+        console.log(111);
+
+        message = error.response?.data?.msg || message;
       }
 
       showErrorMsg(request.state, message);

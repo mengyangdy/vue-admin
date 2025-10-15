@@ -55,6 +55,7 @@ function createCommonRequest<ResponseData = any>(
   instance.interceptors.response.use(
     // 成功响应处理
     async (response) => {
+      console.log("✅ 成功响应拦截器 - response:", response);
       const responseType: ResponseType =
         (response.config?.responseType as ResponseType) || "json";
       if (responseType !== "json" || opts.isBackendSuccess(response)) {
@@ -78,6 +79,7 @@ function createCommonRequest<ResponseData = any>(
     },
     // 错误响应处理
     async (error: AxiosError<ResponseData>) => {
+      console.log("❌ 错误响应拦截器 - error:", error);
       await opts.onError(error); // 调用错误处理钩子
       return Promise.reject(error); // 拒绝 Promise
     }
@@ -120,30 +122,31 @@ export function createRequest<
     createCommonRequest<ResponseData>(axiosConfig, options);
   // 创建请求实例
   const request: RequestInstance<State> = async function request<
-    T = any,// 泛型数据类型
-    R extends ResponseType = "json"// 响应类型，默认为 JSON
+    T = any, // 泛型数据类型
+    R extends ResponseType = "json" // 响应类型，默认为 JSON
   >(config: CustomAxiosRequestConfig) {
-    const response: AxiosResponse<ResponseData> = await instance(config);// 执行请求
+    const response: AxiosResponse<ResponseData> = await instance(config); // 执行请求
 
-    const responseType = response.config?.responseType || "json";// 获取响应类型
+    const responseType = response.config?.responseType || "json"; // 获取响应类型
 
-    if (responseType === "json") {// 如果是 JSON 响应
-      return opts.transformBackendResponse(response);// 转换后端响应
+    if (responseType === "json") {
+      // 如果是 JSON 响应
+      return opts.transformBackendResponse(response); // 转换后端响应
     }
 
-    return response.data as MappedType<R, T>;// 返回映射后的数据
+    return response.data as MappedType<R, T>; // 返回映射后的数据
   } as RequestInstance<State>;
 
-  request.cancelRequest = cancelRequest;// 添加取消请求功能
-  request.cancelAllRequest = cancelAllRequest;// 添加取消所有请求功能
-  request.state = {} as State;// 初始化状态
+  request.cancelRequest = cancelRequest; // 添加取消请求功能
+  request.cancelAllRequest = cancelAllRequest; // 添加取消所有请求功能
+  request.state = {} as State; // 初始化状态
 
-  return request;// 返回请求实例
+  return request; // 返回请求实例
 }
 // 定义扁平化请求创建函数
 export function createFlatRequest<
-  ResponseData = any,// 响应数据类型
-  State = Record<string, unknown>// 状态类型
+  ResponseData = any, // 响应数据类型
+  State = Record<string, unknown> // 状态类型
 >(
   axiosConfig?: CreateAxiosDefaults, // axios配置
   options?: Partial<RequestOption<ResponseData>> // 请求选项
@@ -157,18 +160,20 @@ export function createFlatRequest<
       config: CustomAxiosRequestConfig
     ) {
       try {
-        const response: AxiosResponse<ResponseData> = await instance(config);// 执行请求
+        const response: AxiosResponse<ResponseData> = await instance(config); // 执行请求
 
-        const responseType = response.config?.responseType || "json";// 获取响应类型
+        const responseType = response.config?.responseType || "json"; // 获取响应类型
 
-        if (responseType === "json") {// 如果是JSON响应
-          const data = opts.transformBackendResponse(response);//转换后响应
-          return { data, error: null, response };// 返回成功结果
+        if (responseType === "json") {
+          // 如果是JSON响应
+          const data = opts.transformBackendResponse(response); //转换后响应
+          return { data, error: null, response }; // 返回成功结果
         }
 
-        return { data: response.data as MappedType<R, T>, error: null };// 返回非JSON结果
+        return { data: response.data as MappedType<R, T>, error: null }; // 返回非JSON结果
       } catch (error) {
-        return {// 返回错误结果
+        return {
+          // 返回错误结果
           data: null,
           error,
           response: (error as AxiosError<ResponseData>).response,
@@ -176,7 +181,7 @@ export function createFlatRequest<
       }
     } as FlatRequestInstance<State, ResponseData>;
   // 添加额外功能到扁平化请求实例
-  flatRequest.cancelRequest = cancelRequest;// 添加
+  flatRequest.cancelRequest = cancelRequest; // 添加
   flatRequest.cancelAllRequest = cancelAllRequest;
   flatRequest.state = {} as State;
 

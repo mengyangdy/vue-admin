@@ -15,4 +15,22 @@ declare global {
   }
 
   export const BUILD_TIME: string;
+
+  // Temporal API types
+  namespace Temporal {
+    interface PlainDate {
+      year: number;
+      month: number;
+      day: number;
+      dayOfWeek: number;
+    }
+
+    interface Now {
+      plainDateISO(): PlainDate;
+    }
+  }
+
+  const Temporal: {
+    Now: Temporal.Now;
+  };
 }
