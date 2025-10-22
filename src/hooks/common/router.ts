@@ -1,5 +1,5 @@
-import { useRouter } from "vue-router";
-import type { RouteLocationRaw } from "vue-router";
+import { useRouter } from 'vue-router';
+import type { RouteLocationRaw } from 'vue-router';
 
 // 路由缓存
 const routeCache = new Map<RouteKey, any>();
@@ -25,18 +25,14 @@ export function useRouterPush(inSetup = true) {
     try {
       return await navigateFn();
     } catch (error) {
-      console.error("[Router] Navigation failed:", error);
       if (import.meta.env.DEV) {
-        window.$message?.error("页面跳转失败");
+        window.$message?.error('页面跳转失败');
       }
       throw error;
     }
   };
 
-  async function routerPushByKey(
-    key: RouteKey,
-    options?: App.Global.RouterPushOptions
-  ) {
+  async function routerPushByKey(key: RouteKey, options?: App.Global.RouterPushOptions) {
     return safeNavigate(async () => {
       const { query, params } = options || {};
 
@@ -82,7 +78,7 @@ export function useRouterPush(inSetup = true) {
 
   async function toHome() {
     return safeNavigate(async () => {
-      return routerPushByKey("root");
+      return routerPushByKey('root');
     });
   }
 
@@ -92,10 +88,7 @@ export function useRouterPush(inSetup = true) {
    * @param loginModule The login module
    * @param redirectUrl The redirect url, if not specified, it will be the current route fullPath
    */
-  async function toLogin(
-    loginModule: UnionKey.LoginModule = "pwd-login",
-    redirectUrl?: string
-  ) {
+  async function toLogin(loginModule: UnionKey.LoginModule = 'pwd-login', redirectUrl?: string) {
     return safeNavigate(async () => {
       const options: App.Global.RouterPushOptions = {
         params: {
@@ -109,7 +102,7 @@ export function useRouterPush(inSetup = true) {
         redirect,
       };
 
-      return routerPushByKey("login", options);
+      return routerPushByKey('login', options);
     });
   }
 
@@ -122,7 +115,7 @@ export function useRouterPush(inSetup = true) {
     return safeNavigate(async () => {
       const query = getCurrentRoute().query as Record<string, string>;
 
-      return routerPushByKey("login", { query, params: { module } });
+      return routerPushByKey('login', { query, params: { module } });
     });
   }
 
@@ -175,10 +168,7 @@ export function useRouterPush(inSetup = true) {
    * @param key Route key
    * @param options Route options
    */
-  async function replaceCurrentRoute(
-    key: RouteKey,
-    options?: App.Global.RouterPushOptions
-  ) {
+  async function replaceCurrentRoute(key: RouteKey, options?: App.Global.RouterPushOptions) {
     return safeNavigate(async () => {
       const routeLocation: RouteLocationRaw = {
         name: key,
@@ -198,7 +188,7 @@ export function useRouterPush(inSetup = true) {
       key: RouteKey;
       delay?: number;
       options?: App.Global.RouterPushOptions;
-    }>
+    }>,
   ) {
     return safeNavigate(async () => {
       for (const { key, delay = 0, options } of routes) {

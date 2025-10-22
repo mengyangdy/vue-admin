@@ -1,12 +1,12 @@
-import type { Merge } from "type-fest";
-import type { Router, RouteRecordRaw } from "vue-router";
-import { createEventHook } from "@vueuse/core";
-import { ProRouterPlugin } from "../types";
-import { cloneDeep, noop } from "es-toolkit";
-import type { EventHookOn } from "@vueuse/core";
-import { get, has, isArray } from "lodash-es";
+import type { Merge } from 'type-fest';
+import type { Router, RouteRecordRaw } from 'vue-router';
+import { createEventHook } from '@vueuse/core';
+import { ProRouterPlugin } from '../types';
+import { cloneDeep, noop } from 'es-toolkit';
+import type { EventHookOn } from '@vueuse/core';
+import { get, has, isArray } from 'lodash-es';
 
-declare module "vue-router" {
+declare module 'vue-router' {
   interface RouteMeta {
     /**
      * 当前路由可以被那些角色访问，如果为空，则表示所有角色都可以访问，只有在前端权限控制模式下有效
@@ -20,9 +20,7 @@ declare module "vue-router" {
   }
 }
 
-type ResolveComponent = (
-  component: string
-) => NonNullable<RouteRecordRaw["component"]>;
+type ResolveComponent = (component: string) => NonNullable<RouteRecordRaw['component']>;
 
 type MaybePromise<T> = T | Promise<T>;
 
@@ -64,7 +62,7 @@ export interface BackendServiceReturned extends BaseServiceReturned {
   /**
    * 权限模式为后端权限控制
    */
-  mode: "backend";
+  mode: 'backend';
   /**
    * routes中的组件名字是字符串，外部需要将字符串解析成组件
    */
@@ -79,7 +77,7 @@ export interface FrontendServiceReturned extends BaseServiceReturned {
   /**
    * 权限模式为前端权限控制
    */
-  mode: "frontend";
+  mode: 'frontend';
   /**
    * 当前用户角色，如果为空，不过滤路由
    */
@@ -94,9 +92,7 @@ export interface RbacAccessPluginOptions {
   service: () => MaybePromise<BackendServiceReturned | FrontendServiceReturned>;
 }
 
-export function rbacAccessPlugin(
-  options: RbacAccessPluginOptions
-): ProRouterPlugin {
+export function rbacAccessPlugin(options: RbacAccessPluginOptions): ProRouterPlugin {
   return ({ router, onUnmount }) => {
     const { on: onCleanup, trigger: cleanup } = createEventHook();
     router.beforeEach(async (to) => {
@@ -143,14 +139,14 @@ export function rbacAccessPlugin(
 }
 
 async function resolveOptions(
-  options: RbacAccessPluginOptions
+  options: RbacAccessPluginOptions,
 ): Promise<Required<BackendServiceReturned | FrontendServiceReturned>> {
   const { homePath, loginPath, onRoutesBuilt, parentNameForAddRoute, ...rest } =
     await options.service();
   return {
     ...rest,
-    homePath: homePath ?? "./home",
-    loginPath: loginPath ?? "./login",
+    homePath: homePath ?? './home',
+    loginPath: loginPath ?? './login',
     onRoutesBuilt: onRoutesBuilt ?? noop,
     parentNameForAddRoute: parentNameForAddRoute,
   };
@@ -166,7 +162,7 @@ async function resolveRoutes(
   }: {
     router: Router;
     onCleanup: EventHookOn;
-  }
+  },
 ) {
   const { mode, logined, parentNameForAddRoute } = options;
   if (registeredRoutes || !logined) {
@@ -185,7 +181,7 @@ async function resolveRoutes(
     removeRouteHandlers.push(
       parentNameForAddRoute
         ? router.addRoute(parentNameForAddRoute, route)
-        : router.addRoute(route)
+        : router.addRoute(route),
     );
   });
   registeredRoutes = true;
@@ -200,22 +196,16 @@ async function resolveRoutes(
 function buildRoutes(options: {
   roles: string[];
   routes: RouteRecordRaw[];
-  mode: "frontend" | "backend";
+  mode: 'frontend' | 'backend';
   resolveComponent?: ResolveComponent | void;
   fetchRoutes: () => MaybePromise<RouteRecordRawWithStringComponent[]>;
 }) {
-  return options.mode === "frontend"
+  return options.mode === 'frontend'
     ? buildRoutesByFrontend(options.routes, options.roles)
-    : buildRoutesByBackend(
-        options.fetchRoutes,
-        options.resolveComponent as ResolveComponent
-      );
+    : buildRoutesByBackend(options.fetchRoutes, options.resolveComponent as ResolveComponent);
 }
 
-function buildRoutesByFrontend(
-  routes: RouteRecordRaw[],
-  roles: string[]
-): RouteRecordRaw[] {
+function buildRoutesByFrontend(routes: RouteRecordRaw[], roles: string[]): RouteRecordRaw[] {
   routes = cloneDeep(routes);
   const hasAuth = (route: RouteRecordRaw) => {
     const routeRoles = route.meta?.roles ?? [];
@@ -241,7 +231,7 @@ function buildRoutesByFrontend(
 
 async function buildRoutesByBackend(
   fetchRoutes: () => MaybePromise<RouteRecordRawWithStringComponent[]>,
-  resolveComponent: ResolveComponent
+  resolveComponent: ResolveComponent,
 ) {
   let routes: RouteRecordRawWithStringComponent[] = [];
   try {
@@ -260,7 +250,7 @@ async function buildRoutesByBackend(
         component: resolveComponent(route.component),
       };
     },
-    "children"
+    'children',
   ) as RouteRecordRaw[];
 }
 
@@ -277,9 +267,9 @@ export function mapTree<T, R, F extends keyof T>(
   data: T[],
   callback: (item: T, index: number, info: TreeEachInfo<T>, array: T[]) => R,
   childrenField: F,
-  info: TreeEachInfo<T> = { level: 1, parent: null }
+  info: TreeEachInfo<T> = { level: 1, parent: null },
 ): MapTreeData<R, F> {
-  childrenField = childrenField ?? "children";
+  childrenField = childrenField ?? 'children';
   return data.map((item, index, array) => {
     const children = get(item, childrenField);
     const returnedItem = callback(item, index, info, array);

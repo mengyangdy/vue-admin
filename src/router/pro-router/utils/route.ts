@@ -1,10 +1,10 @@
-import type { App } from "vue";
-import type { Router } from "vue-router";
+import type { App } from 'vue';
+import type { Router } from 'vue-router';
 import type {
   RouteRecordRaw,
   RouteRecordNameGeneric,
   RouteLocationNormalizedGeneric,
-} from "vue-router";
+} from 'vue-router';
 import {
   ALREADY_INSTALLED,
   APP,
@@ -12,14 +12,14 @@ import {
   RUN_WITH_APP_HANDLERS,
   ROUTER_PLUGIN_AUTO_GENERATED,
   UNMOUNT_HANDLERS,
-} from "../constant";
+} from '../constant';
 import {
   ProRouterOptions,
   ProRouterPluginCleanupHandler,
   ProRouterPlugin,
   ProRouterObjectPlugin,
-} from "../types";
-import { normalizeRoutesPlugin } from "../plugins/normalize-routes-plugin";
+} from '../types';
+import { normalizeRoutesPlugin } from '../plugins/normalize-routes-plugin';
 let uid = 0;
 
 export function ensureRouteName(route: RouteRecordRaw) {
@@ -31,12 +31,10 @@ export function generateRouteName() {
 }
 
 export function isRouteName(name: any): name is RouteRecordNameGeneric {
-  return typeof name === "string" || typeof name === "symbol";
+  return typeof name === 'string' || typeof name === 'symbol';
 }
 
-export function generateRouteComponentName(
-  route: RouteLocationNormalizedGeneric
-) {
+export function generateRouteComponentName(route: RouteLocationNormalizedGeneric) {
   return `${route.fullPath}${ROUTER_PLUGIN_AUTO_GENERATED}`;
 }
 
@@ -46,7 +44,7 @@ export function resolveOptions(options: ProRouterOptions) {
   const { plugins = [], ...vueRouterOptions } = options;
   const builtinPlugins = [normalizeRoutesPlugin()];
   const objectPlugins = [...builtinPlugins, ...plugins].map((plugin) =>
-    convertToObjectPlugin(plugin, pluginCleanups)
+    convertToObjectPlugin(plugin, pluginCleanups),
   );
 
   const finalVrOptions = objectPlugins.reduce((p, c) => {
@@ -65,9 +63,9 @@ export function resolveOptions(options: ProRouterOptions) {
 
 export function convertToObjectPlugin(
   plugin: ProRouterPlugin,
-  pluginCleanups: ProRouterPluginCleanupHandler[]
+  pluginCleanups: ProRouterPluginCleanupHandler[],
 ): ProRouterObjectPlugin {
-  if (typeof plugin === "function") {
+  if (typeof plugin === 'function') {
     return {
       install: (...args) => {
         const exposed = plugin(...args);
@@ -98,13 +96,7 @@ export function prepareInstall(app: App, router: Router) {
   });
 }
 
-export function setupPlugin({
-  router,
-  plugin,
-}: {
-  router: Router;
-  plugin: ProRouterObjectPlugin;
-}) {
+export function setupPlugin({ router, plugin }: { router: Router; plugin: ProRouterObjectPlugin }) {
   router[EFFECT_SCOPE]?.run(() => {
     plugin.install?.({
       router,

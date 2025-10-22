@@ -5,7 +5,7 @@ import { consola } from "consola";
 
 export function createViteProxy(env: Env.ImportMeta, enable: boolean) {
   const isEnableHttpProxy = enable && env.VITE_HTTP_PROXY === "Y";
-  if (!isEnableHttpProxy) return undefined;
+  if (!isEnableHttpProxy) {return undefined;}
   const isEnableProxyLog = env.VITE_PROXY_LOG === "Y";
   const { baseURL, proxyPattern, other } = createServiceConfig(env);
   const proxy: Record<string, ProxyOptions> = createProxyItem(
@@ -28,7 +28,7 @@ function createProxyItem(
     changeOrigin: true,
     configure: (_proxy, options) => {
       _proxy.on("proxyReq", (_proxyReq, req, _res) => {
-        if (!enableLog) return;
+        if (!enableLog) {return;}
         const requestUrl = `${lightBlue(`[proxy url]`)}:${bgYellow(
           ` ${req.method} `
         )} ${green(`${options.target}${req.url}`)}`;
@@ -38,11 +38,7 @@ function createProxyItem(
         consola.log(`${requestUrl}\n${proxyUrl}`);
       });
       _proxy.on("error", (_err, req, _res) => {
-        if (!enableLog) return;
-        console.log(
-          bgRed(`Error: ${req.method}`),
-          green(`${options.target}${req.url}`)
-        );
+        if (!enableLog) {return;}
       });
     },
     rewrite: (path) => path.replace(new RegExp(`^${item.proxyPattern}`), ""),

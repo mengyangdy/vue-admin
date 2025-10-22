@@ -1,5 +1,5 @@
-import type { App } from "vue";
-import type { Router, RouterOptions } from "vue-router";
+import type { App } from 'vue';
+import type { Router, RouterOptions } from 'vue-router';
 
 export type ProRouterPluginRunWithAppHandler = (app: App) => void;
 export type ProRouterPluginUnmountHandler = () => void;
@@ -36,4 +36,4 @@ export type {
   BaseServiceReturned as RbacAccessPluginBaseServiceReturned,
   FrontendServiceReturned as RbacAccessPluginFrontendServiceReturned,
   RouteRecordRawWithStringComponent as RbacAccessPluginRouteRecordRawWithStringComponent,
-} from "../plugins/rbac-access-plugin";
+} from '../plugins/rbac-access-plugin';

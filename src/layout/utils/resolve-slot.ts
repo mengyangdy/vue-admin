@@ -5,32 +5,27 @@ import {
   type Slot,
   type VNodeArrayChildren,
   type VNodeChild,
-} from 'vue'
+} from 'vue';
 
 /**
  * copy from 'naive-ui'
  */
 
-export function ensureValidVNode(
-  vnodes: VNodeArrayChildren,
-): VNodeArrayChildren | null {
+export function ensureValidVNode(vnodes: VNodeArrayChildren): VNodeArrayChildren | null {
   return (vnodes ?? []).some((child) => {
     if (!isVNode(child)) {
-      return true
+      return true;
     }
     if (child.type === Comment) {
-      return false
+      return false;
     }
-    if (
-      child.type === Fragment
-      && !ensureValidVNode(child.children as VNodeArrayChildren)
-    ) {
-      return false
+    if (child.type === Fragment && !ensureValidVNode(child.children as VNodeArrayChildren)) {
+      return false;
     }
-    return true
+    return true;
   })
     ? vnodes
-    : null
+    : null;
 }
 
 /**
@@ -40,7 +35,7 @@ export function resolveSlot(
   slot: Slot | undefined,
   fallback: () => VNodeArrayChildren,
 ): VNodeArrayChildren {
-  return (slot && ensureValidVNode(slot())) || fallback()
+  return (slot && ensureValidVNode(slot())) || fallback();
 }
 
 export function resolveSlotWithProps<T>(
@@ -48,7 +43,7 @@ export function resolveSlotWithProps<T>(
   props: T,
   fallback: (props: T) => VNodeArrayChildren | VNodeChild,
 ): VNodeArrayChildren | VNodeChild {
-  return (slot && ensureValidVNode(slot(props))) || fallback(props)
+  return (slot && ensureValidVNode(slot(props))) || fallback(props);
 }
 
 /**
@@ -58,8 +53,8 @@ export function resolveWrappedSlot(
   slot: Slot | undefined,
   wrapper: (children: VNodeArrayChildren | null) => VNodeChild,
 ): VNodeChild {
-  const children = slot && ensureValidVNode(slot())
-  return wrapper(children || null)
+  const children = slot && ensureValidVNode(slot());
+  return wrapper(children || null);
 }
 
 /*
@@ -70,10 +65,10 @@ export function resolveWrappedSlotWithProps(
   props: any,
   wrapper: (children: VNodeArrayChildren | null) => VNodeChild,
 ): VNodeChild {
-  const children = slot && ensureValidVNode(slot(props))
-  return wrapper(children || null)
+  const children = slot && ensureValidVNode(slot(props));
+  return wrapper(children || null);
 }
 
 export function isSlotEmpty(slot: Slot | undefined): boolean {
-  return !(slot && ensureValidVNode(slot()))
+  return !(slot && ensureValidVNode(slot()));
 }

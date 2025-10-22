@@ -1,15 +1,15 @@
-import type { CreateAxiosDefaults } from "axios";
+import type { CreateAxiosDefaults } from 'axios';
 
-import type { IAxiosRetryConfig } from "axios-retry";
+import type { IAxiosRetryConfig } from 'axios-retry';
 
-import { stringify } from "qs";
+import { stringify } from 'qs';
 
-import { isHttpSuccess } from "./shared";
+import { isHttpSuccess } from './shared';
 
-import type { RequestOption } from "./type";
+import type { RequestOption } from './type';
 
 export function createDefaultOptions<ResponseData = any>(
-  options?: Partial<RequestOption<ResponseData>>
+  options?: Partial<RequestOption<ResponseData>>,
 ) {
   const opts: RequestOption<ResponseData> = {
     isBackendSuccess: (_response) => true,
@@ -37,7 +37,7 @@ export function createAxiosConfig(config?: Partial<CreateAxiosDefaults>) {
   const TEN_SECONDS = 10 * 1000;
   const axiosConfig: CreateAxiosDefaults = {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     paramsSerializer: (params) => {
       return stringify(params);

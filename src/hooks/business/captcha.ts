@@ -1,8 +1,8 @@
-import { time } from "console";
-import useCountDown from "../common/use-count-down";
-import useLoading from "../common/use-loading";
-import { computed } from "vue";
-import { REG_PHONE } from "@/constants/reg";
+import { time } from 'console';
+import useCountDown from '../common/use-count-down';
+import useLoading from '../common/use-loading';
+import { computed } from 'vue';
+import { REG_PHONE } from '@/constants/reg';
 
 export function useCaptcha(initialSeconds: number) {
   const { loading, startLoading, endLoading } = useLoading();
@@ -19,9 +19,7 @@ export function useCaptcha(initialSeconds: number) {
     return text;
   });
   function isPhonevalid(phone: string) {
-    console.log(2222);
-
-    if (phone.trim() === "") {
+    if (phone.trim() === '') {
       window.$message?.error?.(`请输入手机号`);
       return false;
     }

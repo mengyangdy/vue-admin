@@ -4,7 +4,7 @@ export function setupLoading() {
   正在加载中
 </div>;
   `;
-  const app = document.getElementById("app");
+  const app = document.getElementById('app');
   if (app) {
     app.innerHTML = loading;
   }

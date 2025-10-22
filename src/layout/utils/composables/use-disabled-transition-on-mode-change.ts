@@ -1,9 +1,6 @@
-import { ComputedRef, nextTick, ref, watch } from "vue";
-import { ProLayoutMode } from "@/layout/types";
+import { ComputedRef, nextTick, ref, watch } from 'vue';
 
-export function useDisabledTransitionWhenModeChange(
-  mode: ComputedRef<ProLayoutMode>
-) {
+export function useDisabledTransitionWhenModeChange(mode: ComputedRef<UnionKey.ThemeLayoutMode>) {
   const disabled = ref(false);
   watch(mode, () => {
     disabled.value = true;

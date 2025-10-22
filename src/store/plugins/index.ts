@@ -1,5 +1,5 @@
-import { SetupStoreId } from "@/constants";
-import { PiniaPluginContext } from "pinia";
+import { SetupStoreId } from '@/constants';
+import { PiniaPluginContext } from 'pinia';
 
 /**
  * 使用 setup 语法定义的 store 默认没有 $reset 方法

@@ -1,4 +1,4 @@
-import { request } from "../request";
+import { request } from '../request';
 
 /**
  * 登录
@@ -8,8 +8,8 @@ import { request } from "../request";
  */
 export function fetchLogin(username: string, password: string) {
   return request<Api.Auth.LoginToken>({
-    url: "/auth/login",
-    method: "post",
+    url: '/auth/login',
+    method: 'post',
     data: {
       username,
       password,
@@ -22,7 +22,7 @@ export function fetchLogin(username: string, password: string) {
  * @returns
  */
 export function fetchGetUserInfo() {
-  return request<Api.Auth.UserInfo>({ url: "/auth/getUserInfo" });
+  return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });
 }
 
 /**
@@ -33,10 +33,10 @@ export function fetchGetUserInfo() {
  * @param password 密码
  * @returns
  */
-export function fetchRegister(username: string, phone: string,  password: string) {
+export function fetchRegister(username: string, phone: string, password: string) {
   return request<Api.Auth.LoginToken>({
-    url: "/auth/register",
-    method: "post",
+    url: '/auth/register',
+    method: 'post',
     data: {
       username,
       phone,
@@ -47,13 +47,13 @@ export function fetchRegister(username: string, phone: string,  password: string
 
 /**
  * 刷新token
- * @param refreshToken 
- * @returns 
+ * @param refreshToken
+ * @returns
  */
 export function fetchRefreshToken(refreshToken: string) {
   return request<Api.Auth.LoginToken>({
-    url: "/auth/refreshToken",
-    method: "post",
+    url: '/auth/refreshToken',
+    method: 'post',
     data: {
       refreshToken,
     },

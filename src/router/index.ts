@@ -1,11 +1,12 @@
-import type { App } from "vue";
+import type { App } from 'vue';
+import { useAuthStore } from '@/store/modules/auth';
 
-import { createRouter, rbacAccessPlugin } from "./pro-router";
+import { createRouter, rbacAccessPlugin, autoRedirectPlugin, nMenuPlugin } from './pro-router';
 import type {
   RbacAccessPluginBaseServiceReturned,
   RbacAccessPluginRouteRecordRawWithStringComponent,
-} from "./pro-router";
-import { createWebHistory } from "vue-router";
+} from './pro-router';
+import { createWebHistory } from 'vue-router';
 
 import {
   rootRoute,
@@ -15,9 +16,8 @@ import {
   ROOT_ROUTE_NAME,
   accessRoutes,
   pageMap,
-} from "./routes";
-
-import { useAuthStore } from "@/store/modules/auth";
+} from './routes';
+import { $t } from '@/locales';
 
 export async function setupRouter(app: App) {
   const router = createRouter({
@@ -37,22 +37,21 @@ export async function setupRouter(app: App) {
             loginPath: LOGIN_ROUTE_PATH,
             parentNameForAddRoute: ROOT_ROUTE_NAME,
             onRoutesBuilt: (routes) => {
-              console.log("🚀 ~ index.ts:40 ~ setupRouter ~ routes:", routes);
-              // userStore.routes = routes;
+              authStore.routes = routes;
             },
           };
 
-          if (import.meta.env.VITE_AUTH_ROUTE_MODE === "static") {
+          if (import.meta.env.VITE_AUTH_ROUTE_MODE === 'static') {
             return {
               ...baseInfo,
-              mode: "frontend",
+              mode: 'frontend',
               routes: accessRoutes,
               roles: [],
             };
           }
           return {
             ...baseInfo,
-            mode: "backend",
+            mode: 'backend',
             fetchRoutes: async () => {
               // await userStore.getMenuAll(); // 获取菜单
               // // 将 RouteRecordRaw[] 转换为 RouteRecordRawWithStringComponent[]
@@ -62,15 +61,36 @@ export async function setupRouter(app: App) {
             resolveComponent: (component) => {
               let dynamicComponent = pageMap[component];
               if (!dynamicComponent) {
-                dynamicComponent = () =>
-                  import("@/views/demos/fallback/404.vue");
+                dynamicComponent = () => import('@/views/demos/fallback/404.vue');
                 if (__DEV__) {
-                  console.warn(
-                    `[Router] 未找到组件: ${component}，替换成 404 页面`
-                  );
+                  console.warn(`[Router] 未找到组件: ${component}，替换成 404 页面`);
                 }
               }
               return dynamicComponent;
+            },
+          };
+        },
+      }),
+      /**
+       * 自动重定向到目标路由插件
+       */
+      autoRedirectPlugin({
+        homePath: () => import.meta.env.VITE_ROUTE_HOME,
+      }),
+      /**
+       * 菜单插件，将数据转换成n-menu菜单数据
+       */
+      nMenuPlugin({
+        service: () => {
+          const authStore = useAuthStore();
+          return {
+            routes: authStore.routes,
+            resolveMenuItem(item, rawItem) {
+              const { titleI18nKey } = rawItem.meta ?? {};
+              return {
+                ...item,
+                label: titleI18nKey ? $t(titleI18nKey) : item.label,
+              };
             },
           };
         },

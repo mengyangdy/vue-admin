@@ -80,8 +80,16 @@
               </span>
             </div>
           </div>
-          <div class="flex items-center justify-center w-12 h-12 rounded-full">
-            <svg-icon :icon="card.icon" :color="card.iconColor" />
+          <div
+            class="flex items-center justify-center w-12 h-12 rounded-full"
+            :class="card.bgColor"
+          >
+            <svg-icon
+              :icon="card.icon"
+              :color="card.iconColor"
+              class="text-28px"
+              :style="`color: ${card.iconColor}`"
+            />
           </div>
         </div>
       </n-card>
@@ -90,7 +98,12 @@
       <n-card title="活动记录" class="h-full shadow-sm border-0">
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center">
-            <svg-icon icon="mdi:history" color="#1677ff" class="mr-2" />
+            <svg-icon
+              icon="mdi:history"
+              color="#1677ff"
+              class="mr-2 text-20px"
+              style="color: #1677ff"
+            />
             <span class="text-sm font-medium"> 最近用户活动 </span>
           </div>
           <n-button text size="small">
@@ -108,7 +121,10 @@
               class="w-7 h-7 rounded-full flex items-center justify-center mr-2"
               :style="{ backgroundColor: `${activity.color}20` }"
             >
-              <svg-icon :icon="activity.icon" :color="activity.color" />
+              <svg-icon
+                :icon="activity.avatar"
+                :style="`color: ${activity.color}`"
+              />
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-center text-sm font-medium">
@@ -144,7 +160,11 @@
       <n-card class="h-full shadow-sm border-0" title="项目动态">
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center">
-            <svg-icon icon="mdi:bell-outline" color="#fa8c16" />
+            <svg-icon
+              icon="mdi:bell-outline"
+              style="color: #fa8c16"
+              class="text-20px mr-2"
+            />
             <span class="text-sm font-medium">系统公告与更新</span>
           </div>
           <n-button text size="small">
@@ -162,7 +182,7 @@
               class="w-7 h-7 rounded-full flex items-center justify-center mr-2"
               :style="{ backgroundColor: `${update.color}20` }"
             >
-              <svg-icon :icon="update.icon" :color="update.color" />
+              <svg-icon :icon="update.icon" :style="`color: ${update.color}`" />
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-center text-sm">
@@ -215,7 +235,6 @@ const formattedDate = computed(() => {
   ];
   const weekday = weekdays[today.dayOfWeek - 1];
   const result = `${today.year}年${today.month}月${today.day}日 ${weekday}`;
-  console.log(result);
   return result;
 });
 

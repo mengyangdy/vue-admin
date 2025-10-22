@@ -57,21 +57,23 @@
     </template>
     <template #sidebar>
       <div class="flex flex-col h-full">
-        <!-- <n-scrollbar class="flex-[1_0_0]">
-          <pro-menu
+        <n-scrollbar class="flex-[1_0_0]">
+          <global-sider
             v-bind="layout.verticalMenuProps"
             :indent="18"
             :collapsed-width="finalSidebarCollapsedWidth"
-            :collapsed-show-title="sidebarCollapsedShowMenuTitle"
+            :collapsed-show-title="
+              themeStore.sider.sidebarCollapsedShowMenuTitle
+            "
             :options="
               handleMenuGroupAndDivider(layout.verticalMenuProps.options)
             "
             @update:value="pushTo"
           />
         </n-scrollbar>
-        <div v-if="showSidebarCollapseButton" class="flex p-8px">
+        <!-- <div v-if="showSidebarCollapseButton" class="flex p-8px">
           <collapse-sidebar-button />
-        </div> -->
+        </div>  -->
       </div>
     </template>
     <template #sidebar-extra>
@@ -95,6 +97,7 @@
     </template>
     <template #default>
       <GlobalContent />
+      <ThemeDrawer />
     </template>
     <template #footer>
       <GlobalFooter />
@@ -105,13 +108,72 @@
 <script setup lang="ts">
 import ProLayout from "@/layout/layout";
 import { useThemeStore } from "@/store/modules/theme";
-
 import GlobalFooter from "./modules/global-footer/index.vue";
 import GlobalContent from "./modules/global-content/index.vue";
 import GlobalLogo from "./modules/global-logo/index.vue";
 import NavLeft from "./modules/nav-left/index.vue";
 import NavRight from "./modules/nav-right/index.vue";
 import GlobalTabbar from "./modules/global-tabbar/index.vue";
+import GlobalSider from "./modules/global-sider/index.vue";
+import ThemeDrawer from "./modules/theme-drawer/index.vue";
+
+import { useThemeVars } from "naive-ui";
+import { useRouter, useRoute } from "vue-router";
+import { useLayoutMenu } from "@/hooks/business/use-layout-menu";
+import { computed } from "vue";
+import type { MenuOption } from "naive-ui";
 
 const themeStore = useThemeStore();
+const vars = useThemeVars();
+const router = useRouter();
+const route = useRoute();
+
+const { layout, fullKeys, activeKey, verticalLayout } = useLayoutMenu({
+  mode: themeStore.layout.mode,
+  menus: computed(() => router.buildMenus()),
+  childrenField: "children",
+});
+
+const finalSidebarCollapsedWidth = computed(() => {
+  return !themeStore.sider.sidebarCollapsedShowMenuTitle
+    ? themeStore.sider.collapsedWidth
+    : themeStore.showMobileSidebarDrawer;
+});
+
+function handleMenuGroupAndDivider(menus: MenuOption[] = []) {
+  let finalMenus: MenuOption[] = menus;
+  // 处理菜单分割线
+  if (themeStore.sider.sidebarMenuDivider) {
+    finalMenus = finalMenus.flatMap((item) => {
+      return item.children?.length ? [item, { type: "divider" }] : [item];
+    });
+  }
+  // 处理菜单分组
+  if (themeStore.sider.sidebarMenuGroup) {
+    if (themeStore.sider.siderCollapse) {
+      finalMenus = finalMenus.flatMap((item) => {
+        return item.children?.length ? [...item.children] : [item];
+      });
+    } else {
+      finalMenus = finalMenus.map((item) => {
+        return item.children?.length ? { ...item, type: "group" } : item;
+      });
+    }
+  }
+  return finalMenus;
+}
+
+async function pushTo(path: string) {
+  const failure = await router.push(path);
+  if (failure) {
+    // 跳转失败回退
+    activeKey.value = route.path;
+  }
+}
 </script>
+
+<style scoped>
+:deep(.n-pro-layout__content.pro-layout__content--embedded) {
+  background-color: v-bind("vars.actionColor");
+}
+</style>

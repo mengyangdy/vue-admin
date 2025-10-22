@@ -19,10 +19,12 @@ import {
   useNotification,
 } from "naive-ui";
 import { createTextVNode, defineComponent } from "vue";
+import { useAppStore } from "@/store/modules/app";
 
 defineOptions({
   name: "AppProvider",
 });
+
 const ContextHolder = defineComponent({
   name: "ContextHolder",
   setup() {

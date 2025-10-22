@@ -64,7 +64,6 @@ export class AuthService {
       .from(users)
       .where(eq(users.username, userAuthDto.username))
       .limit(1);
-    console.log("🚀 ~ AuthService ~ login ~ user:", user);
     if (user.length === 0) {
       throw new UnauthorizedException("用户不存在");
     }
@@ -72,7 +71,6 @@ export class AuthService {
       user[0].password,
       userAuthDto.password
     );
-    console.log("🚀 ~ AuthService ~ login ~ isPasswordValid:", isPasswordValid);
     if (!isPasswordValid) {
       throw new UnauthorizedException("用户名或密码错误");
     }

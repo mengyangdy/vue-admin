@@ -16,7 +16,6 @@ export class AuthController {
   @Public()
   @Post("/login")
   async login(@Body() userAuthDto: UserAuthDto) {
-    console.log("🚀 ~ AuthController ~ login ~ userAuthDto:", userAuthDto);
     const id = await this.authService.login(userAuthDto);
     const token = this.jwtService.sign(
       {

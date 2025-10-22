@@ -1,12 +1,8 @@
-import { effectScope, type App, type EffectScope } from "vue";
-import {
-  RouterOptions as _RouterOptions,
-  createRouter as _createRouter,
-  Router,
-} from "vue-router";
-import { ProRouterOptions } from "./types";
-import { prepareInstall, resolveOptions, setupPlugin } from "./utils/route";
-import { EFFECT_SCOPE, RUN_WITH_APP_HANDLERS } from "./constant";
+import { effectScope, type App, type EffectScope } from 'vue';
+import { RouterOptions as _RouterOptions, createRouter as _createRouter, Router } from 'vue-router';
+import { ProRouterOptions } from './types';
+import { prepareInstall, resolveOptions, setupPlugin } from './utils/route';
+import { EFFECT_SCOPE, RUN_WITH_APP_HANDLERS } from './constant';
 
 export function createRouter(options: ProRouterOptions): Router {
   const { vrOptions, plugins = [], pluginCleanups } = resolveOptions(options);
@@ -24,34 +20,46 @@ export function createRouter(options: ProRouterOptions): Router {
     runWithAppHandlers.length = 0;
   };
   router.beforeEach = (guard, ...rest) => {
-    return beforeEach((...args) => {
-      return scope.run(() => {
-        return guard.call(undefined, ...args);
-      });
-    }, ...rest);
+    return beforeEach(
+      (...args) => {
+        return scope.run(() => {
+          return guard.call(undefined, ...args);
+        });
+      },
+      ...rest,
+    );
   };
   router.beforeResolve = (guard, ...rest) => {
-    return beforeResolve((...args) => {
-      return scope.run(() => {
-        return guard.call(undefined, ...args);
-      });
-    }, ...rest);
+    return beforeResolve(
+      (...args) => {
+        return scope.run(() => {
+          return guard.call(undefined, ...args);
+        });
+      },
+      ...rest,
+    );
   };
 
   router.afterEach = (guard, ...rest) => {
-    return afterEach((...args) => {
-      return scope.run(() => {
-        return guard.call(undefined, ...args);
-      });
-    }, ...rest);
+    return afterEach(
+      (...args) => {
+        return scope.run(() => {
+          return guard.call(undefined, ...args);
+        });
+      },
+      ...rest,
+    );
   };
 
   router.onError = (handler, ...rest) => {
-    return onError((...args) => {
-      return scope.run(() => {
-        return handler.call(undefined, ...args);
-      });
-    }, ...rest);
+    return onError(
+      (...args) => {
+        return scope.run(() => {
+          return handler.call(undefined, ...args);
+        });
+      },
+      ...rest,
+    );
   };
   router.runPluginsCleanup = () => {
     pluginCleanups.forEach((cleanup) => cleanup());

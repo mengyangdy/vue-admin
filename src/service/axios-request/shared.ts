@@ -1,8 +1,4 @@
-import type {
-  AxiosHeaderValue,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from "axios";
+import type { AxiosHeaderValue, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 /**
  * 获取请求的Content-Type头
@@ -15,8 +11,7 @@ import type {
  */
 export function getContentType(config: InternalAxiosRequestConfig) {
   // 从请求配置的头部信息中获取Content-Type的值，如果未设置，则使用默认值'application/json'
-  const contentType: AxiosHeaderValue =
-    config.headers["Content-Type"] || "application/json";
+  const contentType: AxiosHeaderValue = config.headers['Content-Type'] || 'application/json';
   // 返回Content-Type的值
   return contentType;
 }
@@ -48,5 +43,5 @@ export function isResponseJson(response: AxiosResponse) {
   // 获取响应类型配置
   const { responseType } = response.config;
   // 检查响应类型是否为"json"或未指定
-  return responseType === "json" || responseType === undefined;
+  return responseType === 'json' || responseType === undefined;
 }

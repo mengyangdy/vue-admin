@@ -1,1 +1,1 @@
-export {default as ProLayout} from './layout'
+export { default as ProLayout } from './layout';

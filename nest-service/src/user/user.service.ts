@@ -89,12 +89,12 @@ export class UserService {
 
     // 准备更新数据
     const updateData: any = {};
-    if (updateUserDto.username) updateData.username = updateUserDto.username;
-    if (updateUserDto.email) updateData.email = updateUserDto.email;
-    if (updateUserDto.phone) updateData.phone = updateUserDto.phone;
-    if (updateUserDto.avatar) updateData.avatar = updateUserDto.avatar;
-    if (updateUserDto.nickname) updateData.nickname = updateUserDto.nickname;
-    if (updateUserDto.status !== undefined) updateData.status = updateUserDto.status;
+    if (updateUserDto.username) {updateData.username = updateUserDto.username;}
+    if (updateUserDto.email) {updateData.email = updateUserDto.email;}
+    if (updateUserDto.phone) {updateData.phone = updateUserDto.phone;}
+    if (updateUserDto.avatar) {updateData.avatar = updateUserDto.avatar;}
+    if (updateUserDto.nickname) {updateData.nickname = updateUserDto.nickname;}
+    if (updateUserDto.status !== undefined) {updateData.status = updateUserDto.status;}
 
     // 如果更新密码，需要加密
     if (updateUserDto.password) {

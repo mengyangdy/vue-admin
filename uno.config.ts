@@ -1,30 +1,40 @@
-import { defineConfig } from "@unocss/vite";
-import transformerDirectives from "@unocss/transformer-directives";
-import transformerVariantGroup from "@unocss/transformer-variant-group";
-import presetWind3 from "@unocss/preset-wind3";
-import type { Theme } from "@unocss/preset-uno";
-// import { themeVars } from "./src/theme/vars";
-import { presetDylanAdmin } from "@dylanjs/utils";
+import { defineConfig } from '@unocss/vite';
+import transformerDirectives from '@unocss/transformer-directives';
+import transformerVariantGroup from '@unocss/transformer-variant-group';
+import presetWind3 from '@unocss/preset-wind3';
+import type { Theme } from '@unocss/preset-uno';
+import { themeVars } from './src/theme/vars';
+
+import { presetDylanAdmin } from '@dylanjs/utils';
 
 export default defineConfig<Theme>({
   content: {
     pipeline: {
-      exclude: ["node_modules", "dist"],
+      exclude: ['node_modules', 'dist'],
     },
   },
   theme: {
-    // ...themeVars,
+    ...themeVars,
     fontSize: {
-      "icon-xs": "0.875rem",
-      "icon-small": "1rem",
-      icon: "1.125rem",
-      "icon-large": "1.5rem",
-      "icon-xl": "2rem",
+      'icon-xs': '0.875rem',
+      'icon-small': '1rem',
+      icon: '1.125rem',
+      'icon-large': '1.5rem',
+      'icon-xl': '2rem',
     },
   },
-  shortcuts: {
-    "card-wrapper": "rd-8px shadow-sm",
-  },
+  shortcuts: [
+    {
+      'card-wrapper': 'rd-8px shadow-sm',
+    },
+    {
+      'grid-cols-responsive': 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+    },
+    [
+      /^grid-cols-responsive-(\d)-(\d)-(\d)$/,
+      ([, sm, md, lg]) => `grid grid-cols-${sm} md:grid-cols-${md} lg:grid-cols-${lg}`,
+    ],
+  ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
-  presets: [presetWind3({ dark: "class" }), presetDylanAdmin()],
+  presets: [presetWind3({ dark: 'class' }), presetDylanAdmin()],
 });

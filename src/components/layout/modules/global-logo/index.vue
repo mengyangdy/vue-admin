@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="tsx">
-import type { ProLayoutMode } from "@/layout/types";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import logo from "@/assets/images/logo.svg";
@@ -30,10 +29,9 @@ const title = import.meta.env.VITE_APP_TITLE;
 
 const { layout, isMobile, sider } = storeToRefs(useThemeStore());
 const data = storeToRefs(useThemeStore());
-console.log("🚀 ~ data:", data);
 
 const enablePaddingLeft = computed(() => {
-  const layoutMode = layout.value.mode as ProLayoutMode;
+  const layoutMode = layout.value.mode as UnionKey.ThemeLayoutMode
   if (usingMobileSidebarDrawer) {
     return !sider.value.siderCollapse;
   }
@@ -49,7 +47,7 @@ const enablePaddingLeft = computed(() => {
 });
 
 const showAppTitle = computed(() => {
-  const layoutMode = layout.value.mode as ProLayoutMode;
+  const layoutMode = layout.value.mode as UnionKey.ThemeLayoutMode;
   if (usingMobileSidebarDrawer) {
     return !sider.value.siderCollapse;
   }

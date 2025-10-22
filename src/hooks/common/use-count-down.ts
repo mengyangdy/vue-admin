@@ -1,5 +1,5 @@
-import { useRafFn } from "@vueuse/core";
-import { computed, onScopeDispose, ref } from "vue";
+import { useRafFn } from '@vueuse/core';
+import { computed, onScopeDispose, ref } from 'vue';
 
 /**
  * 用于实现倒计时功能的钩子。使用 `requestAnimationFrame` 实现流畅且精确的计时，不受屏幕刷新率影响。
@@ -28,7 +28,7 @@ export default function useCountDown(initialSeconds: number) {
         pause();
       }
     },
-    { immediate: false } // 计时器不会自动启动
+    { immediate: false }, // 计时器不会自动启动
   );
 
   /**

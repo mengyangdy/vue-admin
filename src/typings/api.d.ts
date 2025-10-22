@@ -8,11 +8,8 @@ declare namespace Api {
     interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
       records: T[];
     }
-    type CommonSearchParams = Pick<
-      Common.PaginatingCommonParams,
-      "current" | "size"
-    >;
-    type EnableStatus = "1" | "2";
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type EnableStatus = '1' | '2';
     type CommonRecord<T = any> = {
       /** record id */
       id: number;

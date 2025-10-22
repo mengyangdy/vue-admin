@@ -1,68 +1,83 @@
-import type { CalcLayoutVarsOptions } from '../../types'
-import { cB, cE, cM } from 'naive-ui'
-import { computed } from 'vue'
+import type { CalcLayoutVarsOptions } from '../../types';
+import { cB, cE, cM } from 'naive-ui';
+import { computed } from 'vue';
 
 export function useMobileLayoutVars({
-                                      mergedNav,
-                                      mergedTabbar,
-                                      mergedFooter,
-                                    }: CalcLayoutVarsOptions) {
+  mergedNav,
+  mergedTabbar,
+  mergedFooter,
+}: CalcLayoutVarsOptions) {
   const contentMarginTop = computed(() => {
-    const nav = mergedNav.value
-    const tabbar = mergedTabbar.value
+    const nav = mergedNav.value;
+    const tabbar = mergedTabbar.value;
     if (nav.fixed && nav.show && !tabbar.show) {
-      return `${nav.height}px`
+      return `${nav.height}px`;
     }
     if (nav.fixed && tabbar.show && !nav.show) {
-      return `${tabbar.height}px`
+      return `${tabbar.height}px`;
     }
     if (nav.fixed && nav.show && tabbar.show) {
-      return `${nav.height + tabbar.height}px`
+      return `${nav.height + tabbar.height}px`;
     }
-    return '0px'
-  })
+    return '0px';
+  });
 
   const contentMarginBottom = computed(() => {
-    const footer = mergedFooter.value
+    const footer = mergedFooter.value;
     if (footer.show && footer.fixed) {
-      return `${footer.height}px`
+      return `${footer.height}px`;
     }
-    return '0px'
-  })
+    return '0px';
+  });
 
   return computed(() => {
     return {
       '--pro-layout-content-margin-top': contentMarginTop.value,
       '--pro-layout-content-margin-bottom': contentMarginBottom.value,
-    }
-  })
+    };
+  });
 }
 
 export function setupMobileLayoutStyle() {
   return cM('mobile', [
-    cB('pro-layout__aside', `
+    cB(
+      'pro-layout__aside',
+      `
       display: none;
-    `),
-    cB('pro-layout__scrollbar__inner', `
+    `,
+    ),
+    cB(
+      'pro-layout__scrollbar__inner',
+      `
         display: flex;
         min-height: 100%;
         flex-direction: column;
-    `),
-    cB('pro-layout__header', `
+    `,
+    ),
+    cB(
+      'pro-layout__header',
+      `
         box-sizing: border-box;
         background: var(--pro-layout-color);
         transition:
           background .3s var(--n-bezier);
-      `, [
-      cM('fixed', `
+      `,
+      [
+        cM(
+          'fixed',
+          `
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           z-index: var(--pro-layout-z-index);
-      `),
-    ]),
-    cB('pro-layout__nav', `
+      `,
+        ),
+      ],
+    ),
+    cB(
+      'pro-layout__nav',
+      `
         display: flex;
         align-items: center;
         height: var(--pro-layout-nav-height);
@@ -70,35 +85,58 @@ export function setupMobileLayoutStyle() {
         border-bottom: 1px solid var(--pro-layout-border-color);
         transition:
           border-color .3s var(--n-bezier);
-    `, [
-      cB('pro-layout__logo', `
+    `,
+      [
+        cB(
+          'pro-layout__logo',
+          `
           height: 100%;
-      `, [
-        cM('hidden', `
+      `,
+          [
+            cM(
+              'hidden',
+              `
             width: 0;
             overflow: hidden;
-          `),
-      ]),
-      cE('left', `
+          `,
+            ),
+          ],
+        ),
+        cE(
+          'left',
+          `
           height: 100%;
-        `),
-      cE('center', `
+        `,
+        ),
+        cE(
+          'center',
+          `
           height: 100%;
           flex-grow: 1;
           flex-basis: 0;
           overflow: hidden;
-        `),
-      cE('right', `
+        `,
+        ),
+        cE(
+          'right',
+          `
           height: 100%;
-        `),
-      cM('hidden', `
+        `,
+        ),
+        cM(
+          'hidden',
+          `
           height: 0;
           overflow: hidden;
           border-bottom: none;
           border-bottom-color: var(--pro-layout-border-color);
-      `),
-    ]),
-    cB('pro-layout__tabbar', `
+      `,
+        ),
+      ],
+    ),
+    cB(
+      'pro-layout__tabbar',
+      `
         height: var(--pro-layout-tabbar-height);
         display: flex;
         box-sizing: border-box;
@@ -107,15 +145,22 @@ export function setupMobileLayoutStyle() {
         transition:
           background .3s var(--n-bezier),
           border-color .3s var(--n-bezier);
-    `, [
-      cM('hidden', `
+    `,
+      [
+        cM(
+          'hidden',
+          `
           height: 0;
           overflow: hidden;
           border-bottom: none;
           border-bottom-color: var(--pro-layout-border-color);
-      `),
-    ]),
-    cB('pro-layout__content', `
+      `,
+        ),
+      ],
+    ),
+    cB(
+      'pro-layout__content',
+      `
         flex-grow: 1;
         flex-basis: 0;
         background: var(--pro-layout-content-color);
@@ -123,25 +168,36 @@ export function setupMobileLayoutStyle() {
         margin-bottom: var(--pro-layout-content-margin-bottom);
         transition:
           background .3s var(--n-bezier);
-      `),
-    cB('pro-layout__footer', `
+      `,
+    ),
+    cB(
+      'pro-layout__footer',
+      `
         height: var(--pro-layout-footer-height);
         flex-shrink: 0;
         background: var(--pro-layout-color);
         transition: 
           background .3s var(--n-bezier);
-      `, [
-      cM('fixed', `
+      `,
+      [
+        cM(
+          'fixed',
+          `
           width: 100%;
           position: absolute;
           bottom: 0;
           left: 0;
           z-index: var(--pro-layout-z-index);
-        `),
-      cM('hidden', `
+        `,
+        ),
+        cM(
+          'hidden',
+          `
           height: 0;
           overflow: hidden;
-        `),
-    ]),
-  ])
+        `,
+        ),
+      ],
+    ),
+  ]);
 }

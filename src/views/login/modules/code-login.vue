@@ -76,8 +76,6 @@ const rules = computed(() => {
 });
 
 async function handleSubmit() {
-  console.log(11111);
-
   await validate();
   window.$message?.success("暂时没做手机号验证登录");
 }

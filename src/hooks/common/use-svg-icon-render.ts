@@ -1,5 +1,5 @@
-import { h } from "vue";
-import type { Component } from "vue";
+import { h } from 'vue';
+import type { Component } from 'vue';
 
 export default function useSvgIconRender(SvgIcon: Component) {
   interface IconConfig {
@@ -8,7 +8,7 @@ export default function useSvgIconRender(SvgIcon: Component) {
     color?: string;
     fontSize?: number;
   }
-  type IconStyle = Partial<Pick<CSSStyleDeclaration, "color" | "fontSize">>;
+  type IconStyle = Partial<Pick<CSSStyleDeclaration, 'color' | 'fontSize'>>;
 
   const SvgIconVNode = (config: IconConfig) => {
     const { color, fontSize, icon, localIcon } = config;
@@ -20,7 +20,7 @@ export default function useSvgIconRender(SvgIcon: Component) {
       style.fontSize = `${fontSize}px`;
     }
     if (!icon && !localIcon) {
-      return undefined;
+      return null;
     }
     return () => h(SvgIcon, { icon, localIcon, style });
   };

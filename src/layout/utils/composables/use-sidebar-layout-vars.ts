@@ -1,113 +1,113 @@
-import type { CalcLayoutVarsOptions } from '../../types'
-import { cB, cE, cM } from 'naive-ui'
-import { computed } from 'vue'
+import type { CalcLayoutVarsOptions } from '../../types';
+import { cB, cE, cM } from 'naive-ui';
+import { computed } from 'vue';
 
 export function useSidebarLayoutVars({
-                                       mergedNav,
-                                       mergedTabbar,
-                                       mergedFooter,
-                                       mergedSidebar,
-                                       mergedCollapsed,
-                                     }: CalcLayoutVarsOptions) {
+  mergedNav,
+  mergedTabbar,
+  mergedFooter,
+  mergedSidebar,
+  mergedCollapsed,
+}: CalcLayoutVarsOptions) {
   const sidebarHeight = computed(() => {
-    const nav = mergedNav.value
+    const nav = mergedNav.value;
     if (nav.show && nav.fixed) {
-      return `calc(100% - ${nav.height}px)`
+      return `calc(100% - ${nav.height}px)`;
     }
-    return '100%'
-  })
+    return '100%';
+  });
 
   const sidebarMarginTop = computed(() => {
-    const nav = mergedNav.value
+    const nav = mergedNav.value;
     if (nav.show && nav.fixed) {
-      return `${nav.height}px`
+      return `${nav.height}px`;
     }
-    return '0px'
-  })
+    return '0px';
+  });
 
   const navMarginLeft = computed(() => {
-    const nav = mergedNav.value
-    const sidebar = mergedSidebar.value
-    const collapsed = mergedCollapsed.value
+    const nav = mergedNav.value;
+    const sidebar = mergedSidebar.value;
+    const collapsed = mergedCollapsed.value;
     if (!nav.fixed && sidebar.show && !collapsed) {
-      return `${sidebar.width}px`
+      return `${sidebar.width}px`;
     }
     if (!nav.fixed && sidebar.show && collapsed) {
-      return `${sidebar.collapsedWidth}px`
+      return `${sidebar.collapsedWidth}px`;
     }
-    return '0px'
-  })
+    return '0px';
+  });
 
   const tabbarMarginLeft = computed(() => {
-    const sidebar = mergedSidebar.value
-    const collapsed = mergedCollapsed.value
+    const sidebar = mergedSidebar.value;
+    const collapsed = mergedCollapsed.value;
     if (!sidebar.show) {
-      return '0px'
+      return '0px';
     }
     if (collapsed) {
-      return `${sidebar.collapsedWidth}px`
+      return `${sidebar.collapsedWidth}px`;
     }
-    return `${sidebar.width}px`
-  })
+    return `${sidebar.width}px`;
+  });
 
   const contentMarginLeft = computed(() => {
-    const sidebar = mergedSidebar.value
-    const collapsed = mergedCollapsed.value
+    const sidebar = mergedSidebar.value;
+    const collapsed = mergedCollapsed.value;
     if (!sidebar.show) {
-      return '0px'
+      return '0px';
     }
     if (collapsed) {
-      return `${sidebar.collapsedWidth}px`
+      return `${sidebar.collapsedWidth}px`;
     }
-    return `${sidebar.width}px`
-  })
+    return `${sidebar.width}px`;
+  });
 
   const contentMarginTop = computed(() => {
-    const nav = mergedNav.value
-    const tabbar = mergedTabbar.value
+    const nav = mergedNav.value;
+    const tabbar = mergedTabbar.value;
     if (nav.fixed && nav.show && !tabbar.show) {
-      return `${nav.height}px`
+      return `${nav.height}px`;
     }
     if (nav.fixed && tabbar.show && !nav.show) {
-      return `${tabbar.height}px`
+      return `${tabbar.height}px`;
     }
     if (nav.fixed && nav.show && tabbar.show) {
-      return `${nav.height + tabbar.height}px`
+      return `${nav.height + tabbar.height}px`;
     }
-    return '0px'
-  })
+    return '0px';
+  });
 
   const contentMarginBottom = computed(() => {
-    const footer = mergedFooter.value
+    const footer = mergedFooter.value;
     if (footer.fixed && footer.show) {
-      return `${footer.height}px`
+      return `${footer.height}px`;
     }
-    return '0px'
-  })
+    return '0px';
+  });
 
   const footerMarginLeft = computed(() => {
-    const sidebar = mergedSidebar.value
-    const collapsed = mergedCollapsed.value
+    const sidebar = mergedSidebar.value;
+    const collapsed = mergedCollapsed.value;
     if (!sidebar.show) {
-      return '0px'
+      return '0px';
     }
     if (collapsed) {
-      return `${sidebar.collapsedWidth}px`
+      return `${sidebar.collapsedWidth}px`;
     }
-    return `${sidebar.width}px`
-  })
+    return `${sidebar.width}px`;
+  });
 
   const footerWidth = computed(() => {
-    const sidebar = mergedSidebar.value
-    const collapsed = mergedCollapsed.value
+    const sidebar = mergedSidebar.value;
+    const collapsed = mergedCollapsed.value;
     if (!sidebar.show) {
-      return '100%'
+      return '100%';
     }
     if (collapsed) {
-      return `calc(100% - ${sidebar.collapsedWidth}px)`
+      return `calc(100% - ${sidebar.collapsedWidth}px)`;
     }
-    return `calc(100% - ${sidebar.width}px)`
-  })
+    return `calc(100% - ${sidebar.width}px)`;
+  });
 
   return computed(() => {
     return {
@@ -120,13 +120,15 @@ export function useSidebarLayoutVars({
       '--pro-layout-content-margin-bottom': contentMarginBottom.value,
       '--pro-layout-footer-width': footerWidth.value,
       '--pro-layout-footer-margin-left': footerMarginLeft.value,
-    }
-  })
+    };
+  });
 }
 
 export function setupSidebarLayoutStyle() {
   const style = [
-    cB('pro-layout__aside', `
+    cB(
+      'pro-layout__aside',
+      `
         width: var(--pro-layout-sidebar-width);
         height: var(--pro-layout-sidebar-height);
         margin-top: var(--pro-layout-sidebar-margin-top);
@@ -143,48 +145,77 @@ export function setupSidebarLayoutStyle() {
           width .3s var(--n-bezier),
           background .3s var(--n-bezier),
           border-color .3s var(--n-bezier);
-      `, [
-      cB('pro-layout__logo', `
+      `,
+      [
+        cB(
+          'pro-layout__logo',
+          `
           display: none;
-      `),
-      cM('collapsed', `
+      `,
+        ),
+        cM(
+          'collapsed',
+          `
           width: var(--pro-layout-sidebar-collapsed-width);
-        `),
-      cM('hidden', `
+        `,
+        ),
+        cM(
+          'hidden',
+          `
           width: 0;
           overflow: hidden;
           border-right: none;
           border-right-color: var(--pro-layout-border-color);
-        `),
-    ]),
-    cB('pro-layout__sidebar', `
+        `,
+        ),
+      ],
+    ),
+    cB(
+      'pro-layout__sidebar',
+      `
         flex-grow: 1;
         flex-basis: 0;
         display: flex;
         flex-direction: column;
-    `),
-    cB('pro-layout__sidebar-extra', `
+    `,
+    ),
+    cB(
+      'pro-layout__sidebar-extra',
+      `
         display: none;
-    `),
-    cB('pro-layout__scrollbar__inner', `
+    `,
+    ),
+    cB(
+      'pro-layout__scrollbar__inner',
+      `
         display: flex;
         min-height: 100%;
         flex-direction: column;
-    `),
-    cB('pro-layout__header', `
+    `,
+    ),
+    cB(
+      'pro-layout__header',
+      `
         background: var(--pro-layout-color);
         transition:
           background .3s var(--n-bezier);
-      `, [
-      cM('fixed', `
+      `,
+      [
+        cM(
+          'fixed',
+          `
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           z-index: var(--pro-layout-z-index);
-      `),
-    ]),
-    cB('pro-layout__nav', `
+      `,
+        ),
+      ],
+    ),
+    cB(
+      'pro-layout__nav',
+      `
         height: var(--pro-layout-nav-height);
         display: flex;
         align-items: center;
@@ -195,36 +226,59 @@ export function setupSidebarLayoutStyle() {
         transition:
           background .3s var(--n-bezier),
           border-color .3s var(--n-bezier);
-    `, [
-      cB('pro-layout__logo', `
+    `,
+      [
+        cB(
+          'pro-layout__logo',
+          `
           height: 100%;
           width: var(--pro-layout-sidebar-width);
           flex-shrink: 0;
-        `, [
-        cM('hidden', `
+        `,
+          [
+            cM(
+              'hidden',
+              `
             width: 0;
             overflow: hidden;
-          `),
-      ]),
-      cE('left', `
+          `,
+            ),
+          ],
+        ),
+        cE(
+          'left',
+          `
           height: 100%;
-        `),
-      cE('center', `
+        `,
+        ),
+        cE(
+          'center',
+          `
           height: 100%;
           flex-grow: 1;
           flex-basis: 0;
           overflow: hidden;
-        `),
-      cE('right', `
+        `,
+        ),
+        cE(
+          'right',
+          `
           height: 100%;
-        `),
-      cM('hidden', `
+        `,
+        ),
+        cM(
+          'hidden',
+          `
           height: 0;
           overflow: hidden;
           border-bottom: none;
-      `),
-    ]),
-    cB('pro-layout__tabbar', `
+      `,
+        ),
+      ],
+    ),
+    cB(
+      'pro-layout__tabbar',
+      `
         height: var(--pro-layout-tabbar-height);
         display: flex;
         box-sizing: border-box;
@@ -235,15 +289,22 @@ export function setupSidebarLayoutStyle() {
           background .3s var(--n-bezier),
           margin-left .3s var(--n-bezier),
           border-color .3s var(--n-bezier);
-    `, [
-      cM('hidden', `
+    `,
+      [
+        cM(
+          'hidden',
+          `
           height: 0;
           overflow: hidden;
           border-bottom: none;
           border-bottom-color: var(--pro-layout-border-color);
-      `),
-    ]),
-    cB('pro-layout__content', `
+      `,
+        ),
+      ],
+    ),
+    cB(
+      'pro-layout__content',
+      `
        flex-grow: 1;
        flex-basis: 0;
        background: var(--pro-layout-content-color);
@@ -253,8 +314,11 @@ export function setupSidebarLayoutStyle() {
        transition: 
         background .3s var(--n-bezier),
         margin-left .3s var(--n-bezier);
-    `),
-    cB('pro-layout__footer', `
+    `,
+    ),
+    cB(
+      'pro-layout__footer',
+      `
         width: var(--pro-layout-footer-width);
         height: var(--pro-layout-footer-height);
         background: var(--pro-layout-color);
@@ -262,21 +326,26 @@ export function setupSidebarLayoutStyle() {
         transition: 
           margin-left .3s var(--n-bezier),
           background .3s var(--n-bezier);
-      `, [
-      cM('fixed', `
+      `,
+      [
+        cM(
+          'fixed',
+          `
           position: absolute;
           bottom: 0;
           left: 0;
           z-index: var(--pro-layout-z-index);
-        `),
-      cM('hidden', `
+        `,
+        ),
+        cM(
+          'hidden',
+          `
           height: 0;
           overflow: hidden;
-        `),
-    ]),
-  ]
-  return [
-    cM('sidebar', style),
-    cM('mixed-sidebar', style),
-  ]
+        `,
+        ),
+      ],
+    ),
+  ];
+  return [cM('sidebar', style), cM('mixed-sidebar', style)];
 }
