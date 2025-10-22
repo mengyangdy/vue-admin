@@ -96,13 +96,16 @@ export function urlToBase64(url: string, mineType?: string) {
   });
 }
 
-export function fetchBlobResponse<T = any>(url:string,axiosRequestConfig:AxiosRequestConfig={}){
+export function fetchBlobResponse<T = any>(
+  url: string,
+  axiosRequestConfig: AxiosRequestConfig = {},
+) {
   return request({
-    url:url,
-    method:'get',
-    responseType:'blob',
-    ...axiosRequestConfig
-  })
+    url: url,
+    method: 'get',
+    responseType: 'blob',
+    ...axiosRequestConfig,
+  });
 }
 
 /**
@@ -110,14 +113,12 @@ export function fetchBlobResponse<T = any>(url:string,axiosRequestConfig:AxiosRe
  * @param imageUrl 图片url
  * @param filename 文件名
  */
- export async function downloadImage(imageUrl:string,filename?:string){
+export async function downloadImage(imageUrl: string, filename?: string) {
   try {
-    const base64=await urlToBase64(imageUrl)
-    const finalFilename=filename ?? getFilenameFromUrl(imageUrl)
-    downloadBase64(base64,finalFilename,'image/png')
-  }catch(error){
-
-  }
+    const base64 = await urlToBase64(imageUrl);
+    const finalFilename = filename ?? getFilenameFromUrl(imageUrl);
+    downloadBase64(base64, finalFilename, 'image/png');
+  } catch (error) {}
 }
 
 /**
@@ -126,9 +127,13 @@ export function fetchBlobResponse<T = any>(url:string,axiosRequestConfig:AxiosRe
  * @param filename 文件名
  * @param mimeType MIME类型
  */
-export function downloadText(content:string,filename:'download.txt',mimeType='text/plain;charset=utf-8'){
-   const blob=new Blob([content],{type:mimeType})
-  downloadBlob(blob,filename)
+export function downloadText(
+  content: string,
+  filename: 'download.txt',
+  mimeType = 'text/plain;charset=utf-8',
+) {
+  const blob = new Blob([content], { type: mimeType });
+  downloadBlob(blob, filename);
 }
 
 /**
@@ -137,15 +142,13 @@ export function downloadText(content:string,filename:'download.txt',mimeType='te
  * @param filename 文件名
  * @param mimeType MIME类型
  */
-export function downloadBase64(
-  base64Data:string,
-  filename='download',
-  mimeType='image/png'
-){
-  const base64=base64Data.includes('base64,')?base64Data.split('base64,')[1]:base64Data
-  const byteCharacters=atob(base64)
-  const byteNumbers=Array.from({length:byteCharacters.length},(_,i)=>byteCharacters.charCodeAt(i))
-  const byteArray=new Uint8Array(byteNumbers)
-  const blob=new Blob([byteArray],{type:mimeType})
-  downloadBlob(blob,filename)
+export function downloadBase64(base64Data: string, filename = 'download', mimeType = 'image/png') {
+  const base64 = base64Data.includes('base64,') ? base64Data.split('base64,')[1] : base64Data;
+  const byteCharacters = atob(base64);
+  const byteNumbers = Array.from({ length: byteCharacters.length }, (_, i) =>
+    byteCharacters.charCodeAt(i),
+  );
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: mimeType });
+  downloadBlob(blob, filename);
 }
