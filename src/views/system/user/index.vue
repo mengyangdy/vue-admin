@@ -14,6 +14,8 @@
 
 <script setup lang="tsx">
 
+import { useTableOperate } from '@/hooks/common/table';
+
 const searchParams:Api.SystemManage.UserSearchParams = reactive({
   current:1,
   size:10,

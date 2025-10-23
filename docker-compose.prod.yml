@@ -1,0 +1,75 @@
+# 生产环境 Docker Compose 配置
+# 使用示例: docker-compose -f docker-compose.prod.yml up -d
+
+version: '3.8'
+
+services:
+  # 后端服务
+  backend:
+    build:
+      context: ./nest-service
+      dockerfile: Dockerfile
+    container_name: vue-admin-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 5001
+      # 生产环境数据库配置
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT:-3306}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      # 生产环境其他配置
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+    networks:
+      - vue-admin-network
+    volumes:
+      - ./logs:/app/logs
+      - /etc/localtime:/etc/localtime:ro # 同步时区
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:5001/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  # 前端服务
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: vue-admin-frontend
+    restart: unless-stopped
+    ports:
+      - '${FRONTEND_PORT:-80}:80'
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - vue-admin-network
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # 同步时区
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+        reservations:
+          memory: 128M
+          cpus: '0.1'
+
+networks:
+  vue-admin-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: vue-admin-br
