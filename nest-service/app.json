@@ -1,0 +1,10 @@
+{
+  "app": [
+    {
+      "name": "nest-api",
+      "script": "dist/main.js",
+      "watch": true,
+      "ignore_watch": ["node_modules"]
+    }
+  ]
+}
