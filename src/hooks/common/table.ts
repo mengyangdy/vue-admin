@@ -1,6 +1,13 @@
-import { computed, effectScope, reactive, shallowRef, watch } from 'vue';
+import { computed, effectScope, reactive, Ref, ref, shallowRef, watch, onScopeDispose } from 'vue';
 import { useThemeStore } from '@/store/modules/theme';
 import type { PaginationProps } from 'naive-ui';
+import { cloneDeep } from '@dylanjs/utils';
+import { useAppStore } from '@/store/modules/app';
+import useBoolean from './use-boolean';
+import useLoading from './use-loading';
+import { $t } from '@/locales';
+
+const appStore = useAppStore();
 
 export interface PaginationData<T> {
   data: T[];
@@ -9,10 +16,12 @@ export interface PaginationData<T> {
   total: number;
 }
 
-type GetApiData<ApiData, Pagination extends boolean> = Pagination extends true ? PaginationData<ApiData> : ApiData[];
+type GetApiData<ApiData, Pagination extends boolean> = Pagination extends true
+  ? PaginationData<ApiData>
+  : ApiData[];
 
 type Transform<ResponseData, ApiData, Pagination extends boolean> = (
-  response: ResponseData
+  response: ResponseData,
 ) => GetApiData<ApiData, Pagination>;
 
 export interface UseTableOptions<ResponseData, ApiData, Column, Pagination extends boolean> {
@@ -35,11 +44,11 @@ export interface UseTableOptions<ResponseData, ApiData, Column, Pagination exten
   /**
    * get column checks
    */
-  getColumnChecks: (columns: Column[]) => TableColumnCheck[];
+  getColumnChecks: (columns: Column[]) => NaiveUI.TableColumnCheck[];
   /**
    * get columns
    */
-  getColumns: (columns: Column[], checks: TableColumnCheck[]) => Column[];
+  getColumns: (columns: Column[], checks: NaiveUI.TableColumnCheck[]) => Column[];
   /**
    * callback when response fetched
    */
@@ -72,44 +81,48 @@ const SELECTION_KEY = '__selection__';
 
 const EXPAND_KEY = '__expand__';
 
-export function useNaiveTable<ResponseData,ApiData>(options: UseNaiveTableOptions<ResponseData, ApiData, false>){
-  const scope=effectScope()
-  const appStore=useAppStore()
-  const result=useTable({
+export function useNaiveTable<ResponseData, ApiData>(
+  options: UseNaiveTableOptions<ResponseData, ApiData, false>,
+) {
+  const scope = effectScope();
+  const result = useTable({
     ...options,
-    getColumnChecks:cols=>getColumnChecks(cols,options.getColumnVisible),
-    getColumns
-  })
+    getColumnChecks: (cols) => getColumnChecks(cols, options.getColumnVisible),
+    getColumns,
+  });
 
-  const scrollX=computed(()=>{
-    return result.columns.value.reduce((acc,column)=>{
-      return acc+Number(column.width??column.minWidth ?? 120)
-    },0)
-  })
+  const scrollX = computed(() => {
+    return result.columns.value.reduce((acc, column) => {
+      return acc + Number(column.width ?? column.minWidth ?? 120);
+    }, 0);
+  });
 
-  scope.run(()=>{
+  scope.run(() => {
     watch(
-      ()=>appStore.locale,
-      ()=>{
-        result.reloadColumns()
-      }
-    )
-  })
+      () => appStore.locale,
+      () => {
+        result.reloadColumns();
+      },
+    );
+  });
 
-  onScopeDispose(()=>{
-    scope.stop()
-  })
+  onScopeDispose(() => {
+    scope.stop();
+  });
 
   return {
     ...result,
-    scrollX
-  }
-
+    scrollX,
+  };
 }
 
 type PaginationParams = Pick<PaginationProps, 'page' | 'pageSize'>;
 
-type UseNaivePaginatedTableOptions<ResponseData, ApiData> = UseNaiveTableOptions<ResponseData, ApiData, true> & {
+type UseNaivePaginatedTableOptions<ResponseData, ApiData> = UseNaiveTableOptions<
+  ResponseData,
+  ApiData,
+  true
+> & {
   paginationProps?: Omit<PaginationProps, 'page' | 'pageSize' | 'itemCount'>;
   /**
    * whether to show the total count of the table
@@ -120,7 +133,9 @@ type UseNaivePaginatedTableOptions<ResponseData, ApiData> = UseNaiveTableOptions
   onPaginationParamsChange?: (params: PaginationParams) => void | Promise<void>;
 };
 
-export function useNaivePaginatedTable(options) {
+export function useNaivePaginatedTable<ResponseData, ApiData>(
+  options: UseNaivePaginatedTableOptions<ResponseData, ApiData>,
+) {
   const scope = effectScope();
   const themeStore = useThemeStore();
   const isMobile = computed(() => themeStore.isMobile);
@@ -140,7 +155,7 @@ export function useNaivePaginatedTable(options) {
       pagination.page = 1;
     },
     ...options.paginationProps,
-  });
+  }) as PaginationProps;
   const mobilePagination = computed(() => {
     const p: PaginationProps = {
       ...pagination,
@@ -156,77 +171,77 @@ export function useNaivePaginatedTable(options) {
       pageSize,
     };
   });
-  const result=useTable({
+  const result = useTable({
     ...options,
-    pagination:true,
-    getColumnChecks:cols=>getColumnChecks(cols,options.getColumnVisible),
+    pagination: true,
+    getColumnChecks: (cols) => getColumnChecks(cols, options.getColumnVisible),
     getColumns,
-    onFetched:data=>{
-      pagination.itemCount=data.total
-    }
-  })
+    onFetched: (data) => {
+      pagination.itemCount = data.total;
+    },
+  });
 
-  async function getDataByPage(page:number=1){
-    if(page !== pagination.page){
-      pagination.page = page
-      return
+  async function getDataByPage(page: number = 1) {
+    if (page !== pagination.page) {
+      pagination.page = page;
+      return;
     }
-    await result.getData()
+    await result.getData();
   }
 
-  scope.run(()=>{
+  scope.run(() => {
     watch(
-      ()=>appStore.locale,
-      ()=>{
-        result.reloadColumns()
-      }
-    )
-    watch(paginationParams,async newVal=>{
-      await options.onPaginationParamsChange?.(newVal)
-      await result.getData()
-    })
-  })
+      () => appStore.locale,
+      () => {
+        result.reloadColumns();
+      },
+    );
+    watch(paginationParams, async (newVal) => {
+      await options.onPaginationParamsChange?.(newVal);
+      await result.getData();
+    });
+  });
 
-  onScopeDispose(()=>{
-    scope.stop()
-  })
+  onScopeDispose(() => {
+    scope.stop();
+  });
 
   return {
     ...result,
     getDataByPage,
     pagination,
-    mobilePagination
-  }
+    mobilePagination,
+  };
 }
 
 export function useTableOperate<TableData>(
-  data:Ref<tableData[]>,
-  idKey:keyof TableData,
-  getData:()=>Promise<void>
-){
+  data: Ref<TableData[]>,
+  idKey: keyof TableData,
+  getData: () => Promise<void>,
+) {
   const { bool: drawerVisible, setTrue: openDrawer, setFalse: closeDrawer } = useBoolean();
-  const operateType=shallowRef<NaiveUI.TableOperateType>('add')
-  function handleAdd(){
-    operateType.value='add'
-    openDrawer()
+  const operateType = shallowRef<NaiveUI.TableOperateType>('add');
+  function handleAdd() {
+    operateType.value = 'add';
+    openDrawer();
   }
-  const editingData=shallowRef<TableData | null>(null)
+  const editingData = shallowRef<TableData | null>(null);
 
-  function handleEdit(id:TableData[keyof TableData]): void{
-    operateType.value='edit'
-    const findItem=data.value.find(item=>item[idKey] === id) || null
-    editingData.value=jsonClone(findItem)
-    openDrawer()
+  function handleEdit(id: TableData[keyof TableData]): void {
+    operateType.value = 'edit';
+    const findItem = data.value.find((item) => item[idKey] === id) || null;
+    editingData.value = cloneDeep(findItem);
+    openDrawer();
   }
-  const checkedRowKeys=shallowRef<string[]>([])
-  async function onBatchDeleted(){
-    window?$message?.success(`删除成功`)
-      checkedRowKeys.value=[]
-    await getData()
+  const checkedRowKeys = shallowRef<string[]>([]);
+  async function onBatchDeleted() {
+    window.$message?.success(`删除成功`);
+    checkedRowKeys.value = [];
+    await getData();
   }
-  async function onDeleted(){
-    window.$message?.success(`删除成功`)
-    await getData()
+  async function onDeleted() {
+    window.$message?.success(`删除成功`);
+    await getData();
   }
   return {
     drawerVisible,
@@ -238,8 +253,147 @@ export function useTableOperate<TableData>(
     handleEdit,
     checkedRowKeys,
     onBatchDeleted,
-    onDeleted
-  }
+    onDeleted,
+  };
 }
 
+function useTable<ResponseData, ApiData, Column, Pagination extends boolean>(
+  options: UseTableOptions<ResponseData, ApiData, Column, Pagination>,
+) {
+  const { loading, startLoading, endLoading } = useLoading();
+  const { bool: empty, setBool: setEmpty } = useBoolean();
+  const {
+    api,
+    pagination,
+    transform,
+    columns,
+    getColumnChecks,
+    getColumns,
+    onFetched,
+    immediate = true,
+  } = options;
+  const data = ref([]) as Ref<ApiData[]>;
+  const columnChecks = ref(getColumnChecks(columns())) as Ref<NaiveUI.TableColumnCheck[]>;
+  const $columns = computed(() => getColumns(columns(), columnChecks.value));
+  function reloadColumns() {
+    const checkMap = new Map(columnChecks.value.map((col) => [col.key, col.checked]));
+    const defaultChecks = getColumnChecks(columns());
+    columnChecks.value = defaultChecks.map((col) => ({
+      ...col,
+      checked: checkMap.get(col.key) ?? col.checked,
+    }));
+  }
+  async function getData() {
+    try {
+      startLoading();
+      const response = await api();
+      const transformed = transform(response);
+      data.value = getTableData(transformed, pagination);
+      setEmpty(data.value.length === 0);
+      await onFetched?.(transformed);
+    } finally {
+      endLoading();
+    }
+  }
+  if (immediate) {
+    getData();
+  }
+  return {
+    loading,
+    empty,
+    data,
+    columns: $columns,
+    columnChecks,
+    reloadColumns,
+    getData,
+  };
+}
 
+function getTableData<ApiData, Pagination extends boolean>(
+  data: GetApiData<ApiData, Pagination>,
+  pagination?: Pagination,
+) {
+  if (pagination) {
+    return (data as PaginationData<ApiData>).data;
+  }
+  return data as ApiData[];
+}
+
+function getColumnChecks<Column extends NaiveUI.TableColumn<any>>(
+  cols: Column[],
+  getColumnVisible?: (column: Column) => boolean,
+) {
+  const checks: NaiveUI.TableColumnCheck[] = [];
+  cols.forEach((column) => {
+    if (isTableColumnHasKey(column)) {
+      checks.push({
+        key: column.key as string,
+        title: column.title!,
+        checked: true,
+        visible: getColumnVisible?.(column) ?? true,
+      });
+    } else if (column.type === 'selection') {
+      checks.push({
+        key: SELECTION_KEY,
+        title: $t('common.check'),
+        checked: true,
+        visible: getColumnVisible?.(column) ?? false,
+      });
+    } else if (column.type === 'expand') {
+      checks.push({
+        key: EXPAND_KEY,
+        title: $t('common.expandColumn'),
+        checked: true,
+        visible: getColumnVisible?.(column) ?? false,
+      });
+    }
+  });
+  return checks;
+}
+
+export function isTableColumnHasKey<T>(
+  column: NaiveUI.TableColumn<T>,
+): column is NaiveUI.TableColumnWithKey<T> {
+  return Boolean((column as NaiveUI.TableColumnWithKey<T>).key);
+}
+
+function getColumns<Column extends NaiveUI.TableColumn<any>>(
+  cols: Column[],
+  checks: NaiveUI.TableColumnCheck[],
+) {
+  const columnMap = new Map<string, Column>();
+  cols.forEach((column) => {
+    if (isTableColumnHasKey(column)) {
+      columnMap.set(column.key as string, column);
+    } else if (column.type === 'selection') {
+      columnMap.set(SELECTION_KEY, column);
+    } else if (column.type === 'expand') {
+      columnMap.set(EXPAND_KEY, column);
+    }
+  });
+  const filteredColumns = checks
+    .filter((item) => item.checked)
+    .map((check) => columnMap.get(check.key) as Column);
+  return filteredColumns;
+}
+
+export function defaultTransform<ApiData>(
+  response: FlatResponseData<any, Api.Common.PaginationQueryRecord<ApiData>>,
+): PaginationData<ApiData> {
+  const { data, error } = response;
+  if (!error) {
+    const { records, current, size, total } = data;
+    return {
+      data: records,
+      pageNum: current,
+      pageSize: size,
+      total,
+    };
+  }
+  return {
+    data: [],
+    pageNum: 1,
+    pageSize: 10,
+    total: 0,
+  };
+}

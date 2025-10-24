@@ -1,8 +1,4 @@
-import type { VNodeChild } from 'vue';
-
-export type TableColumnCheckTitle = string | ((...args: any) => VNodeChild);
-
-export declare namespace NaiveUI {
+declare namespace NaiveUI {
   type ThemeColor = 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning';
   type Align = 'stretch' | 'baseline' | 'start' | 'end' | 'center' | 'flex-end' | 'flex-start';
 
@@ -10,12 +6,14 @@ export declare namespace NaiveUI {
   type DataTableExpandColumn<T> = import('naive-ui').DataTableExpandColumn<T>;
   type DataTableSelectionColumn<T> = import('naive-ui').DataTableSelectionColumn<T>;
   type TableColumnGroup<T> = import('naive-ui/es/data-table/src/interface').TableColumnGroup<T>;
+  export type TableColumnCheckTitle = string | ((...args: any) => import('vue').VNodeChild);
   type TableColumnCheck = {
     key: string;
     title: TableColumnCheckTitle;
     checked: boolean;
     visible: boolean;
   };
+
   type SetTableColumnKey<C, T> = Omit<C, 'key'> & { key: keyof T | (string & {}) };
 
   type TableColumnWithKey<T> =
