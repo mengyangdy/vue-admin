@@ -1,10 +1,12 @@
 {
-  "app": [
+  "apps": [
     {
-      "name": "nest-api",
+      "name": "nest-service",
       "script": "dist/src/main.js",
-      "watch": true,
-      "ignore_watch": ["node_modules"]
+      "watch": false,
+      "env": {
+        "NODE_ENV": "production"
+      }
     }
   ]
 }
