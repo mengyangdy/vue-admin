@@ -1,6 +1,56 @@
-import { computed, effectScope, reactive } from 'vue';
+import { computed, effectScope, reactive, shallowRef, watch } from 'vue';
 import { useThemeStore } from '@/store/modules/theme';
 import type { PaginationProps } from 'naive-ui';
+
+export interface PaginationData<T> {
+  data: T[];
+  pageNum: number;
+  pageSize: number;
+  total: number;
+}
+
+type GetApiData<ApiData, Pagination extends boolean> = Pagination extends true ? PaginationData<ApiData> : ApiData[];
+
+type Transform<ResponseData, ApiData, Pagination extends boolean> = (
+  response: ResponseData
+) => GetApiData<ApiData, Pagination>;
+
+export interface UseTableOptions<ResponseData, ApiData, Column, Pagination extends boolean> {
+  /**
+   * api function to get table data
+   */
+  api: () => Promise<ResponseData>;
+  /**
+   * whether to enable pagination
+   */
+  pagination?: Pagination;
+  /**
+   * transform api response to table data
+   */
+  transform: Transform<ResponseData, ApiData, Pagination>;
+  /**
+   * columns factory
+   */
+  columns: () => Column[];
+  /**
+   * get column checks
+   */
+  getColumnChecks: (columns: Column[]) => TableColumnCheck[];
+  /**
+   * get columns
+   */
+  getColumns: (columns: Column[], checks: TableColumnCheck[]) => Column[];
+  /**
+   * callback when response fetched
+   */
+  onFetched?: (data: GetApiData<ApiData, Pagination>) => void | Promise<void>;
+  /**
+   * whether to get data immediately
+   *
+   * @default true
+   */
+  immediate?: boolean;
+}
 
 export type UseNaiveTableOptions<ResponseData, ApiData, Pagination extends boolean> = Omit<
   UseTableOptions<ResponseData, ApiData, NaiveUI.TableColumn<ApiData>, Pagination>,
