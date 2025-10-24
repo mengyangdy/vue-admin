@@ -24,6 +24,9 @@ async function bootstrap() {
   // 注册全局响应拦截器
   app.useGlobalInterceptors(new ResponseInterceptor());
 
+  // 设置全局前缀
+  app.setGlobalPrefix('api');
+
   //swiper
   const config = new DocumentBuilder()
     .setTitle('Nest Admin API')
