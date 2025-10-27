@@ -3,9 +3,10 @@ import type {
   RouteRecordNameGeneric,
   RouteRecordRaw,
 } from 'vue-router';
+
+import { ROUTE_COMPONENT_NAME, ROUTE_NAME } from '../constant';
 import { ProRouterPlugin } from '../types';
 import { ensureRouteName, generateRouteComponentName, isRouteName } from '../utils/route';
-import { ROUTE_COMPONENT_NAME, ROUTE_NAME } from '../constant';
 
 declare module 'vue-router' {
   interface RouteMeta {

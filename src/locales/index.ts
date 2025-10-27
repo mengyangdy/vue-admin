@@ -1,6 +1,9 @@
 import type { App } from 'vue';
+
 import { createI18n } from 'vue-i18n';
+
 import { localStg } from '@/utils/storage';
+
 import messages from './locale';
 
 const i18n = createI18n({
@@ -12,7 +15,6 @@ const i18n = createI18n({
 
 /**
  * Setup plugin i18n
- *
  * @param app
  */
 export function setupI18n(app: App) {

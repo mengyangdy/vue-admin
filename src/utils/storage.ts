@@ -1,4 +1,4 @@
-import { createStorage, createLocalforage } from '@dylanjs/utils';
+import { createLocalforage, createStorage } from '@dylanjs/utils';
 
 const storagePrefix = import.meta.env.VITE_STORAGE_PREFIX || '';
 

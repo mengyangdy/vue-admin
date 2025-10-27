@@ -1,6 +1,8 @@
-import type { MenuOption } from 'naive-ui';
-import type { LayoutMenuReturn, SharedLayoutOptions } from './index';
 import { computed } from 'vue';
+
+import type { MenuOption } from 'naive-ui';
+
+import type { LayoutMenuReturn, SharedLayoutOptions } from './index';
 import { splitMenuData } from './shared';
 
 export function useTwoColumnLayoutMenu({

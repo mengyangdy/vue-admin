@@ -1,6 +1,8 @@
 import { toValue } from 'vue';
 import type { MaybeRefOrGetter } from 'vue';
+
 import type { NavigationGuardReturn, RouteLocationNormalizedGeneric } from 'vue-router';
+
 import { ProRouterPlugin } from '../types';
 
 interface AutoRedirectPluginOptions {

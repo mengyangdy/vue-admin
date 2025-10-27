@@ -12,9 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useThemeStore } from "@/store/modules/theme";
-import breadcrumbs from "./modules/breadcrumbs.vue";
+import { computed } from 'vue';
+
+import { useThemeStore } from '@/store/modules/theme';
+
+import breadcrumbs from './modules/breadcrumbs.vue';
 
 const themeStore = useThemeStore();
 
@@ -23,11 +25,7 @@ const showBreadcrumbs = computed(() => {
   if (themeStore.isMobile) {
     return false;
   }
-  return (
-    layoutMode === "vertical" ||
-    layoutMode === "two-column" ||
-    layoutMode === "sidebar"
-  );
+  return layoutMode === 'vertical' || layoutMode === 'two-column' || layoutMode === 'sidebar';
 });
 const toggleSidebar = () => {
   if (themeStore.isMobile) {
@@ -41,6 +39,6 @@ const showSidebarHiddenButton = computed(() => {
   if (themeStore.isMobile) {
     return true;
   }
-  return layoutMode !== "horizontal";
+  return layoutMode !== 'horizontal';
 });
 </script>

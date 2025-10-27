@@ -1,23 +1,30 @@
 import type { App } from 'vue';
+
+import { createWebHistory } from 'vue-router';
+
+import { $t } from '@/locales';
 import { useAuthStore } from '@/store/modules/auth';
 
-import { createRouter, rbacAccessPlugin, autoRedirectPlugin, nMenuPlugin } from './pro-router';
+import {
+  autoRedirectPlugin,
+  createRouter,
+  nMenuPlugin,
+  rbacAccessPlugin,
+  refreshPlugin,
+} from './pro-router';
 import type {
   RbacAccessPluginBaseServiceReturned,
   RbacAccessPluginRouteRecordRawWithStringComponent,
 } from './pro-router';
-import { createWebHistory } from 'vue-router';
-
 import {
-  rootRoute,
-  ignoreAccessRoutes,
-  notFoundRoute,
   LOGIN_ROUTE_PATH,
   ROOT_ROUTE_NAME,
   accessRoutes,
+  ignoreAccessRoutes,
+  notFoundRoute,
   pageMap,
+  rootRoute,
 } from './routes';
-import { $t } from '@/locales';
 
 export async function setupRouter(app: App) {
   const router = createRouter({
@@ -95,6 +102,10 @@ export async function setupRouter(app: App) {
           };
         },
       }),
+      /**
+       * 刷新插件
+       */
+      refreshPlugin(),
     ],
   });
   app.use(router);

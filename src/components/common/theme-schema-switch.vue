@@ -8,11 +8,12 @@
 </template>
 
 <script setup lang="ts">
-import { PopoverPlacement } from "naive-ui";
-import { computed } from "vue";
+import { computed } from 'vue';
+
+import { PopoverPlacement } from 'naive-ui';
 
 defineOptions({
-  name: "ThemeSchemaSwitch",
+  name: 'ThemeSchemaSwitch',
 });
 interface Props {
   themeSchema: UnionKey.ThemeScheme;
@@ -22,27 +23,29 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   showTooltip: true,
-  tooltipPlacement: "bottom",
+  tooltipPlacement: 'bottom',
 });
 
 interface Emits {
-  (e: "switch"): void;
+  (e: 'switch'): void;
 }
 const emit = defineEmits<Emits>();
 
 const handleSwitch = () => {
-  emit("switch");
+  emit('switch');
 };
 const icons: Record<UnionKey.ThemeScheme, string> = {
-  light: "material-symbols:sunny",
-  dark: "material-symbols:nightlight-rounded",
-  auto: "material-symbols:hdr-auto",
+  light: 'material-symbols:sunny',
+  dark: 'material-symbols:nightlight-rounded',
+  auto: 'material-symbols:hdr-auto',
 };
 
-const icon=computed(()=>icons[props.themeSchema])
+const icon = computed(() => icons[props.themeSchema]);
 
-const tooltipContent=computed(()=>{
-  if(!props.showTooltip) {return ''}
-  return `主题模式`
-})
+const tooltipContent = computed(() => {
+  if (!props.showTooltip) {
+    return '';
+  }
+  return `主题模式`;
+});
 </script>

@@ -1,3 +1,5 @@
 <template>
-  <div>404</div>
+  <fallback type="404" />
 </template>
+
+<script setup lang="ts"></script>

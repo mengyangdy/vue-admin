@@ -6,8 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import useBoolean from "@/hooks/common/use-boolean";
-import SearchModal from "./components/search-modal.vue";
+import useBoolean from '@/hooks/common/use-boolean';
+
+import SearchModal from './components/search-modal.vue';
 
 const { bool: show, toggle } = useBoolean();
 </script>

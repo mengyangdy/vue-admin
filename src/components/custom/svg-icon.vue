@@ -10,10 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useAttrs } from "vue";
-import { Icon } from "@iconify/vue";
+import { computed, useAttrs } from 'vue';
+
+import { Icon } from '@iconify/vue';
+
 defineOptions({
-  name: "SvgIcon",
+  name: 'SvgIcon',
   inheritAttrs: false,
 });
 
@@ -29,12 +31,12 @@ const bindAttrs = computed<{
   class: string;
   style: string;
 }>(() => ({
-  class: (attr.class as string) || "",
-  style: (attr.style as string) || "",
+  class: (attr.class as string) || '',
+  style: (attr.style as string) || '',
 }));
 const symbolId = computed(() => {
   const { VITE_ICON_LOCAL_PREFIX: prefix } = import.meta.env;
-  const defaultLocalIcon = "no-icon";
+  const defaultLocalIcon = 'no-icon';
   const icon = props.localIcon || defaultLocalIcon;
   return `#${prefix}-${icon}`;
 });

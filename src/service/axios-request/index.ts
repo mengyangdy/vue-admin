@@ -1,27 +1,37 @@
 // 导入自定义的 nanoid 函数，用于生成唯一请求ID
-import { nanoid } from './nanoid';
 import axios, { AxiosError } from 'axios';
 import type {
-  AxiosInstance, // axios 实例类型
-  AxiosResponse, // 响应类型
-  CreateAxiosDefaults, // 创建 axios 默认配置类型
+  AxiosInstance,
+  // axios 实例类型
+  AxiosResponse,
+  // 响应类型
+  CreateAxiosDefaults,
+  // 创建 axios 默认配置类型
   InternalAxiosRequestConfig, // 内部请求配置类型
 } from 'axios';
 // 导入 axios 重试插件
 import axiosRetry from 'axios-retry';
 
 import { BACKEND_ERROR_CODE, REQUEST_ID_KEY } from './constant';
+import { nanoid } from './nanoid';
 import {
-  createAxiosConfig, // 创建 axios 配置函数
-  createDefaultOptions, // 创建默认选项函数
+  createAxiosConfig,
+  // 创建 axios 配置函数
+  createDefaultOptions,
+  // 创建默认选项函数
   createRetryOptions, // 创建重试选项函数
 } from './options';
 import type {
-  CustomAxiosRequestConfig, // 自定义请求配置类型
-  FlatRequestInstance, // 扁平化请求实例类型
-  MappedType, // 映射类型
-  RequestInstance, // 请求实例类型
-  RequestOption, // 请求选项类型
+  CustomAxiosRequestConfig,
+  // 自定义请求配置类型
+  FlatRequestInstance,
+  // 扁平化请求实例类型
+  MappedType,
+  // 映射类型
+  RequestInstance,
+  // 请求实例类型
+  RequestOption,
+  // 请求选项类型
   ResponseType, // 响应类型
 } from './type';
 

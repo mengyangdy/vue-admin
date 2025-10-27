@@ -18,27 +18,22 @@
           :disabled="isCounting"
           @click="getCaptcha(model.phone)"
           :loading="loading"
-          >{{ label }}</n-button
         >
+          {{ label }}
+        </n-button>
       </div>
     </n-form-item>
     <n-flex vertical :size="18" class="w-full">
-      <loading-button block type="primary" size="large" round attr-type="submit"
-        >登录</loading-button
-      >
+      <loading-button block type="primary" size="large" round attr-type="submit">
+        登录
+      </loading-button>
       <div class="flex-y-center justify-between gap-12px">
-        <n-button
-          class="flex-1"
-          block
-          @click="authStore.changeLoginComponent('code-login')"
-          >密码登录</n-button
-        >
-        <n-button
-          class="flex-1"
-          block
-          @click="authStore.changeLoginComponent('register')"
-          >注册账号</n-button
-        >
+        <n-button class="flex-1" block @click="authStore.changeLoginComponent('code-login')">
+          密码登录
+        </n-button>
+        <n-button class="flex-1" block @click="authStore.changeLoginComponent('register')">
+          注册账号
+        </n-button>
       </div>
       <n-divider class="text-14px text-#666 !m-0">其他账号登录</n-divider>
     </n-flex>
@@ -46,13 +41,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue';
+
+import { useCaptcha } from '@/hooks/business/captcha';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { useAuthStore } from '@/store/modules/auth';
+
 defineOptions({
-  name: "CodeLogin",
+  name: 'CodeLogin',
 });
-import { useAuthStore } from "@/store/modules/auth";
-import { useFormRules, useNaiveForm } from "@/hooks/common/form";
-import { computed, ref } from "vue";
-import { useCaptcha } from "@/hooks/business/captcha";
 
 const authStore = useAuthStore();
 const { formRef, validate } = useNaiveForm();
@@ -63,8 +60,8 @@ interface FormModel {
   code: string;
 }
 const model = ref<FormModel>({
-  phone: "",
-  code: "",
+  phone: '',
+  code: '',
 });
 
 const rules = computed(() => {
@@ -77,6 +74,6 @@ const rules = computed(() => {
 
 async function handleSubmit() {
   await validate();
-  window.$message?.success("暂时没做手机号验证登录");
+  window.$message?.success('暂时没做手机号验证登录');
 }
 </script>

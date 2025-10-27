@@ -1,10 +1,10 @@
-import { overrideThemeSettings, themeSettings } from '@/theme/settings';
-import { localStg } from '@/utils/storage';
 import { addColorAlpha, getColorPalette, getPaletteColorByNumber, getRgb } from '@dylanjs/utils';
 import { defu } from 'defu';
-import { themeVars } from '@/theme/vars';
 
 import { DARK_CLASS } from '@/constants/app';
+import { overrideThemeSettings, themeSettings } from '@/theme/settings';
+import { themeVars } from '@/theme/vars';
+import { localStg } from '@/utils/storage';
 
 type NaiveColorScene = '' | 'Suppl' | 'Hover' | 'Pressed' | 'Active';
 type NaiveColorKey = `${App.Theme.ThemeColorKey}Color${NaiveColorScene}`;

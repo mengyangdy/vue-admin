@@ -1,14 +1,6 @@
 <template>
-  <n-button v-if="!authStore.isLogin" quaternary @click="loginOrRegister">
-    登录/注册
-  </n-button>
-  <n-dropdown
-    v-else
-    placement="bottom"
-    trigger="click"
-    :options="options"
-    @select="handleDropdown"
-  >
+  <n-button v-if="!authStore.isLogin" quaternary @click="loginOrRegister">登录/注册</n-button>
+  <n-dropdown v-else placement="bottom" trigger="click" :options="options" @select="handleDropdown">
     <div>
       <button-icon>
         <svg-icon icon="ph:user-circle" class="text-icon-large" />
@@ -21,11 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { useSvgIcon } from "@/hooks/common/icon";
-import { useAuthStore } from "@/store/modules/auth";
-import { computed, VNode } from "vue";
+import { VNode, computed } from 'vue';
+
+import { useSvgIcon } from '@/hooks/common/icon';
+import { useAuthStore } from '@/store/modules/auth';
+
 defineOptions({
-  name: "UserAvatar",
+  name: 'UserAvatar',
 });
 
 const authStore = useAuthStore();
@@ -33,7 +27,7 @@ const { SvgIconVNode } = useSvgIcon();
 function loginOrRegister() {
   toLogin();
 }
-type DropdownKey = "logout";
+type DropdownKey = 'logout';
 type DropdownOption =
   | {
       key: DropdownKey;
@@ -41,7 +35,7 @@ type DropdownOption =
       icon?: () => VNode;
     }
   | {
-      type: "divider";
+      type: 'divider';
       key: string;
     };
 
@@ -49,8 +43,8 @@ const options = computed(() => {
   const opts: DropdownOption[] = [
     {
       label: `退出登录`,
-      key: "logout",
-      icon: SvgIconVNode({ icon: "ph:sign-out", fontSize: 18 }),
+      key: 'logout',
+      icon: SvgIconVNode({ icon: 'ph:sign-out', fontSize: 18 }),
     },
   ];
   return opts;
@@ -68,7 +62,7 @@ const logout = () => {
 };
 
 const handleDropdown = (key: DropdownKey) => {
-  if (key === "logout") {
+  if (key === 'logout') {
     logout();
   } else {
     routerPushByKey(key);

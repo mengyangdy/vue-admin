@@ -7,9 +7,10 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "@/store/modules/theme";
+import { useThemeStore } from '@/store/modules/theme';
+
 defineOptions({
-  name: "ThemeButton",
+  name: 'ThemeButton',
 });
 const themeStore = useThemeStore();
 </script>

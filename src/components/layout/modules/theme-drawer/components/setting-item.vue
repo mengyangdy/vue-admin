@@ -9,7 +9,7 @@
 </template>
 <script setup lang="ts">
 defineOptions({
-  name: "SettingItem",
+  name: 'SettingItem',
 });
 interface Props {
   label: string;

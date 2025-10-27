@@ -36,13 +36,15 @@
 </template>
 
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { defaultTransform, useNaivePaginatedTable, useTableOperate } from '@/hooks/common/table';
 import { reactive } from 'vue';
+
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+
+import { userGenderRecord } from '@/constants/business';
+import { defaultTransform, useNaivePaginatedTable, useTableOperate } from '@/hooks/common/table';
+import { $t } from '@/locales';
 import { fetchGetUserList } from '@/service/api';
 import { useThemeStore } from '@/store/modules/theme';
-import { $t } from '@/locales';
-import { userGenderRecord } from '@/constants/business';
 
 const themeStore = useThemeStore();
 

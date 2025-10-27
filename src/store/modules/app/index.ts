@@ -1,8 +1,10 @@
+import { ref } from 'vue';
+
+import { defineStore } from 'pinia';
+
 import { SetupStoreId } from '@/constants';
 import { setLocale } from '@/locales';
 import { localStg } from '@/utils/storage';
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
 
 export const useAppStore = defineStore(SetupStoreId.App, () => {
   const locale = ref<App.I18n.LangType>(localStg.get('lang') || 'zh-CN');

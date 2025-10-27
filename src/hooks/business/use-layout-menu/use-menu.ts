@@ -1,8 +1,10 @@
+import { computed, toValue } from 'vue';
+
 import type { MaybeRefOrGetter } from '@vueuse/core';
 import { isNil } from 'es-toolkit';
 import { MenuOption } from 'naive-ui';
-import { computed, toValue } from 'vue';
 import { eachTree } from 'pro-composables';
+
 import { MenuKey } from './types';
 
 interface UseMenuOptions {

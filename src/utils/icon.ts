@@ -1,5 +1,3 @@
-
-
 export function getLocalIIcons() {
   const svgIcons = import.meta.glob(`/src/assets/svg-icon/*.svg`);
   const keys = Object.keys(svgIcons)

@@ -1,4 +1,5 @@
 import type { App } from 'vue';
+
 import type { Router, RouterOptions } from 'vue-router';
 
 export type ProRouterPluginRunWithAppHandler = (app: App) => void;

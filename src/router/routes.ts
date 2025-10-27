@@ -1,4 +1,5 @@
 import type { Component } from 'vue';
+
 import type { RouteRecordRaw } from 'vue-router';
 
 /**
@@ -353,6 +354,15 @@ const accessRoutes: RouteRecordRaw[] = [
     meta: {
       title: '系统管理',
       icon: 'ant-design:setting-outlined',
+      roles: ['super', 'admin'],
+    },
+  },
+  {
+    path: '/about',
+    component: () => import('@/views/about/index.vue'),
+    meta: {
+      title: '关于',
+      icon: 'ant-design:user-outlined',
       roles: ['super', 'admin'],
     },
   },

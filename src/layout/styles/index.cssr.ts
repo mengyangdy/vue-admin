@@ -1,4 +1,5 @@
 import { c, cB, cM } from 'naive-ui';
+
 import { setupFullContentLayoutStyle } from '../utils/composables/use-full-content-layout-vars';
 import { setupHorizontalLayoutStyle } from '../utils/composables/use-horizontal-layout-vars';
 import { setupMobileLayoutStyle } from '../utils/composables/use-mobile-layout-vars';

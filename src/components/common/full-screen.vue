@@ -1,8 +1,5 @@
 <template>
-  <button-icon
-    :key="String(full)"
-    :tooltip-content="full ? '退出全屏' : '全屏'"
-  >
+  <button-icon :key="String(full)" :tooltip-content="full ? '退出全屏' : '全屏'">
     <icon-gridicons-fullscreen-exit v-if="full" />
     <icon-gridicons-fullscreen v-else />
   </button-icon>
@@ -10,7 +7,7 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: "FullScreen",
+  name: 'FullScreen',
 });
 
 interface Props {

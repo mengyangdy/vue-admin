@@ -1,9 +1,6 @@
 <template>
-  <n-divider> 布局模式 </n-divider>
-  <layout-mode-card
-    v-model:mode="themeStore.layout.mode"
-    :disabled="themeStore.isMobile"
-  >
+  <n-divider>布局模式</n-divider>
+  <layout-mode-card v-model:mode="themeStore.layout.mode" :disabled="themeStore.isMobile">
     <template #vertical>
       <div class="layout-sider h-full w-18px"></div>
       <div class="vertical-wrapper">
@@ -46,12 +43,13 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "@/store/modules/theme";
-import LayoutModeCard from "./layout-mode-card.vue";
-import SettingItem from "./setting-item.vue";
+import { useThemeStore } from '@/store/modules/theme';
+
+import LayoutModeCard from './layout-mode-card.vue';
+import SettingItem from './setting-item.vue';
 
 defineOptions({
-  name: "LayoutMode",
+  name: 'LayoutMode',
 });
 
 const themeStore = useThemeStore();

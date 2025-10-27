@@ -1,11 +1,8 @@
 import type { CreateAxiosDefaults } from 'axios';
-
 import type { IAxiosRetryConfig } from 'axios-retry';
-
 import { stringify } from 'qs';
 
 import { isHttpSuccess } from './shared';
-
 import type { RequestOption } from './type';
 
 export function createDefaultOptions<ResponseData = any>(

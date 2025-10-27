@@ -1,5 +1,7 @@
-import { computed, ComputedRef } from 'vue';
+import { ComputedRef, computed } from 'vue';
+
 import { isString } from 'lodash-es';
+
 import { ProLayoutProps } from '../../props';
 
 export function useMergeConfig(props: ComputedRef<ProLayoutProps>) {

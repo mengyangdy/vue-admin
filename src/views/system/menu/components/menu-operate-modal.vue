@@ -228,13 +228,16 @@
 
 <script setup lang="tsx">
 import { computed, ref, watch } from 'vue';
+
 import type { SelectOption } from 'naive-ui';
-import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
-import { fetchGetAllRoles } from '@/service/api';
-import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { getLocalIcons } from '@/utils/icon';
-import { $t } from '@/locales';
+
 import SvgIcon from '@/components/custom/svg-icon.vue';
+import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { $t } from '@/locales';
+import { fetchGetAllRoles } from '@/service/api';
+import { getLocalIcons } from '@/utils/icon';
+
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -411,7 +414,9 @@ async function getRoleOptions() {
 function handleInitModel() {
   model.value = createDefaultModel();
 
-  if (!props.rowData) return;
+  if (!props.rowData) {
+    return;
+  }
 
   if (props.operateType === 'addChild') {
     const { id } = props.rowData;

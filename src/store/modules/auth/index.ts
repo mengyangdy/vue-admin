@@ -1,20 +1,29 @@
-import { SetupStoreId } from '@/constants';
-import { defineStore } from 'pinia';
-import { getToken } from './shared';
 import { computed, reactive, ref } from 'vue';
-import { fetchGetUserInfo, fetchLogin, fetchRegister } from '@/service/api/auth';
-import { localStg } from '@/utils/storage';
+
+import { defineStore } from 'pinia';
 import { RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 
+import { SetupStoreId } from '@/constants';
+import { useRouterPush } from '@/hooks/common/router';
+import { fetchGetUserInfo, fetchLogin, fetchRegister } from '@/service/api/auth';
+import { localStg } from '@/utils/storage';
+
+import { getToken } from './shared';
+
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
+  const authStore = useAuthStore();
   const route = useRoute();
   const router = useRouter();
+  const { toLogin, redirectFromLogin } = useRouterPush(false);
   const token = ref(getToken());
   const userInfo: Api.Auth.UserInfo = reactive({
-    userId: '',
-    userName: '',
+    id: null,
+    username: '',
     roles: [],
     buttons: [],
+    status: 0,
+    createdAt: '',
+    updatedAt: '',
   });
 
   const routes = ref<RouteRecordRaw[]>([]); // 当前角色拥有的路由，Admin 中根据此数据生成菜单
@@ -47,7 +56,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
         await router.push(redirect);
         window.$notification?.success({
           title: '登录成功',
-          content: `欢迎回来，${userInfo.userName}`,
+          content: `欢迎回来，${userInfo.username}`,
           duration: 4500,
         });
       }
@@ -70,6 +79,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const getUserInfo = async () => {
     const { data: info, error } = await fetchGetUserInfo();
+    console.log('🚀 ~ :75 ~ getUserInfo ~ info:', info);
     if (!error) {
       Object.assign(userInfo, info);
       return true;
@@ -77,7 +87,25 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     return false;
   };
 
-  const resetStore = () => {};
+  const resetStore = async () => {
+    recordUserId();
+    clearAuthStorage();
+    authStore.$reset();
+
+    if (!route.meta.constant) {
+      await toLogin();
+    }
+  };
+
+  const recordUserId = () => {
+    if (!userInfo.id) {
+      return;
+    }
+    localStg.set('lastLoginUserId', userInfo.id);
+  };
+  const clearAuthStorage = () => {
+    localStg.remove('token');
+  };
 
   return {
     token,

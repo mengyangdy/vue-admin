@@ -11,9 +11,7 @@
       <div class="relative z-10 w-full flex flex-col">
         <div class="flex items-center gap-3 p-8">
           <img src="@/assets/images/vue.svg" alt="Logo" class="w-8 h-8" />
-          <span class="text-xl font-semibold text-gray-800 dark:text-gray-100">
-            这个是标题
-          </span>
+          <span class="text-xl font-semibold text-gray-800 dark:text-gray-100">这个是标题</span>
         </div>
         <div class="flex-grow flex items-center justify-center">
           <div class="w-[85%] max-w-[480px] mt-[-100px]">
@@ -32,11 +30,7 @@
         <div class="w-full max-w-[420px] px-6 lg:px-12">
           <div class="lg:hidden flex items-center justify-center gap-2 mb-12">
             <img src="@/assets/images/vue.svg" alt="Logo" class="w-8 h-8" />
-            <span
-              class="text-xl font-semibold text-gray-800 dark:text-gray-100"
-            >
-              这个是标题
-            </span>
+            <span class="text-xl font-semibold text-gray-800 dark:text-gray-100">这个是标题</span>
           </div>
           <div class="mb-12">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -45,10 +39,7 @@
           </div>
           <div class="pt-24px">
             <Transition>
-              <component
-                :is="activeModule.component"
-                @changeLoginModule="changeLoginModule"
-              />
+              <component :is="activeModule.component" @changeLoginModule="changeLoginModule" />
             </Transition>
           </div>
         </div>
@@ -61,36 +52,34 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useAttrs } from "vue";
-import { useThemeStore } from "@/store/modules/theme";
-import IKun from "./modules/ikun.vue";
-import PwdLogin from "./modules/pwd-login.vue";
-import CodeLogin from "./modules/code-login.vue";
-import Register from "./modules/register.vue";
+import { computed, ref, useAttrs } from 'vue';
 
-import { useAuthStore } from "@/store/modules/auth";
+import { useAuthStore } from '@/store/modules/auth';
+import { useThemeStore } from '@/store/modules/theme';
+
+import CodeLogin from './modules/code-login.vue';
+import IKun from './modules/ikun.vue';
+import PwdLogin from './modules/pwd-login.vue';
+import Register from './modules/register.vue';
 
 const authStore = useAuthStore();
 
 const themeStore = useThemeStore();
 const via = computed(() => {
-  return themeStore.darkMode ? "#07070915" : "#D5E6FF";
+  return themeStore.darkMode ? '#07070915' : '#D5E6FF';
 });
 
-const moduleMap: Record<
-  UnionKey.LoginModule,
-  { label: string; component: any }
-> = {
-  "pwd-login": {
-    label: "密码登录",
+const moduleMap: Record<UnionKey.LoginModule, { label: string; component: any }> = {
+  'pwd-login': {
+    label: '密码登录',
     component: PwdLogin,
   },
-  "code-login": {
-    label: "验证码登录",
+  'code-login': {
+    label: '验证码登录',
     component: CodeLogin,
   },
   register: {
-    label: "注册账号",
+    label: '注册账号',
     component: Register,
   },
 };

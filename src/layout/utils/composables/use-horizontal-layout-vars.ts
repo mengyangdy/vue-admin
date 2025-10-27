@@ -1,6 +1,8 @@
-import type { CalcLayoutVarsOptions } from '../../types';
-import { cB, cE, cM } from 'naive-ui';
 import { computed } from 'vue';
+
+import { cB, cE, cM } from 'naive-ui';
+
+import type { CalcLayoutVarsOptions } from '../../types';
 
 export function useHorizontalLayoutVars({
   mergedNav,

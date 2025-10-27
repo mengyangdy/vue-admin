@@ -1,5 +1,6 @@
 import { computed } from 'vue';
-import { SharedLayoutOptions, LayoutMenuReturn } from './index';
+
+import { LayoutMenuReturn, SharedLayoutOptions } from './index';
 
 export function useVerticalLayoutMenu({ menus, activeKey, expandedKeys }: SharedLayoutOptions) {
   const layout = computed<LayoutMenuReturn>(() => {

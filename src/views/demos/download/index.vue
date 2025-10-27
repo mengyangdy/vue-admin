@@ -57,8 +57,11 @@
 
 <script setup lang="ts">
 import { shallowRef } from 'vue';
+
 import { useMessage } from 'naive-ui';
+
 import { downloadFileFromUrl, downloadImage, fetchBlobResponse } from '@/utils/file';
+
 const message = useMessage();
 
 // 示例数据

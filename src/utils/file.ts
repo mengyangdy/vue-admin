@@ -1,5 +1,6 @@
-import { request } from '@/service/request';
 import { AxiosRequestConfig } from 'axios';
+
+import { request } from '@/service/request';
 
 /**
  * 判断是否位外部URL

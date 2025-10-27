@@ -1,31 +1,29 @@
 <template>
   <n-menu
     class="pro-menu"
-    :class="[
-      mergedCollapsed && collapsedShowTitle && 'pro-menu--collapsed-show-title',
-    ]"
+    :class="[mergedCollapsed && collapsedShowTitle && 'pro-menu--collapsed-show-title']"
     v-bind="nMenuProps"
   />
 </template>
 
 <script setup lang="ts">
-import { computed, inject, toValue } from "vue";
-import { proMenuProps } from "./props";
+import { computed, inject, toValue } from 'vue';
+
+import { proMenuProps } from './props';
 
 defineOptions({
-  name: "ProMenu",
+  name: 'ProMenu',
 });
 
 const props = defineProps(proMenuProps);
-const { collapsedRef } = inject("n-layout-sider") as any;
+const { collapsedRef } = inject('n-layout-sider') as any;
 
 const mergedCollapsed = computed(() => {
-  return props.collapsed ?? toValue(collapsedRef) ?? false
-})
+  return props.collapsed ?? toValue(collapsedRef) ?? false;
+});
 
 const nMenuProps = computed(() => {
-  const { collapsedShowTitle, menuItemHeightWhenCollapsedShowTitle, ...rest } =
-    props;
+  const { collapsedShowTitle, menuItemHeightWhenCollapsedShowTitle, ...rest } = props;
   if (!collapsedShowTitle || !mergedCollapsed.value) {
     return rest;
   }

@@ -1,6 +1,8 @@
-import type { CalcLayoutVarsOptions } from '../../types';
-import { cB, cM } from 'naive-ui';
 import { computed } from 'vue';
+
+import { cB, cM } from 'naive-ui';
+
+import type { CalcLayoutVarsOptions } from '../../types';
 
 export function useFullContentLayoutVars(_: CalcLayoutVarsOptions) {
   return computed(() => {

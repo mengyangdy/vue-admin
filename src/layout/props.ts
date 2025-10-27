@@ -1,6 +1,8 @@
-import type { PropType, ExtractPublicPropTypes } from 'vue';
-import { MaybeArray } from 'rollup';
+import type { ExtractPublicPropTypes, PropType } from 'vue';
+
 import type { ScrollbarProps } from 'naive-ui';
+import { MaybeArray } from 'rollup';
+
 import {
   BuiltinThemeOverrides,
   ProLayoutFooter,

@@ -13,11 +13,13 @@
 </template>
 
 <script setup lang="tsx">
-import { storeToRefs } from "pinia";
-import { computed } from "vue";
-import logo from "@/assets/images/logo.svg";
-import { useAppStore } from "@/store/modules/app";
-import { useThemeStore } from "@/store/modules/theme";
+import { computed } from 'vue';
+
+import { storeToRefs } from 'pinia';
+
+import logo from '@/assets/images/logo.svg';
+import { useAppStore } from '@/store/modules/app';
+import { useThemeStore } from '@/store/modules/theme';
 
 interface LogoProps {
   usingMobileSidebarDrawer?: boolean;
@@ -31,7 +33,7 @@ const { layout, isMobile, sider } = storeToRefs(useThemeStore());
 const data = storeToRefs(useThemeStore());
 
 const enablePaddingLeft = computed(() => {
-  const layoutMode = layout.value.mode as UnionKey.ThemeLayoutMode
+  const layoutMode = layout.value.mode as UnionKey.ThemeLayoutMode;
   if (usingMobileSidebarDrawer) {
     return !sider.value.siderCollapse;
   }
@@ -39,10 +41,10 @@ const enablePaddingLeft = computed(() => {
     return true;
   }
   return (
-    layoutMode === "horizontal" ||
-    layoutMode === "sidebar" ||
-    layoutMode === "mixed-sidebar" ||
-    (layoutMode === "vertical" && !sider.value.siderCollapse)
+    layoutMode === 'horizontal' ||
+    layoutMode === 'sidebar' ||
+    layoutMode === 'mixed-sidebar' ||
+    (layoutMode === 'vertical' && !sider.value.siderCollapse)
   );
 });
 
@@ -55,10 +57,10 @@ const showAppTitle = computed(() => {
     return false;
   }
   return (
-    layoutMode === "sidebar" ||
-    layoutMode === "horizontal" ||
-    layoutMode === "mixed-sidebar" ||
-    (layoutMode === "vertical" && !sider.value.siderCollapse)
+    layoutMode === 'sidebar' ||
+    layoutMode === 'horizontal' ||
+    layoutMode === 'mixed-sidebar' ||
+    (layoutMode === 'vertical' && !sider.value.siderCollapse)
   );
 });
 </script>

@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+
 import { LayoutMenuReturn, SharedLayoutOptions } from '.';
 
 export function useHorizontalLayoutMenu({ menus, activeKey, expandedKeys }: SharedLayoutOptions) {

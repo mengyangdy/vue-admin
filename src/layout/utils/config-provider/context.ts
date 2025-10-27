@@ -1,4 +1,5 @@
-import { inject, MaybeRef } from 'vue';
+import { MaybeRef, inject } from 'vue';
+
 import { EmptyConfig } from '../../types';
 import { createInjectionKey } from '../composables/create-injection-key';
 

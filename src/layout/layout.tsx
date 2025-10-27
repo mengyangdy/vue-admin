@@ -1,25 +1,27 @@
 import { computed, defineComponent, provide, toRef } from 'vue';
 import type { SlotsType } from 'vue';
+
+import { merge } from 'lodash-es';
+import { NScrollbar, useThemeVars } from 'naive-ui';
+import type { ScrollbarProps } from 'naive-ui';
+
 import { proLayoutProps } from './props';
 import { ProLayoutSlots } from './slots';
-import { NScrollbar, useThemeVars } from 'naive-ui';
-import { useNaiveClsPrefix } from './utils/_internal/use-cls-prefix';
-import { useOverrideProps } from './utils/composables/use-override-props';
-import { useMergeConfig } from './utils/composables/use-merge-config';
-import { useDisabledTransitionWhenModeChange } from './utils/composables/use-disabled-transition-on-mode-change';
-import { merge } from 'lodash-es';
-import { CalcLayoutVarsOptions } from './types';
-import { useMobileLayoutVars } from './utils/composables/use-mobile-layout-vars';
-import { useSidebarLayoutVars } from './utils/composables/use-sidebar-layout-vars';
-import { useVerticalLayoutVars } from './utils/composables/use-vertical-layout-vars';
-import { useTwoColumnLayoutVars } from './utils/composables/use-two-column-layout-vars';
-import { useHorizontalLayoutVars } from './utils/composables/use-horizontal-layout-vars';
-import { useFullContentLayoutVars } from './utils/composables/use-full-content-layout-vars';
-import { warnOnce } from './utils/warn';
-import type { ScrollbarProps } from 'naive-ui';
-import { useMountStyle } from './utils/_internal/use-mount-style';
 import style from './styles/index.cssr';
+import { CalcLayoutVarsOptions } from './types';
+import { useNaiveClsPrefix } from './utils/_internal/use-cls-prefix';
+import { useMountStyle } from './utils/_internal/use-mount-style';
+import { useDisabledTransitionWhenModeChange } from './utils/composables/use-disabled-transition-on-mode-change';
+import { useFullContentLayoutVars } from './utils/composables/use-full-content-layout-vars';
+import { useHorizontalLayoutVars } from './utils/composables/use-horizontal-layout-vars';
+import { useMergeConfig } from './utils/composables/use-merge-config';
+import { useMobileLayoutVars } from './utils/composables/use-mobile-layout-vars';
+import { useOverrideProps } from './utils/composables/use-override-props';
+import { useSidebarLayoutVars } from './utils/composables/use-sidebar-layout-vars';
+import { useTwoColumnLayoutVars } from './utils/composables/use-two-column-layout-vars';
+import { useVerticalLayoutVars } from './utils/composables/use-vertical-layout-vars';
 import { resolveWrappedSlot } from './utils/resolve-slot';
+import { warnOnce } from './utils/warn';
 
 const name = 'ProLayout';
 export default defineComponent({

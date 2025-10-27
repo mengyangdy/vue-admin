@@ -1,8 +1,11 @@
+import { computed } from 'vue';
+
 import { time } from 'console';
+
+import { REG_PHONE } from '@/constants/reg';
+
 import useCountDown from '../common/use-count-down';
 import useLoading from '../common/use-loading';
-import { computed } from 'vue';
-import { REG_PHONE } from '@/constants/reg';
 
 export function useCaptcha(initialSeconds: number) {
   const { loading, startLoading, endLoading } = useLoading();

@@ -43,15 +43,18 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import type { Ref } from 'vue';
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
+
 import { useBoolean } from '@sa/hooks';
-import { yesOrNoRecord } from '@/constants/common';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+
+import SvgIcon from '@/components/custom/svg-icon.vue';
 import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
-import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
-import { useAppStore } from '@/store/modules/app';
+import { yesOrNoRecord } from '@/constants/common';
 import { defaultTransform, useNaivePaginatedTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
-import SvgIcon from '@/components/custom/svg-icon.vue';
+import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
+import { useAppStore } from '@/store/modules/app';
+
 import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal.vue';
 
 const appStore = useAppStore();

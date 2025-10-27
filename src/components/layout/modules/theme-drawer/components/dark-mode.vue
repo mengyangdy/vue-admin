@@ -1,5 +1,5 @@
 <template>
-  <n-divider> 主题模式 </n-divider>
+  <n-divider>主题模式</n-divider>
   <div class="flex-col-stretch gap-16px">
     <div class="i-flex-center">
       <n-tabs
@@ -21,35 +21,32 @@
       </setting-item>
     </Transition>
     <setting-item label="灰度模式">
-      <n-switch
-        v-model:value="themeStore.grayscale"
-        @update:value="handleGrayscaleChange"
-      />
+      <n-switch v-model:value="themeStore.grayscale" @update:value="handleGrayscaleChange" />
     </setting-item>
     <setting-item label="色弱模式">
-      <n-switch
-        :value="themeStore.colourWeakness"
-        @update:value="handleColourWeaknessChange"
-      />
+      <n-switch :value="themeStore.colourWeakness" @update:value="handleColourWeaknessChange" />
     </setting-item>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import SettingItem from "./setting-item.vue";
-import { useThemeStore } from "@/store/modules/theme";
-import { themeSchemaRecord } from "@/constants/app";
+import { computed } from 'vue';
+
+import { themeSchemaRecord } from '@/constants/app';
+import { useThemeStore } from '@/store/modules/theme';
+
+import SettingItem from './setting-item.vue';
+
 defineOptions({
-  name: "DarkMode",
+  name: 'DarkMode',
 });
 
 const themeStore = useThemeStore();
 
 const icons: Record<UnionKey.ThemeScheme, string> = {
-  light: "material-symbols:sunny",
-  dark: "material-symbols:nightlight-rounded",
-  auto: "material-symbols:hdr-auto",
+  light: 'material-symbols:sunny',
+  dark: 'material-symbols:nightlight-rounded',
+  auto: 'material-symbols:hdr-auto',
 };
 
 function handleSegmentChange(value: string | number) {
@@ -64,7 +61,7 @@ function handleColourWeaknessChange(value: boolean) {
   themeStore.setColourWeakness(value);
 }
 const showSiderInverted = computed(
-  () => !themeStore.darkMode && themeStore.layout.mode.includes("vertical")
+  () => !themeStore.darkMode && themeStore.layout.mode.includes('vertical'),
 );
 </script>
 

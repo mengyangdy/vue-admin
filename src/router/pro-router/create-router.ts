@@ -1,8 +1,10 @@
-import { effectScope, type App, type EffectScope } from 'vue';
-import { RouterOptions as _RouterOptions, createRouter as _createRouter, Router } from 'vue-router';
+import { type App, type EffectScope, effectScope } from 'vue';
+
+import { Router, RouterOptions as _RouterOptions, createRouter as _createRouter } from 'vue-router';
+
+import { EFFECT_SCOPE, RUN_WITH_APP_HANDLERS } from './constant';
 import { ProRouterOptions } from './types';
 import { prepareInstall, resolveOptions, setupPlugin } from './utils/route';
-import { EFFECT_SCOPE, RUN_WITH_APP_HANDLERS } from './constant';
 
 export function createRouter(options: ProRouterOptions): Router {
   const { vrOptions, plugins = [], pluginCleanups } = resolveOptions(options);

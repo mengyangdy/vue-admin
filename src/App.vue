@@ -12,21 +12,22 @@
           <component :is="Component" />
         </transition>
       </router-view>
-      <n-watermark
-        v-if="themeStore.watermark.visible"
-        v-bind="watermarkProps"
-      />
+      <n-watermark v-if="themeStore.watermark.visible" v-bind="watermarkProps" />
     </AppProvider>
   </NConfigProvider>
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "@/store/modules/theme";
-import { useAuthStore } from "@/store/modules/auth";
-import { useAppStore } from "@/store/modules/app";
-import { computed } from "vue";
-import { NConfigProvider, darkTheme } from "naive-ui";
-import { naiveDateLocales, naiveLocales } from "./locales/naive";
+import { computed } from 'vue';
+
+import { NConfigProvider, darkTheme } from 'naive-ui';
+
+import { useAppStore } from '@/store/modules/app';
+import { useAuthStore } from '@/store/modules/auth';
+import { useThemeStore } from '@/store/modules/theme';
+
+import { naiveDateLocales, naiveLocales } from './locales/naive';
+
 const themeStore = useThemeStore();
 const authStore = useAuthStore();
 const appStore = useAppStore();
@@ -50,9 +51,7 @@ const watermarkProps = computed(() => {
   };
 });
 
-const naiveDarkTheme = computed(() =>
-  themeStore.darkMode ? darkTheme : undefined
-);
+const naiveDarkTheme = computed(() => (themeStore.darkMode ? darkTheme : undefined));
 
 const naiveLocale = computed(() => {
   return naiveLocales[appStore.locale];

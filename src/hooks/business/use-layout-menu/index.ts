@@ -1,14 +1,16 @@
+import { ComputedRef, Ref, computed, ref, toValue, watch } from 'vue';
+
 import type { MaybeRefOrGetter } from '@vueuse/core';
 import type { MenuOption, MenuProps } from 'naive-ui';
-import { computed, ComputedRef, Ref, ref, toValue, watch } from 'vue';
+
 import { ExpandedKey, MenuKey } from './types';
-import { useMenus } from './use-menu';
-import { useVerticalLayoutMenu } from './use-vertical-layout-menu';
-import { useHorizontalLayoutMenu } from './use-horizontal-layout-menu';
 import { useFullContentLayoutMenu } from './use-full-content-layout-menu';
-import { useTwoColumnLayoutMenu } from './use-two-column-layout-menu';
+import { useHorizontalLayoutMenu } from './use-horizontal-layout-menu';
+import { useMenus } from './use-menu';
 import { useMixedSidebarLayoutMenu } from './use-mixed-sidebar-layout-menu';
 import { useMixedTwoColumnLayoutMenu } from './use-mixed-two-column-layout-menu';
+import { useTwoColumnLayoutMenu } from './use-two-column-layout-menu';
+import { useVerticalLayoutMenu } from './use-vertical-layout-menu';
 
 export interface LayoutMenuReturn {
   /**

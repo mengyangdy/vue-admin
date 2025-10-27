@@ -1,77 +1,30 @@
 <template>
-  <svg
-    viewBox="0 0 400 320"
-    class="size-full"
-  >
+  <svg viewBox="0 0 400 320" class="size-full">
     <defs>
-      <linearGradient
-        id="lockGradient403"
-        x1="0%"
-        y1="0%"
-        x2="100%"
-        y2="100%"
-      >
-        <stop
-          offset="0%"
-          style="stop-opacity:1"
-          :style="{ 'stop-color': vars.warningColor }"
-        />
+      <linearGradient id="lockGradient403" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-opacity: 1" :style="{ 'stop-color': vars.warningColor }" />
         <stop
           offset="100%"
-          style="stop-opacity:1"
+          style="stop-opacity: 1"
           :style="{ 'stop-color': vars.warningColorHover }"
         />
       </linearGradient>
-      <linearGradient
-        id="shieldGradient403"
-        x1="0%"
-        y1="0%"
-        x2="100%"
-        y2="100%"
-      >
-        <stop
-          offset="0%"
-          style="stop-opacity:1"
-          :style="{ 'stop-color': vars.primaryColor }"
-        />
+      <linearGradient id="shieldGradient403" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-opacity: 1" :style="{ 'stop-color': vars.primaryColor }" />
         <stop
           offset="100%"
-          style="stop-opacity:1"
+          style="stop-opacity: 1"
           :style="{ 'stop-color': vars.primaryColorHover }"
         />
       </linearGradient>
-      <filter
-        id="shadow403"
-        x="-50%"
-        y="-50%"
-        width="200%"
-        height="200%"
-      >
-        <feDropShadow
-          dx="0"
-          dy="4"
-          stdDeviation="8"
-          flood-color="#000000"
-          flood-opacity="0.1"
-        />
+      <filter id="shadow403" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.1" />
       </filter>
     </defs>
 
     <!-- 装饰性几何图形 -->
-    <circle
-      cx="80"
-      cy="80"
-      r="40"
-      :fill="vars.primaryColor"
-      opacity="0.08"
-    />
-    <circle
-      cx="320"
-      cy="240"
-      r="30"
-      :fill="vars.warningColor"
-      opacity="0.08"
-    />
+    <circle cx="80" cy="80" r="40" :fill="vars.primaryColor" opacity="0.08" />
+    <circle cx="320" cy="240" r="30" :fill="vars.warningColor" opacity="0.08" />
     <rect
       x="330"
       y="50"
@@ -121,64 +74,20 @@
           stroke-linecap="round"
         />
         <!-- 锁孔 -->
-        <circle
-          cx="0"
-          cy="10"
-          r="3"
-          fill="#ffffff"
-          opacity="0.9"
-        />
-        <rect
-          x="-1"
-          y="10"
-          width="2"
-          height="6"
-          fill="#ffffff"
-          opacity="0.9"
-        />
+        <circle cx="0" cy="10" r="3" fill="#ffffff" opacity="0.9" />
+        <rect x="-1" y="10" width="2" height="6" fill="#ffffff" opacity="0.9" />
       </g>
 
       <!-- 装饰性光效 -->
-      <circle
-        cx="-20"
-        cy="-20"
-        r="3"
-        fill="#ffffff"
-        opacity="0.6"
-      />
-      <circle
-        cx="25"
-        cy="-15"
-        r="2"
-        fill="#ffffff"
-        opacity="0.4"
-      />
-      <circle
-        cx="-15"
-        cy="25"
-        r="2"
-        fill="#ffffff"
-        opacity="0.5"
-      />
-
+      <circle cx="-20" cy="-20" r="3" fill="#ffffff" opacity="0.6" />
+      <circle cx="25" cy="-15" r="2" fill="#ffffff" opacity="0.4" />
+      <circle cx="-15" cy="25" r="2" fill="#ffffff" opacity="0.5" />
     </g>
 
     <!-- 现代化警告元素 -->
     <g transform="translate(120, 120)">
-      <circle
-        cx="0"
-        cy="0"
-        r="16"
-        :fill="vars.warningColor"
-        opacity="0.2"
-      />
-      <circle
-        cx="0"
-        cy="0"
-        r="12"
-        :fill="vars.warningColor"
-        opacity="0.4"
-      />
+      <circle cx="0" cy="0" r="16" :fill="vars.warningColor" opacity="0.2" />
+      <circle cx="0" cy="0" r="12" :fill="vars.warningColor" opacity="0.4" />
       <text
         x="0"
         y="4"
@@ -187,24 +96,14 @@
         font-size="14"
         font-weight="700"
         :fill="vars.warningColor"
-      >!</text>
+      >
+        !
+      </text>
     </g>
 
     <g transform="translate(280, 120)">
-      <circle
-        cx="0"
-        cy="0"
-        r="14"
-        :fill="vars.errorColor"
-        opacity="0.2"
-      />
-      <circle
-        cx="0"
-        cy="0"
-        r="10"
-        :fill="vars.errorColor"
-        opacity="0.4"
-      />
+      <circle cx="0" cy="0" r="14" :fill="vars.errorColor" opacity="0.2" />
+      <circle cx="0" cy="0" r="10" :fill="vars.errorColor" opacity="0.4" />
       <text
         x="0"
         y="3"
@@ -213,7 +112,9 @@
         font-size="12"
         font-weight="700"
         :fill="vars.errorColor"
-      >×</text>
+      >
+        ×
+      </text>
     </g>
 
     <!-- 底部装饰线条 -->
@@ -241,9 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeVars } from 'naive-ui'
+import { useThemeVars } from 'naive-ui';
 
-const vars = useThemeVars()
+const vars = useThemeVars();
 </script>
-
-

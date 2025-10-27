@@ -1,25 +1,28 @@
 import type { App } from 'vue';
+
 import type { Router } from 'vue-router';
 import type {
-  RouteRecordRaw,
-  RouteRecordNameGeneric,
   RouteLocationNormalizedGeneric,
+  RouteRecordNameGeneric,
+  RouteRecordRaw,
 } from 'vue-router';
+
 import {
   ALREADY_INSTALLED,
   APP,
   EFFECT_SCOPE,
-  RUN_WITH_APP_HANDLERS,
   ROUTER_PLUGIN_AUTO_GENERATED,
+  RUN_WITH_APP_HANDLERS,
   UNMOUNT_HANDLERS,
 } from '../constant';
-import {
-  ProRouterOptions,
-  ProRouterPluginCleanupHandler,
-  ProRouterPlugin,
-  ProRouterObjectPlugin,
-} from '../types';
 import { normalizeRoutesPlugin } from '../plugins/normalize-routes-plugin';
+import {
+  ProRouterObjectPlugin,
+  ProRouterOptions,
+  ProRouterPlugin,
+  ProRouterPluginCleanupHandler,
+} from '../types';
+
 let uid = 0;
 
 export function ensureRouteName(route: RouteRecordRaw) {
@@ -114,4 +117,13 @@ export function setupPlugin({ router, plugin }: { router: Router; plugin: ProRou
       },
     });
   });
+}
+
+export function getRouteComponentName(
+  route: RouteLocationNormalizedGeneric,
+  namespace: string = 'default',
+): string | undefined {
+  const currentRoute = route.matched[route.matched.length - 1];
+  const currentRouteComponent = currentRoute?.components?.[namespace];
+  return (currentRouteComponent as any)?.__name;
 }

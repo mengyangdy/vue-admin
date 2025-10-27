@@ -12,10 +12,7 @@ const routeCache = new Map<RouteKey, any>();
  * @param inSetup Whether is in vue script setup
  */
 export function useRouterPush(inSetup = true) {
-  const router = inSetup ? useRouter() : globalRouter;
-
-  // 使用 getter 避免引用问题
-  const getCurrentRoute = () => globalRouter.currentRoute.value;
+  const router = useRouter();
 
   const routerPush = router.push;
   const routerBack = router.back;
@@ -88,20 +85,13 @@ export function useRouterPush(inSetup = true) {
    * @param loginModule The login module
    * @param redirectUrl The redirect url, if not specified, it will be the current route fullPath
    */
-  async function toLogin(loginModule: UnionKey.LoginModule = 'pwd-login', redirectUrl?: string) {
+  async function toLogin(redirectUrl?: string) {
     return safeNavigate(async () => {
-      const options: App.Global.RouterPushOptions = {
-        params: {
-          module: loginModule,
-        },
-      };
-
-      const redirect = redirectUrl || getCurrentRoute().fullPath;
-
+      const options: App.Global.RouterPushOptions = {};
+      const redirect = redirectUrl;
       options.query = {
         redirect,
       };
-
       return routerPushByKey('login', options);
     });
   }

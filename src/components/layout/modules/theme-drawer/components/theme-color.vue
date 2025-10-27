@@ -1,5 +1,5 @@
 <template>
-  <n-divider> 主题颜色 </n-divider>
+  <n-divider>主题颜色</n-divider>
   <div class="flex-col-stretch gap-12px">
     <n-tooltip placement="top-start">
       <template #trigger>
@@ -22,11 +22,7 @@
         </n-button>
       </p>
     </n-tooltip>
-    <setting-item
-      v-for="(_, key) in themeStore.themeColors"
-      :key="key"
-      label="111"
-    >
+    <setting-item v-for="(_, key) in themeStore.themeColors" :key="key" label="111">
       <template v-if="key === 'info'" #suffix>
         <n-checkbox v-model:checked="themeStore.isInfoFollowPrimary">
           信息颜色跟随主题颜色
@@ -45,9 +41,10 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "@/store/modules/theme";
+import { useThemeStore } from '@/store/modules/theme';
+
 defineOptions({
-  name: "ThemeColor",
+  name: 'ThemeColor',
 });
 
 const themeStore = useThemeStore();
@@ -55,22 +52,22 @@ function handleUpdateColor(color: string, key: App.Theme.ThemeColorKey) {
   themeStore.updateThemeColors(key, color);
 }
 const swatches: string[] = [
-  "#3b82f6",
-  "#6366f1",
-  "#8b5cf6",
-  "#a855f7",
-  "#0ea5e9",
-  "#06b6d4",
-  "#f43f5e",
-  "#ef4444",
-  "#ec4899",
-  "#d946ef",
-  "#f97316",
-  "#f59e0b",
-  "#eab308",
-  "#84cc16",
-  "#22c55e",
-  "#10b981",
+  '#3b82f6',
+  '#6366f1',
+  '#8b5cf6',
+  '#a855f7',
+  '#0ea5e9',
+  '#06b6d4',
+  '#f43f5e',
+  '#ef4444',
+  '#ec4899',
+  '#d946ef',
+  '#f97316',
+  '#f59e0b',
+  '#eab308',
+  '#84cc16',
+  '#22c55e',
+  '#10b981',
 ];
 </script>
 

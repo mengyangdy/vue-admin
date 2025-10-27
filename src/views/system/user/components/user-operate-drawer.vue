@@ -1,7 +1,7 @@
 <template>
-  <n-reawer v-model:show="visible" display-directive="show" :width="360">
+  <n-drawer v-model:show="visible" display-directive="show" :width="360">
     <n-drawer-content :title="title" :native-scrollbar="false" closeable>
-      <n-form ref="formRef" model="model" rules="rules">
+      <n-form ref="formRef" :model="model" :rules="rules">
         <n-form-item label="用户名" path="userName">
           <n-input v-model:value="model.userName" placeholder="请输入用户名" />
         </n-form-item>
@@ -11,7 +11,7 @@
               v-for="item in userGenderOptions"
               :key="item.value"
               :value="item.value"
-              :label="item.laebl"
+              :label="item.label"
             />
           </n-radio-group>
         </n-form-item>
@@ -50,12 +50,13 @@
         </n-space>
       </template>
     </n-drawer-content>
-  </n-reawer>
+  </n-drawer>
 </template>
 
 <script setup lang="ts">
-import { useNaiveForm } from '@/hooks/common/form';
 import { computed, ref, watch } from 'vue';
+
+import { useNaiveForm } from '@/hooks/common/form';
 
 defineOptions({
   name: 'UserOperateDrawer',

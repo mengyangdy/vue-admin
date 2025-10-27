@@ -23,11 +23,12 @@
 </template>
 
 <script setup lang="ts">
-import { PopoverPlacement } from "naive-ui";
+import { PopoverPlacement } from 'naive-ui';
+
 import { themeLayoutModeRecord } from '@/constants/app';
 
 defineOptions({
-  name: "LayoutModeCard",
+  name: 'LayoutModeCard',
 });
 
 interface Props {
@@ -36,7 +37,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 interface Emits {
-  (e: "update:mode", mode: UnionKey.ThemeLayoutMode): void;
+  (e: 'update:mode', mode: UnionKey.ThemeLayoutMode): void;
 }
 const emit = defineEmits<Emits>();
 
@@ -52,33 +53,35 @@ type LayoutConfig = Record<
 
 const layoutConfig: LayoutConfig = {
   vertical: {
-    placement: "bottom",
-    headerClass: "",
-    menuClass: "w-1/3 h-full",
-    mainClass: "w-2/3 h-3/4",
+    placement: 'bottom',
+    headerClass: '',
+    menuClass: 'w-1/3 h-full',
+    mainClass: 'w-2/3 h-3/4',
   },
-  "vertical-mix": {
-    placement: "bottom",
-    headerClass: "",
-    menuClass: "w-1/4 h-full",
-    mainClass: "w-2/3 h-3/4",
+  'vertical-mix': {
+    placement: 'bottom',
+    headerClass: '',
+    menuClass: 'w-1/4 h-full',
+    mainClass: 'w-2/3 h-3/4',
   },
   horizontal: {
-    placement: "bottom",
-    headerClass: "",
-    menuClass: "w-full h-1/4",
-    mainClass: "w-full h-3/4",
+    placement: 'bottom',
+    headerClass: '',
+    menuClass: 'w-full h-1/4',
+    mainClass: 'w-full h-3/4',
   },
-  "horizontal-mix": {
-    placement: "bottom",
-    headerClass: "",
-    menuClass: "w-full h-1/4",
-    mainClass: "w-2/3 h-3/4",
+  'horizontal-mix': {
+    placement: 'bottom',
+    headerClass: '',
+    menuClass: 'w-full h-1/4',
+    mainClass: 'w-2/3 h-3/4',
   },
 };
 
 function handleChangeMode(mode: UnionKey.ThemeLayoutMode) {
-  if (props.disabled) {return;}
-  emit("update:mode", mode);
+  if (props.disabled) {
+    return;
+  }
+  emit('update:mode', mode);
 }
 </script>

@@ -1,10 +1,11 @@
-import type { Merge } from 'type-fest';
-import type { Router, RouteRecordRaw } from 'vue-router';
 import { createEventHook } from '@vueuse/core';
-import { ProRouterPlugin } from '../types';
-import { cloneDeep, noop } from 'es-toolkit';
 import type { EventHookOn } from '@vueuse/core';
+import { cloneDeep, noop } from 'es-toolkit';
 import { get, has, isArray } from 'lodash-es';
+import type { Merge } from 'type-fest';
+import type { RouteRecordRaw, Router } from 'vue-router';
+
+import { ProRouterPlugin } from '../types';
 
 declare module 'vue-router' {
   interface RouteMeta {

@@ -1,11 +1,12 @@
-import { computed, h, VNodeChild } from 'vue';
-import type { Merge } from 'type-fest';
-import type { RouteLocationNormalizedGeneric, Router, RouteRecordRaw } from 'vue-router';
-import type { ProRouterPlugin } from '../types';
+import { VNodeChild, computed, h } from 'vue';
 
 import type { MenuOption } from 'naive-ui';
+import type { Merge } from 'type-fest';
+import type { RouteLocationNormalizedGeneric, RouteRecordRaw, Router } from 'vue-router';
 
 import { useSvgIcon } from '@/hooks/common/icon';
+
+import type { ProRouterPlugin } from '../types';
 
 const { SvgIconVNode } = useSvgIcon();
 

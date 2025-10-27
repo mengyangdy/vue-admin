@@ -18,14 +18,16 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "@/store/modules/theme";
-import DarkMode from "./components/dark-mode.vue";
-import LayoutMode from "./components/layout-mode.vue";
-import ThemeColor from "./components/theme-color.vue";
-import PageFun from "./components/page-fun.vue";
-import ConfigOperation from "./components/config-operation.vue";
+import { useThemeStore } from '@/store/modules/theme';
+
+import ConfigOperation from './components/config-operation.vue';
+import DarkMode from './components/dark-mode.vue';
+import LayoutMode from './components/layout-mode.vue';
+import PageFun from './components/page-fun.vue';
+import ThemeColor from './components/theme-color.vue';
+
 defineOptions({
-  name: "ThemeDrawer",
+  name: 'ThemeDrawer',
 });
 const themeStore = useThemeStore();
 </script>

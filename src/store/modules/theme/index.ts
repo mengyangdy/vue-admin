@@ -1,12 +1,15 @@
-import { SetupStoreId } from '@/constants';
-import { defineStore } from 'pinia';
 import { computed, effectScope, ref, toRefs, watch } from 'vue';
-import { addThemeVarsToGlobal, createThemeToken, getNaiveTheme, initThemeSettings } from './shared';
 import type { Ref } from 'vue';
-import { useBreakpoints, breakpointsTailwind, usePreferredColorScheme } from '@vueuse/core';
-import { localStg } from '@/utils/storage';
-import useBoolean from '@/hooks/common/use-boolean';
+
 import { getPaletteColorByNumber } from '@dylanjs/utils';
+import { breakpointsTailwind, useBreakpoints, usePreferredColorScheme } from '@vueuse/core';
+import { defineStore } from 'pinia';
+
+import { SetupStoreId } from '@/constants';
+import useBoolean from '@/hooks/common/use-boolean';
+import { localStg } from '@/utils/storage';
+
+import { addThemeVarsToGlobal, createThemeToken, getNaiveTheme, initThemeSettings } from './shared';
 
 export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
   const scope = effectScope();
@@ -26,7 +29,6 @@ export const useThemeStore = defineStore(SetupStoreId.Theme, () => {
     setTrue: openThemeDrawer,
     setFalse: closeThemeDrawer,
   } = useBoolean();
-  console.log(themeDrawerVisible, 'themeDrawerVisible');
 
   const themeColors = computed(() => {
     const { themeColor, otherColor, isInfoFollowPrimary } = settings.value;

@@ -56,8 +56,10 @@
 </template>
 
 <script setup lang="ts">
-import { useNaiveForm } from '@/hooks/common/form';
 import { computed } from 'vue';
+
+import { useNaiveForm } from '@/hooks/common/form';
+import { translateOptions } from '@/utils/common';
 
 defineOptions({
   name: 'UserSearch',

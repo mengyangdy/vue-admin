@@ -21,9 +21,7 @@
           <icon-uil-search class="text-15px text-#c2c2c2" />
         </template>
       </n-input>
-      <n-button v-if="isMobile" type="primary" ghost @click="handleClose">
-        取消
-      </n-button>
+      <n-button v-if="isMobile" type="primary" ghost @click="handleClose">取消</n-button>
     </n-input-group>
     <div class="mt-20px">
       <n-empty v-if="resultOptions.length === 0" description="无数据" />
@@ -41,21 +39,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, shallowRef } from "vue";
-import { useRouter } from "vue-router";
-import { onKeyStroke, useDebounceFn } from "@vueuse/core";
-import { useThemeStore } from "@/store/modules/theme";
+import { computed, ref, shallowRef } from 'vue';
+
+import { onKeyStroke, useDebounceFn } from '@vueuse/core';
+import { useRouter } from 'vue-router';
+
+import { useThemeStore } from '@/store/modules/theme';
 
 defineOptions({
-  name: "SearchModal",
+  name: 'SearchModal',
 });
 
 const router = useRouter();
 const themeStore = useThemeStore();
 
 const isMobile = computed(() => themeStore.isMobile);
-const keyword = ref("");
-const activePath = ref("");
+const keyword = ref('');
+const activePath = ref('');
 const resultOptions = shallowRef<App.Global.Menu>([]);
 const handleSearch = useDebounceFn(search, 300);
 function search() {

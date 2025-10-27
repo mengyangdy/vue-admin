@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes } from 'vue';
+
 import { menuProps } from 'naive-ui';
 
 const extendProps = {

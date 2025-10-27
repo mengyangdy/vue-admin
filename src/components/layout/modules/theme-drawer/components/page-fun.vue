@@ -1,10 +1,6 @@
 <template>
-  <n-divider> 页面功能 </n-divider>
-  <transition-group
-    tag="div"
-    name="setting-list"
-    class="flex-col-stretch gap-12px"
-  >
+  <n-divider>页面功能</n-divider>
+  <transition-group tag="div" name="setting-list" class="flex-col-stretch gap-12px">
     <setting-item key="0" label="重置缓存策略">
       <n-select
         v-model:value="themeStore.resetCacheStrategy"
@@ -24,11 +20,7 @@
     <setting-item key="1-1" label="页面切换动画">
       <n-switch v-model:value="themeStore.page.animate" />
     </setting-item>
-    <setting-item
-      v-if="themeStore.page.animate"
-      key="1-2"
-      label="页面切换动画类型"
-    >
+    <setting-item v-if="themeStore.page.animate" key="1-2" label="页面切换动画类型">
       <n-select
         v-model:value="themeStore.page.animateMode"
         :options="translateOptions(themePageAnimationModeOptions)"
@@ -56,19 +48,11 @@
     <setting-item key="4" label="显示面包屑">
       <n-switch v-model:value="themeStore.header.breadcrumb.visible" />
     </setting-item>
-    <setting-item
-      v-if="themeStore.header.breadcrumb.visible"
-      key="4-1"
-      label="显示面包屑图标"
-    >
+    <setting-item v-if="themeStore.header.breadcrumb.visible" key="4-1" label="显示面包屑图标">
       <n-switch v-model:value="themeStore.header.breadcrumb.showIcon" />
     </setting-item>
 
-    <setting-item
-      label="标签栏信息缓存"
-      key="5-1"
-      v-if="themeStore.tab.visible"
-    >
+    <setting-item label="标签栏信息缓存" key="5-1" v-if="themeStore.tab.visible">
       <n-switch v-model:value="themeStore.tab.cache" />
     </setting-item>
     <setting-item label="标签栏高度" key="5-2" v-if="themeStore.tab.visible">
@@ -95,11 +79,7 @@
         class="w-120px"
       />
     </setting-item>
-    <setting-item
-      label="侧边栏折叠宽度"
-      v-if="layoutMode === 'vertical'"
-      key="6-2"
-    >
+    <setting-item label="侧边栏折叠宽度" v-if="layoutMode === 'vertical'" key="6-2">
       <n-input-number
         v-model:value="themeStore.sider.collapsedWidth"
         size="small"
@@ -107,11 +87,7 @@
         class="w-120px"
       />
     </setting-item>
-    <setting-item
-      label="混合布局侧边栏折叠宽度"
-      key="6-4"
-      v-if="isMixLayoutMode"
-    >
+    <setting-item label="混合布局侧边栏折叠宽度" key="6-4" v-if="isMixLayoutMode">
       <n-input-number
         v-model:value="themeStore.sider.mixCollapsedWidth"
         size="small"
@@ -119,11 +95,7 @@
         class="w-120px"
       />
     </setting-item>
-    <setting-item
-      label="混合布局子菜单宽度"
-      key="6-5"
-      v-if="layoutMode === 'vertical-mix'"
-    >
+    <setting-item label="混合布局子菜单宽度" key="6-5" v-if="layoutMode === 'vertical-mix'">
       <n-input-number
         v-model:value="themeStore.sider.mixChildMenuWidth"
         size="small"
@@ -159,18 +131,10 @@
     <setting-item label="显示全屏水印" key="8">
       <n-switch v-model:value="themeStore.watermark.visible" />
     </setting-item>
-    <setting-item
-      label="启用用户名水印"
-      key="8-1"
-      v-if="themeStore.watermark.visible"
-    >
+    <setting-item label="启用用户名水印" key="8-1" v-if="themeStore.watermark.visible">
       <n-switch v-model:value="themeStore.watermark.enableUserName" />
     </setting-item>
-    <setting-item
-      v-if="themeStore.watermark.visible"
-      key="8-2"
-      label="水印文本"
-    >
+    <setting-item v-if="themeStore.watermark.visible" key="8-2" label="水印文本">
       <n-input
         v-model:value="themeStore.watermark.text"
         autosize
@@ -190,23 +154,23 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "@/store/modules/theme";
-import SettingItem from "./setting-item.vue";
-import { computed } from "vue";
-import { translateOptions } from "@/utils/common";
+import { computed } from 'vue';
+
 import {
   resetCacheStrategyOptions,
-  themeScrollModeOptions,
   themePageAnimationModeOptions,
+  themeScrollModeOptions,
   themeTabModeOptions,
-} from "@/constants/app";
+} from '@/constants/app';
+import { useThemeStore } from '@/store/modules/theme';
+import { translateOptions } from '@/utils/common';
+
+import SettingItem from './setting-item.vue';
 
 const themeStore = useThemeStore();
 const layoutMode = computed(() => themeStore.layout.mode);
-const isMixLayoutMode = computed(() => layoutMode.value.includes("mix"));
-const isWrapperScrollMode = computed(
-  () => themeStore.layout.scrollMode === "wrapper"
-);
+const isMixLayoutMode = computed(() => layoutMode.value.includes('mix'));
+const isWrapperScrollMode = computed(() => themeStore.layout.scrollMode === 'wrapper');
 </script>
 
 <style scoped>

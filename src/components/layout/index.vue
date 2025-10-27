@@ -62,12 +62,8 @@
             v-bind="layout.verticalMenuProps"
             :indent="18"
             :collapsed-width="finalSidebarCollapsedWidth"
-            :collapsed-show-title="
-              themeStore.sider.sidebarCollapsedShowMenuTitle
-            "
-            :options="
-              handleMenuGroupAndDivider(layout.verticalMenuProps.options)
-            "
+            :collapsed-show-title="themeStore.sider.sidebarCollapsedShowMenuTitle"
+            :options="handleMenuGroupAndDivider(layout.verticalMenuProps.options)"
             @update:value="pushTo"
           />
         </n-scrollbar>
@@ -106,32 +102,36 @@
 </template>
 
 <script setup lang="ts">
-import ProLayout from "@/layout/layout";
-import { useThemeStore } from "@/store/modules/theme";
-import GlobalFooter from "./modules/global-footer/index.vue";
-import GlobalContent from "./modules/global-content/index.vue";
-import GlobalLogo from "./modules/global-logo/index.vue";
-import NavLeft from "./modules/nav-left/index.vue";
-import NavRight from "./modules/nav-right/index.vue";
-import GlobalTabbar from "./modules/global-tabbar/index.vue";
-import GlobalSider from "./modules/global-sider/index.vue";
-import ThemeDrawer from "./modules/theme-drawer/index.vue";
+import { computed, watch } from 'vue';
 
-import { useThemeVars } from "naive-ui";
-import { useRouter, useRoute } from "vue-router";
-import { useLayoutMenu } from "@/hooks/business/use-layout-menu";
-import { computed } from "vue";
-import type { MenuOption } from "naive-ui";
+import { isNil } from 'es-toolkit';
+import { useThemeVars } from 'naive-ui';
+import type { MenuOption } from 'naive-ui';
+import { useRoute, useRouter } from 'vue-router';
+
+import { useLayoutMenu } from '@/hooks/business/use-layout-menu';
+import ProLayout from '@/layout/layout';
+import { useThemeStore } from '@/store/modules/theme';
+
+import GlobalContent from './modules/global-content/index.vue';
+import GlobalFooter from './modules/global-footer/index.vue';
+import GlobalLogo from './modules/global-logo/index.vue';
+import GlobalSider from './modules/global-sider/index.vue';
+import GlobalTabbar from './modules/global-tabbar/index.vue';
+import NavLeft from './modules/nav-left/index.vue';
+import NavRight from './modules/nav-right/index.vue';
+import ThemeDrawer from './modules/theme-drawer/index.vue';
 
 const themeStore = useThemeStore();
 const vars = useThemeVars();
 const router = useRouter();
+console.log("🚀 ~ :128 ~ router:", router)
 const route = useRoute();
 
 const { layout, fullKeys, activeKey, verticalLayout } = useLayoutMenu({
   mode: themeStore.layout.mode,
   menus: computed(() => router.buildMenus()),
-  childrenField: "children",
+  childrenField: 'children',
 });
 
 const finalSidebarCollapsedWidth = computed(() => {
@@ -145,7 +145,7 @@ function handleMenuGroupAndDivider(menus: MenuOption[] = []) {
   // 处理菜单分割线
   if (themeStore.sider.sidebarMenuDivider) {
     finalMenus = finalMenus.flatMap((item) => {
-      return item.children?.length ? [item, { type: "divider" }] : [item];
+      return item.children?.length ? [item, { type: 'divider' }] : [item];
     });
   }
   // 处理菜单分组
@@ -156,7 +156,7 @@ function handleMenuGroupAndDivider(menus: MenuOption[] = []) {
       });
     } else {
       finalMenus = finalMenus.map((item) => {
-        return item.children?.length ? { ...item, type: "group" } : item;
+        return item.children?.length ? { ...item, type: 'group' } : item;
       });
     }
   }
@@ -170,10 +170,37 @@ async function pushTo(path: string) {
     activeKey.value = route.path;
   }
 }
+watch(
+  () => route.path,
+  (path) => {
+    if (activeKey.value === path) {
+      return;
+    }
+    const key = findAvailableMenuKey();
+    if (isNil(key) && __DEV__) {
+      console.warn('This looks like a bug, please open an issue to report this problem');
+      return;
+    }
+    activeKey.value = key!;
+  },
+  {
+    immediate: true,
+  },
+);
+
+function findAvailableMenuKey() {
+  const keys = fullKeys.value;
+  for (let i = route.matched.length - 1; i >= 0; i--) {
+    const item = route.matched[i];
+    if (keys.includes(item.path)) {
+      return item.path;
+    }
+  }
+}
 </script>
 
 <style scoped>
 :deep(.n-pro-layout__content.pro-layout__content--embedded) {
-  background-color: v-bind("vars.actionColor");
+  background-color: v-bind('vars.actionColor');
 }
 </style>

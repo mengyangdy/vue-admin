@@ -22,8 +22,9 @@
           :disabled="isCounting"
           @click="getCaptcha(model.phone)"
           :loading="loading"
-          >{{ label }}</n-button
         >
+          {{ label }}
+        </n-button>
       </div>
     </n-form-item>
     <n-form-item path="password">
@@ -43,22 +44,14 @@
       />
     </n-form-item>
     <n-flex vertical :size="24">
-      <loading-button attr-type="submit" type="primary" size="large" block
-        >注册</loading-button
-      >
+      <loading-button attr-type="submit" type="primary" size="large" block>注册</loading-button>
       <div class="flex-y-center justify-between gap-12px">
-        <n-button
-          class="flex-1"
-          block
-          @click="authStore.changeLoginComponent('pwd-login')"
-          >密码登录</n-button
-        >
-        <n-button
-          class="flex-1"
-          block
-          @click="authStore.changeLoginComponent('code-login')"
-          >验证码登录</n-button
-        >
+        <n-button class="flex-1" block @click="authStore.changeLoginComponent('pwd-login')">
+          密码登录
+        </n-button>
+        <n-button class="flex-1" block @click="authStore.changeLoginComponent('code-login')">
+          验证码登录
+        </n-button>
       </div>
       <n-divider class="text-14px text-#666 !m-0">其他账号登录</n-divider>
     </n-flex>
@@ -66,11 +59,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/store/modules/auth";
+import { computed, ref } from 'vue';
+
+import { useCaptcha } from '@/hooks/business/captcha';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { useAuthStore } from '@/store/modules/auth';
+
 const authStore = useAuthStore();
-import { useFormRules, useNaiveForm } from "@/hooks/common/form";
-import { computed, ref } from "vue";
-import { useCaptcha } from "@/hooks/business/captcha";
 
 const { formRef, validate } = useNaiveForm();
 const { label, isCounting, loading, getCaptcha } = useCaptcha(60);
@@ -84,11 +79,11 @@ interface FormModel {
 }
 
 const model = ref<FormModel>({
-  username: "dylan",
-  phone: "13937594982",
-  code: "000000",
-  password: "123456",
-  confirmPassword: "123456",
+  username: 'dylan',
+  phone: '13937594982',
+  code: '000000',
+  password: '123456',
+  confirmPassword: '123456',
 });
 
 const rules = computed(() => {
