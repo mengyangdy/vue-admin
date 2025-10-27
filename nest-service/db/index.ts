@@ -26,7 +26,7 @@ const poolConfig = {
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "123456",
+  password: "MENGyang110..",
   database: "nest_admin_sql",
   waitForConnections: true,
   connectionLimit: 10,

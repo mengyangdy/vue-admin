@@ -1,29 +1,34 @@
 <template>
   <div class="flex flex-col gap-16px">
-    <n-cord title="切换权限模式">
+    <n-card title="切换权限模式">
       <div class="mb-8px font-bold">切换权限模式后查看【左侧菜单->系统管理】</div>
       <div class="flex gap-8px">
         <n-button
-          v-for="account in accounts"
-          :key="account.username"
-          :disabled="userStore.user.roles.includes(account.role)"
-          @click="handleAccount(account)"
+          v-for="accessMode in accessModes"
+          :key="accessMode.value"
+          :disabled="routerMode === accessMode.value"
+          @click="handleAccessMode(accessMode.value)"
         >
-          {{ account.roleName }}
+          {{ accessMode.label }}
         </n-button>
       </div>
-    </n-cord>
+    </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 
+import { useAuthStore } from '@/store/modules/auth';
+
+const authStore = useAuthStore();
+const routerMode = computed(() => import.meta.env.VITE_AUTH_ROUTE_MODE);
+
 const accessModes = computed(() => {
   return [
     {
       label: '前端权限控制',
-      value: 'frontend',
+      value: 'static',
     },
     {
       label: '后端权限控制',
