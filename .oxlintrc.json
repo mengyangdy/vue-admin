@@ -6,7 +6,7 @@
     "curly": "error",
     "no-var": "error",
     "prefer-const": "error",
-    "no-console": "warn",
+    "no-console": "error",
     "no-debugger": "error"
   },
   "overrides": [

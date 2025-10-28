@@ -9,20 +9,17 @@ declare namespace Api {
       records: T[];
     }
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
-    type EnableStatus = '1' | '2';
+    type EnableStatus = 1 | 2;
     type CommonRecord<T = any> = {
       /** record id */
       id: number;
       /** record creator */
-      createBy: string;
-      /** record create time */
-      createTime: string;
+      createdAt: string;
+
       /** record updater */
-      updateBy: string;
-      /** record update time */
-      updateTime: string;
+      updatedAt: string;
       /** record status */
-      status: EnableStatus | null;
+      status: EnableStatus;
     } & T;
   }
 }

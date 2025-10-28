@@ -39,7 +39,7 @@ export function useFormRules() {
     code: [createRequiredRule('请输入验证码'), patternRules.code],
     email: [createRequiredRule('请输入邮箱'), patternRules.email],
   };
-  const defaultRequireRule = createRequiredRule('必填');
+  const defaultRequiredRule = createRequiredRule('必填');
 
   function createRequiredRule(message: string) {
     return {
@@ -70,7 +70,7 @@ export function useFormRules() {
   return {
     patternRules,
     formRules,
-    defaultRequireRule,
+    defaultRequiredRule,
     createRequiredRule,
     createConfirmPwdRule,
   };

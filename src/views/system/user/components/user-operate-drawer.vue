@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
-import { useNaiveForm } from '@/hooks/common/form';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 
 defineOptions({
   name: 'UserOperateDrawer',
@@ -79,6 +79,7 @@ const visible = defineModel<boolean>('visible', {
 });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
+const { defaultRequiredRule } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {

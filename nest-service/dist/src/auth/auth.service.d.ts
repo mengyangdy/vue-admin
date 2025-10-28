@@ -3,8 +3,7 @@ import { RegisterDto } from "./dto/register.dto";
 export declare class AuthService {
     private jwtService;
     register(registerDto: RegisterDto): Promise<{
-        success: boolean;
-        message: string;
+        msg: string;
     }>;
     login(userAuthDto: UserAuthDto): Promise<number>;
     getUserInfo(id: number): Promise<{
@@ -16,6 +15,7 @@ export declare class AuthService {
             phone: string | null;
             avatar: string | null;
             nickname: string | null;
+            gender: number | null;
             status: number | null;
             createdAt: Date | null;
             updatedAt: Date | null;

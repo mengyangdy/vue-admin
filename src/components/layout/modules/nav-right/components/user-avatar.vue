@@ -5,7 +5,7 @@
       <button-icon>
         <svg-icon icon="ph:user-circle" class="text-icon-large" />
         <span class="text-16px font-medium">
-          {{ authStore.userInfo.userName }}
+          {{ authStore.userInfo.username }}
         </span>
       </button-icon>
     </div>

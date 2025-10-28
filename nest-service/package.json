@@ -6,12 +6,12 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
-    "dev": "nest start --watch",
+    "build": "nest build NODE_ENV=development",
+    "dev": "nest start --watch NODE_ENV=development",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "db:generate": "drizzle-kit generate:mysql",
-    "db:migrate": "drizzle-kit migrate"
+    "db:generate": "bunx drizzle-kit generate",
+    "db:migrate": "bunx drizzle-kit migrate"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

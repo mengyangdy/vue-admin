@@ -1,6 +1,7 @@
 {
   "name": "vue-vite-bun-admin",
   "type": "module",
+  "version": "0.0.1",
   "homepage": "https://github.com/mengyangdy/vue-admin",
   "scripts": {
     "dev": "vite",
@@ -22,7 +23,6 @@
     "fast-glob": "^3.3.3",
     "lodash-es": "^4.17.21",
     "nanoid": "^5.1.6",
-    "oxlint": "^1.23.0",
     "pinia": "^3.0.3",
     "pro-composables": "^3.3.3",
     "qs": "^6.14.0",
@@ -32,6 +32,7 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "oxlint": "^1.23.0",
     "@dylanjs/cli": "^1.0.4",
     "@dylanjs/utils": "^0.2.9",
     "@iconify/json": "^2.2.384",

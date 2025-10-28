@@ -1,6 +1,6 @@
 <template>
   <n-space vertical :size="16">
-    {{ $t('system.title') }}
+    {{ $t('page.home.title') }}
     <n-card
       :title="$t('page.about.title')"
       :bordered="false"
@@ -29,11 +29,11 @@
             {{ $t('page.about.projectInfo.githubLink') }}
           </a>
         </n-descriptions-item>
-        <n-description-item :label="$t('page.about.projectInfo.previewLink')">
+        <n-descriptions-item :label="$t('page.about.projectInfo.previewLink')">
           <a class="text-primary" :href="homepage" target="_blank" rel="noopener noreferrer">
             {{ $t('page.about.projectInfo.previewLink') }}
           </a>
-        </n-description-item>
+        </n-descriptions-item>
       </n-descriptions>
     </n-card>
     <n-card

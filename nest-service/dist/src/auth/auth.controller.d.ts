@@ -8,11 +8,10 @@ export declare class AuthController {
     private jwtService;
     login(userAuthDto: UserAuthDto): Promise<{
         token: string;
-        refresh_token: string;
+        refreshToken: string;
     }>;
     register(registerDto: RegisterDto): Promise<{
-        success: boolean;
-        message: string;
+        msg: string;
     }>;
     getUserInfo(user: any): Promise<{
         msg: string;
@@ -23,6 +22,7 @@ export declare class AuthController {
             phone: string | null;
             avatar: string | null;
             nickname: string | null;
+            gender: number | null;
             status: number | null;
             createdAt: Date | null;
             updatedAt: Date | null;

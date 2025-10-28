@@ -5,5 +5,6 @@ export declare class CreateUserDto {
     phone?: string;
     avatar?: string;
     nickname?: string;
+    gender?: number;
     status?: number;
 }

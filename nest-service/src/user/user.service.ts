@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { QueryUserDto } from './dto/query-user.dto';
 import { db } from "../../db";
 import { users } from "../../db/schema";
-import { eq } from "drizzle-orm";
+import { eq, like, and } from "drizzle-orm";
 
 @Injectable()
 export class UserService {
@@ -44,18 +45,78 @@ export class UserService {
     // return newUser[0];
   }
 
-  findAll() {
-    return db.select({
+  async findAll(query: QueryUserDto) {
+    const { current = 1, size = 10, status, username, nickname, phone, email, gender } = query;
+    // 构建查询条件
+    const conditions: any[] = [];
+    
+    if (status === 0 || status === 1) {
+      conditions.push(eq(users.status, status));
+    }
+    
+    if ( gender === 0 || gender === 1 || gender === 2) {
+      console.log(11111);
+      
+      conditions.push(eq(users.gender, gender));
+    }
+    
+    if (username && username.trim() !== '') {
+      conditions.push(like(users.username, `%${username}%`));
+    }
+    
+    if (nickname && nickname.trim() !== '') {
+      conditions.push(like(users.nickname, `%${nickname}%`));
+    }
+    
+    if (phone && phone.trim() !== '') {
+      conditions.push(like(users.phone, `%${phone}%`));
+    }
+    
+    if (email && email.trim() !== '') {
+      conditions.push(like(users.email, `%${email}%`));
+    }
+    console.log("🚀 ~ :82 ~ UserService ~ findAll ~ conditions:", conditions)
+    
+    // 计算分页参数
+    const skip = (current - 1) * size;
+    
+    // 构建查询的 where 条件
+    const whereCondition = conditions.length > 0 ? and(...conditions) : undefined;
+
+    
+    // 定义要查询的字段
+    const selectFields = {
       id: users.id,
       username: users.username,
       email: users.email,
       phone: users.phone,
       avatar: users.avatar,
       nickname: users.nickname,
+      gender: users.gender,
       status: users.status,
       createdAt: users.createdAt,
       updatedAt: users.updatedAt,
-    }).from(users);
+    };
+    
+    // 优化：并行执行总数查询和数据查询，提高性能
+    const [total, records] = await Promise.all([
+      // 查询总数（只查询 id 字段，减少数据传输量）
+      whereCondition 
+        ? db.select({ id: users.id }).from(users).where(whereCondition)
+        : db.select({ id: users.id }).from(users),
+      
+      // 查询分页数据（在数据库层面进行分页，而不是在应用层）
+      whereCondition
+        ? db.select(selectFields).from(users).where(whereCondition).limit(size).offset(skip)
+        : db.select(selectFields).from(users).limit(size).offset(skip)
+    ]);
+    
+    return {
+      records,
+      total: total.length,
+      current,
+      size,
+    };
   }
 
   findOne(id: number) {
@@ -66,6 +127,7 @@ export class UserService {
       phone: users.phone,
       avatar: users.avatar,
       nickname: users.nickname,
+      gender: users.gender,
       status: users.status,
       createdAt: users.createdAt,
       updatedAt: users.updatedAt,
@@ -94,6 +156,7 @@ export class UserService {
     if (updateUserDto.phone) {updateData.phone = updateUserDto.phone;}
     if (updateUserDto.avatar) {updateData.avatar = updateUserDto.avatar;}
     if (updateUserDto.nickname) {updateData.nickname = updateUserDto.nickname;}
+    if (updateUserDto.gender !== undefined) {updateData.gender = updateUserDto.gender;}
     if (updateUserDto.status !== undefined) {updateData.status = updateUserDto.status;}
 
     // 如果更新密码，需要加密
@@ -112,6 +175,7 @@ export class UserService {
       phone: users.phone,
       avatar: users.avatar,
       nickname: users.nickname,
+      gender: users.gender,
       status: users.status,
       createdAt: users.createdAt,
       updatedAt: users.updatedAt,

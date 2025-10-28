@@ -125,7 +125,6 @@ import ThemeDrawer from './modules/theme-drawer/index.vue';
 const themeStore = useThemeStore();
 const vars = useThemeVars();
 const router = useRouter();
-console.log("🚀 ~ :128 ~ router:", router)
 const route = useRoute();
 
 const { layout, fullKeys, activeKey, verticalLayout } = useLayoutMenu({
@@ -135,6 +134,13 @@ const { layout, fullKeys, activeKey, verticalLayout } = useLayoutMenu({
 });
 
 const finalSidebarCollapsedWidth = computed(() => {
+  console.log(
+    themeStore.sider.sidebarCollapsedShowMenuTitle,
+    'themeStore.sider.sidebarCollapsedShowMenuTitle',
+  );
+  console.log(themeStore.sider.collapsedWidth, 'themeStore.sider.collapsedWidth');
+  console.log(themeStore.showMobileSidebarDrawer, 'themeStore.showMobileSidebarDrawer');
+
   return !themeStore.sider.sidebarCollapsedShowMenuTitle
     ? themeStore.sider.collapsedWidth
     : themeStore.showMobileSidebarDrawer;

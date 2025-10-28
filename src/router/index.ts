@@ -34,10 +34,10 @@ export async function setupRouter(app: App) {
       rbacAccessPlugin({
         service: async () => {
           const authStore = useAuthStore();
-          // && userStore.user.roles.length <= 0
-          // if (authStore.token) {
-          //   await authStore.getUserInfo();
-          // }
+          // 如果有 token，恢复用户信息
+          if (authStore.token) {
+            await authStore.getUserInfo();
+          }
           const baseInfo: RbacAccessPluginBaseServiceReturned = {
             logined: !!authStore.token,
             homePath: import.meta.env.VITE_ROUTE_HOME,
@@ -53,7 +53,7 @@ export async function setupRouter(app: App) {
               ...baseInfo,
               mode: 'frontend',
               routes: accessRoutes,
-              roles: [],
+              roles: ['super', 'admin'],
             };
           }
           return {

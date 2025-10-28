@@ -82,12 +82,20 @@ function createCommonRequest<ResponseData = any>(
         response.request, // 请求对象
         response, // 响应对象
       );
-      await opts.onError(backendError); // 调用错误处理钩子
+      const result = await opts.onError(backendError, instance); // 调用错误处理钩子，传入 instance
+      if (result) {
+        // 如果 onError 返回了新的请求结果，则使用它
+        return result;
+      }
       return Promise.reject(backendError); // 返回错误
     },
     // 错误响应处理
     async (error: AxiosError<ResponseData>) => {
-      await opts.onError(error); // 调用错误处理钩子
+      const result = await opts.onError(error, instance); // 调用错误处理钩子，传入 instance
+      if (result) {
+        // 如果 onError 返回了新的请求结果，则使用它
+        return result;
+      }
       return Promise.reject(error); // 拒绝 Promise
     },
   );

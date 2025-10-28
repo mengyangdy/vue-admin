@@ -1,49 +1,31 @@
-import { drizzle } from "drizzle-orm/mysql2";
-import { createPool } from "mysql2/promise";
-import * as schema from "./schema";
+import * as dotenv from 'dotenv';
+import { drizzle } from 'drizzle-orm/mysql2';
+import { createPool } from 'mysql2/promise';
 
-// 创建连接池配置
-// const poolConfig = {
-//   host: "119.8.103.97",
-//   port: 3306,
-//   user: "root",
-//   password: "MENgyang110.",
-//   database: "nest_admin_sql",
-//   waitForConnections: true,
-//   connectionLimit: 10,
-//   queueLimit: 0,
-//   acquireTimeout: 60000,
-//   timeout: 60000,
-//   reconnect: true,
-//   // 添加字符集配置
-//   charset: "utf8mb4",
-//   // 添加时区配置
-//   timezone: "+08:00",
-// };
+import * as schema from './schema';
+
+// 加载对应的 env 文件
+dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
 // 创建连接池配置
 const poolConfig = {
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "MENGyang110..",
-  database: "nest_admin_sql",
+  host: process.env.DATABASE_HOST || 'localhost',
+  port: parseInt(process.env.DATABASE_PORT || '3306', 10),
+  user: process.env.DATABASE_USER || '',
+  password: process.env.DATABASE_PASSWORD || '',
+  database: process.env.DATABASE_NAME || 'nest_admin_sql',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  acquireTimeout: 60000,
-  timeout: 60000,
-  reconnect: true,
-  // 添加字符集配置
-  charset: "utf8mb4",
-  // 添加时区配置
-  timezone: "+08:00",
+  connectTimeout: 60000,
+  charset: 'utf8mb4',
+  timezone: '+08:00',
 };
 
 // 创建连接池
 const pool = createPool(poolConfig);
 
 // 创建 Drizzle 实例
-const db = drizzle(pool, { schema, mode: "default" });
+const db = drizzle(pool, { schema, mode: 'default' });
 
 export { db, pool };

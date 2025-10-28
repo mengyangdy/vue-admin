@@ -11,7 +11,7 @@ export function createDefaultOptions<ResponseData = any>(
   const opts: RequestOption<ResponseData> = {
     isBackendSuccess: (_response) => true,
     onBackendFail: async () => {},
-    onError: async () => {},
+    onError: async (_error, _instance) => {},
     onRequest: async (config) => config,
     transformBackendResponse: async (response) => response.data,
   };

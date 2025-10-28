@@ -263,6 +263,7 @@ export function useTableOperate<TableData>(
 function useTable<ResponseData, ApiData, Column, Pagination extends boolean>(
   options: UseTableOptions<ResponseData, ApiData, Column, Pagination>,
 ) {
+
   const { loading, startLoading, endLoading } = useLoading();
   const { bool: empty, setBool: setEmpty } = useBoolean();
   const {

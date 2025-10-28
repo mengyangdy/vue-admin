@@ -254,9 +254,40 @@ declare namespace App {
     };
 
     type Schema = {
+      common: {
+        status: {
+          enable: string;
+          disable: string;
+        };
+        edit: string;
+        delete: string;
+        confirmDelete: string;
+      };
       page: {
         home: {
           title: string;
+        };
+        about: {
+          title: string;
+          introduction: string;
+          projectInfo: {
+            title: string;
+            version: string;
+            latestBuildTime: string;
+            githubLink: string;
+            previewLink: string;
+          };
+          prdDep: string;
+          devDep: string;
+        };
+        manage: {
+          user: {
+            gender: {
+              unknown: string;
+              male: string;
+              female: string;
+            };
+          };
         };
       };
     };

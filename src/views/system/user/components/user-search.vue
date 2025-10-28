@@ -2,7 +2,13 @@
   <n-card :bordered="false" size="small" class="card-wrapper">
     <n-collapse>
       <n-collapse-item title="搜索" name="user-search">
-        <n-form ref="formRef" :model="model" rules="rules" label-placement="left" :label-width="80">
+        <n-form
+          ref="formRef"
+          :model="model"
+          :rules="rules"
+          label-placement="left"
+          :label-width="80"
+        >
           <n-grid responsive="screen" item-responsive>
             <n-form-item-gi span="24 s:12 m:6" label="用户名" path="userName" class="pr-24px">
               <n-input v-model:value="model.userName" placeholder="请输入用户名" />
@@ -58,7 +64,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { useNaiveForm } from '@/hooks/common/form';
+import { enableStatusOptions, userGenderOptions } from '@/constants/business';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { translateOptions } from '@/utils/common';
 
 defineOptions({

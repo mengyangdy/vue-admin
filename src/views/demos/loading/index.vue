@@ -22,10 +22,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const basicLoading = ref(false);
 
-const basicLoading=ref(false)
-
-function toggleBasicLoading(){
-  basicLoading.value=!basicLoading.value
+function toggleBasicLoading() {
+  basicLoading.value = !basicLoading.value;
 }
 </script>

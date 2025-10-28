@@ -12,12 +12,11 @@
           @refresh="getData"
         />
       </template>
-      <n-data-table
+      <NDataTable
         v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
         :data="data"
         size="small"
-        :flex-height="!themeStore.isMobile"
         :scroll-x="962"
         :loading="loading"
         remote
@@ -25,7 +24,7 @@
         :pagination="mobilePagination"
         class="sm:h-full"
       />
-      <user-operateDrawer
+      <UserOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"
@@ -40,23 +39,26 @@ import { reactive } from 'vue';
 
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 
-import { userGenderRecord } from '@/constants/business';
+import { enableStatusRecord, userGenderRecord } from '@/constants/business';
 import { defaultTransform, useNaivePaginatedTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { fetchGetUserList } from '@/service/api';
 import { useThemeStore } from '@/store/modules/theme';
+
+import UserOperateDrawer from './components/user-operate-drawer.vue';
+import UserSearch from './components/user-search.vue';
 
 const themeStore = useThemeStore();
 
 const searchParams: Api.SystemManage.UserSearchParams = reactive({
   current: 1,
   size: 10,
-  status: null,
-  userName: null,
-  userGender: null,
-  nickName: null,
-  userPhone: null,
-  userEmail: null,
+  status: 1,
+  username: null,
+  gender: 1,
+  nickname: null,
+  phone: null,
+  email: null,
 });
 
 const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagination } =
@@ -74,6 +76,12 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         width: 48,
       },
       {
+        key: 'id',
+        title: `ID`,
+        align: 'center',
+        width: 80,
+      },
+      {
         key: 'index',
         title: `序号`,
         align: 'center',
@@ -81,45 +89,46 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         render: (_, index) => index + 1,
       },
       {
-        key: 'userName',
+        key: 'username',
         title: `用户名`,
         align: 'center',
         minWidth: 100,
       },
       {
-        key: 'userGender',
-        title: `性别`,
-        align: 'center',
-        width: 100,
-        render: (row) => {
-          if (row.userGender === null) {
-            return null;
-          }
-
-          const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
-            1: 'primary',
-            2: 'error',
-          };
-
-          const label = $t(userGenderRecord[row.userGender]);
-
-          return <NTag type={tagMap[row.userGender]}>{label}</NTag>;
-        },
-      },
-      {
-        key: 'nickName',
+        key: 'nickname',
         title: `昵称`,
         align: 'center',
         minWidth: 100,
       },
       {
-        key: 'userPhone',
+        key: 'gender',
+        title: `性别`,
+        align: 'center',
+        width: 100,
+        render: (row: any) => {
+          if (row.gender === null || row.gender === undefined) {
+            return null;
+          }
+
+          const tagMap: Record<Api.SystemManage.gender, NaiveUI.ThemeColor> = {
+            0: 'info',
+            1: 'primary',
+            2: 'error',
+          };
+
+          const genderValue = row.gender as Api.SystemManage.gender;
+          const label = $t(userGenderRecord[genderValue]);
+          return <NTag type={tagMap[genderValue]}>{label}</NTag>;
+        },
+      },
+      {
+        key: 'phone',
         title: `手机号`,
         align: 'center',
         width: 120,
       },
       {
-        key: 'userEmail',
+        key: 'email',
         title: `邮箱`,
         align: 'center',
         minWidth: 200,
@@ -129,8 +138,8 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         title: `用户状态`,
         align: 'center',
         width: 100,
-        render: (row) => {
-          if (row.status === null) {
+        render: (row: any) => {
+          if (row.status === null || row.status === undefined) {
             return null;
           }
 
@@ -139,9 +148,9 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
             2: 'warning',
           };
 
-          const label = $t(enableStatusRecord[row.status]);
+          const label = $t(enableStatusRecord[row.status as Api.Common.EnableStatus]);
 
-          return <NTag type={tagMap[row.status]}>{label}</NTag>;
+          return <NTag type={tagMap[row.status as Api.Common.EnableStatus]}>{label}</NTag>;
         },
       },
       {
@@ -149,7 +158,7 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         title: `操作`,
         align: 'center',
         width: 130,
-        render: (row) => (
+        render: (row: any) => (
           <div class="flex-center gap-8px">
             <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
               {$t('common.edit')}
@@ -169,6 +178,7 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
       },
     ],
   });
+console.log('🚀 ~ :183 ~ data:', data);
 
 const {
   drawerVisible,
@@ -184,14 +194,12 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
 
   onBatchDeleted();
 }
 
 function handleDelete(id: number) {
   // request
-  console.log(id);
 
   onDeleted();
 }

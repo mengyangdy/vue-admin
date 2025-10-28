@@ -36,7 +36,7 @@ export class ResponseInterceptor<T>
         return {
           code: "0000",
           success: true,
-          message: data.msg ? data.msg : "操作成功",
+          msg: data.msg ? data.msg : "操作成功",
           data: data.data ? data.data : data,
           timestamp: new Date().toISOString(),
         };

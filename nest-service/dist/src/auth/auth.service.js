@@ -1,12 +1,12 @@
 "use strict";
-const __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    let c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") {r = Reflect.decorate(decorators, target, key, desc);}
-    else {for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;}
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-const __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") {return Reflect.metadata(k, v);}
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
@@ -27,7 +27,7 @@ let AuthService = class AuthService {
             throw new common_1.ConflictException("用户名已存在");
         }
         const hashedPassword = await argon2.hash(registerDto.password);
-        const result = await db_1.db.insert(schema_1.users).values({
+        await db_1.db.insert(schema_1.users).values({
             username: registerDto.username,
             password: hashedPassword,
             phone: registerDto.phone,
@@ -35,23 +35,8 @@ let AuthService = class AuthService {
             nickname: registerDto.nickname,
             avatar: registerDto.avatar,
         });
-        const newUser = await db_1.db
-            .select({
-            id: schema_1.users.id,
-            username: schema_1.users.username,
-            email: schema_1.users.email,
-            phone: schema_1.users.phone,
-            avatar: schema_1.users.avatar,
-            nickname: schema_1.users.nickname,
-            status: schema_1.users.status,
-            createdAt: schema_1.users.createdAt,
-            updatedAt: schema_1.users.updatedAt,
-        })
-            .from(schema_1.users)
-            .where((0, drizzle_orm_1.eq)(schema_1.users.id, result[0].insertId));
         return {
-            success: true,
-            message: "注册成功",
+            msg: "注册成功",
         };
     }
     async login(userAuthDto) {

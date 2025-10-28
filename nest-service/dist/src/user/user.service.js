@@ -1,8 +1,8 @@
 "use strict";
-const __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    let c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") {r = Reflect.decorate(decorators, target, key, desc);}
-    else {for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;}
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -19,18 +19,57 @@ let UserService = class UserService {
         }
         const saltRounds = 10;
     }
-    findAll() {
-        return db_1.db.select({
+    async findAll(query) {
+        const { current = 1, size = 10, status, username, nickname, phone, email, gender } = query;
+        const conditions = [];
+        if (status === 0 || status === 1) {
+            conditions.push((0, drizzle_orm_1.eq)(schema_1.users.status, status));
+        }
+        if (gender === 0 || gender === 1 || gender === 2) {
+            console.log(11111);
+            conditions.push((0, drizzle_orm_1.eq)(schema_1.users.gender, gender));
+        }
+        if (username && username.trim() !== '') {
+            conditions.push((0, drizzle_orm_1.like)(schema_1.users.username, `%${username}%`));
+        }
+        if (nickname && nickname.trim() !== '') {
+            conditions.push((0, drizzle_orm_1.like)(schema_1.users.nickname, `%${nickname}%`));
+        }
+        if (phone && phone.trim() !== '') {
+            conditions.push((0, drizzle_orm_1.like)(schema_1.users.phone, `%${phone}%`));
+        }
+        if (email && email.trim() !== '') {
+            conditions.push((0, drizzle_orm_1.like)(schema_1.users.email, `%${email}%`));
+        }
+        console.log("🚀 ~ :82 ~ UserService ~ findAll ~ conditions:", conditions);
+        const skip = (current - 1) * size;
+        const whereCondition = conditions.length > 0 ? (0, drizzle_orm_1.and)(...conditions) : undefined;
+        const selectFields = {
             id: schema_1.users.id,
             username: schema_1.users.username,
             email: schema_1.users.email,
             phone: schema_1.users.phone,
             avatar: schema_1.users.avatar,
             nickname: schema_1.users.nickname,
+            gender: schema_1.users.gender,
             status: schema_1.users.status,
             createdAt: schema_1.users.createdAt,
             updatedAt: schema_1.users.updatedAt,
-        }).from(schema_1.users);
+        };
+        const [total, records] = await Promise.all([
+            whereCondition
+                ? db_1.db.select({ id: schema_1.users.id }).from(schema_1.users).where(whereCondition)
+                : db_1.db.select({ id: schema_1.users.id }).from(schema_1.users),
+            whereCondition
+                ? db_1.db.select(selectFields).from(schema_1.users).where(whereCondition).limit(size).offset(skip)
+                : db_1.db.select(selectFields).from(schema_1.users).limit(size).offset(skip)
+        ]);
+        return {
+            records,
+            total: total.length,
+            current,
+            size,
+        };
     }
     findOne(id) {
         return db_1.db.select({
@@ -40,6 +79,7 @@ let UserService = class UserService {
             phone: schema_1.users.phone,
             avatar: schema_1.users.avatar,
             nickname: schema_1.users.nickname,
+            gender: schema_1.users.gender,
             status: schema_1.users.status,
             createdAt: schema_1.users.createdAt,
             updatedAt: schema_1.users.updatedAt,
@@ -72,6 +112,9 @@ let UserService = class UserService {
         if (updateUserDto.nickname) {
             updateData.nickname = updateUserDto.nickname;
         }
+        if (updateUserDto.gender !== undefined) {
+            updateData.gender = updateUserDto.gender;
+        }
         if (updateUserDto.status !== undefined) {
             updateData.status = updateUserDto.status;
         }
@@ -86,6 +129,7 @@ let UserService = class UserService {
             phone: schema_1.users.phone,
             avatar: schema_1.users.avatar,
             nickname: schema_1.users.nickname,
+            gender: schema_1.users.gender,
             status: schema_1.users.status,
             createdAt: schema_1.users.createdAt,
             updatedAt: schema_1.users.updatedAt,

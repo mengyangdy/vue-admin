@@ -14,5 +14,6 @@ declare namespace StorageType {
      * 值是项目的构建时间
      */
     overrideThemeFlag: string;
+    userInfo: Api.Auth.UserInfo | null;
   }
 }

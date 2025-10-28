@@ -20,7 +20,10 @@ export interface RequestOption<ResponseData = any> {
     response: AxiosResponse<ResponseData>,
     instance: AxiosInstance,
   ) => Promise<AxiosResponse | null> | Promise<void>;
-  onError: (error: AxiosError<ResponseData>) => void | Promise<void>;
+  onError: (
+    error: AxiosError<ResponseData>,
+    instance: AxiosInstance,
+  ) => void | Promise<AxiosResponse<ResponseData> | void>;
   onRequest: (
     config: InternalAxiosRequestConfig,
   ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;

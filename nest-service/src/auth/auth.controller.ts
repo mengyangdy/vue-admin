@@ -22,10 +22,10 @@ export class AuthController {
         userId: id,
       },
       {
-        expiresIn: "1m",
+        expiresIn: "1d",
       }
     );
-    const refresh_token = this.jwtService.sign(
+    const refreshToken = this.jwtService.sign(
       {
         userId: id,
       },
@@ -36,7 +36,7 @@ export class AuthController {
 
     return {
       token,
-      refresh_token,
+      refreshToken,
     };
   }
 

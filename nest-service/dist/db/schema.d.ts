@@ -121,6 +121,23 @@ export declare const users: import("drizzle-orm/mysql-core").MySqlTableWithColum
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        gender: import("drizzle-orm/mysql-core").MySqlColumn<{
+            name: "gender";
+            tableName: "users";
+            dataType: "number";
+            columnType: "MySqlInt";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
         status: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "status";
             tableName: "users";

@@ -8,7 +8,7 @@ import { useRouterPush } from '@/hooks/common/router';
 import { fetchGetUserInfo, fetchLogin, fetchRegister } from '@/service/api/auth';
 import { localStg } from '@/utils/storage';
 
-import { getToken } from './shared';
+import { cacheUserInfo, getCachedUserInfo, getToken } from './shared';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const authStore = useAuthStore();
@@ -16,15 +16,17 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const router = useRouter();
   const { toLogin, redirectFromLogin } = useRouterPush(false);
   const token = ref(getToken());
-  const userInfo: Api.Auth.UserInfo = reactive({
-    id: null,
-    username: '',
-    roles: [],
-    buttons: [],
-    status: 0,
-    createdAt: '',
-    updatedAt: '',
-  });
+  const userInfo: Api.Auth.UserInfo = reactive(
+    getCachedUserInfo() || {
+      id: null,
+      username: '',
+      roles: ['super'],
+      buttons: [],
+      status: 0,
+      createdAt: '',
+      updatedAt: '',
+    },
+  );
 
   const routes = ref<RouteRecordRaw[]>([]); // 当前角色拥有的路由，Admin 中根据此数据生成菜单
   const isLogin = computed(() => Boolean(token.value));
@@ -78,10 +80,17 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   };
 
   const getUserInfo = async () => {
+    const cachedUserInfo = getCachedUserInfo();
+
+    if (cachedUserInfo) {
+      Object.assign(userInfo, cachedUserInfo);
+      return true;
+    }
+
     const { data: info, error } = await fetchGetUserInfo();
-    console.log('🚀 ~ :75 ~ getUserInfo ~ info:', info);
     if (!error) {
       Object.assign(userInfo, info);
+      cacheUserInfo(info);
       return true;
     }
     return false;

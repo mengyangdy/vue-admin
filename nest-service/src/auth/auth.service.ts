@@ -18,17 +18,17 @@ export class AuthService {
   @Inject(JwtService)
   private jwtService: JwtService;
   async register(registerDto: RegisterDto) {
-    const existingUser = await db
+      const existingUser = await db
       .select()
       .from(users)
       .where(eq(users.username, registerDto.username));
-    if (existingUser.length > 0) {
-      throw new ConflictException("用户名已存在");
-    }
+      if (existingUser.length > 0) {
+        throw new ConflictException("用户名已存在");
+      }
 
-    // TODO：手机号去重校验
+      // TODO：手机号去重校验
     const hashedPassword = await argon2.hash(registerDto.password);
-    const result = await db.insert(users).values({
+    await db.insert(users).values({
       username: registerDto.username,
       password: hashedPassword,
       phone: registerDto.phone,
@@ -36,26 +36,10 @@ export class AuthService {
       nickname: registerDto.nickname,
       avatar: registerDto.avatar,
     });
-    // 返回创建的用户信息（不包含密码）
-    const newUser = await db
-      .select({
-        id: users.id,
-        username: users.username,
-        email: users.email,
-        phone: users.phone,
-        avatar: users.avatar,
-        nickname: users.nickname,
-        status: users.status,
-        createdAt: users.createdAt,
-        updatedAt: users.updatedAt,
-      })
-      .from(users)
-      .where(eq(users.id, result[0].insertId));
 
     // return newUser[0];
     return {
-      success: true,
-      message: "注册成功",
+      msg: "注册成功",
     };
   }
   async login(userAuthDto: UserAuthDto) {
