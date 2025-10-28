@@ -26,6 +26,7 @@ export declare class AuthController {
             status: number | null;
             createdAt: Date | null;
             updatedAt: Date | null;
+            deletedAt: Date | null;
         };
     }>;
     refresh(refreshTokenDto: RefreshTokenDto): Promise<{

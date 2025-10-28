@@ -9,6 +9,7 @@ import { useThemeStore } from '@/store/modules/theme';
 
 import useBoolean from './use-boolean';
 import useLoading from './use-loading';
+import { FlatResponseData } from '@/service/axios-request';
 
 const appStore = useAppStore();
 
@@ -382,7 +383,7 @@ function getColumns<Column extends NaiveUI.TableColumn<any>>(
 }
 
 export function defaultTransform<ApiData>(
-  response: FlatResponseData<any, Api.Common.PaginationQueryRecord<ApiData>>,
+  response: FlatResponseData<any, Api.Common.PaginatingQueryRecord<ApiData>>,
 ): PaginationData<ApiData> {
   const { data, error } = response;
   if (!error) {

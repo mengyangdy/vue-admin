@@ -189,6 +189,23 @@ export declare const users: import("drizzle-orm/mysql-core").MySqlTableWithColum
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        deletedAt: import("drizzle-orm/mysql-core").MySqlColumn<{
+            name: "deleted_at";
+            tableName: "users";
+            dataType: "date";
+            columnType: "MySqlDateTime";
+            data: Date;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
     };
     dialect: "mysql";
 }>;

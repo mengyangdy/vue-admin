@@ -14,7 +14,7 @@ declare namespace NaiveUI {
     visible: boolean;
   };
 
-  type SetTableColumnKey<C, T> = Omit<C, 'key'> & { key: keyof T | (string & {}) };
+  type SetTableColumnKey<C, T> = Omit<C, 'key'> & { key: string | number };
 
   type TableColumnWithKey<T> =
     | SetTableColumnKey<DataTableBaseColumn<T>, T>

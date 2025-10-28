@@ -19,6 +19,7 @@ export declare class AuthService {
             status: number | null;
             createdAt: Date | null;
             updatedAt: Date | null;
+            deletedAt: Date | null;
         };
     }>;
     refreshToken(refreshToken: string): Promise<{

@@ -14,6 +14,7 @@ export const users = mysqlTable('users', {
   status: int('status').default(1), // 用户状态：1-正常，0-禁用
   createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`),
   updatedAt: datetime('updated_at').default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+  deletedAt: datetime('deleted_at'), // 逻辑删除时间
 });
 
 // 角色表

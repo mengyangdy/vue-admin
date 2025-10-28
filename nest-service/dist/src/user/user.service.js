@@ -43,7 +43,10 @@ let UserService = class UserService {
         }
         console.log("🚀 ~ :82 ~ UserService ~ findAll ~ conditions:", conditions);
         const skip = (current - 1) * size;
-        const whereCondition = conditions.length > 0 ? (0, drizzle_orm_1.and)(...conditions) : undefined;
+        const notDeletedCondition = (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt);
+        const allConditions = conditions.length > 0
+            ? (0, drizzle_orm_1.and)(...conditions, notDeletedCondition)
+            : notDeletedCondition;
         const selectFields = {
             id: schema_1.users.id,
             username: schema_1.users.username,
@@ -57,12 +60,8 @@ let UserService = class UserService {
             updatedAt: schema_1.users.updatedAt,
         };
         const [total, records] = await Promise.all([
-            whereCondition
-                ? db_1.db.select({ id: schema_1.users.id }).from(schema_1.users).where(whereCondition)
-                : db_1.db.select({ id: schema_1.users.id }).from(schema_1.users),
-            whereCondition
-                ? db_1.db.select(selectFields).from(schema_1.users).where(whereCondition).limit(size).offset(skip)
-                : db_1.db.select(selectFields).from(schema_1.users).limit(size).offset(skip)
+            db_1.db.select({ id: schema_1.users.id }).from(schema_1.users).where(allConditions),
+            db_1.db.select(selectFields).from(schema_1.users).where(allConditions).limit(size).offset(skip)
         ]);
         return {
             records,
@@ -83,15 +82,19 @@ let UserService = class UserService {
             status: schema_1.users.status,
             createdAt: schema_1.users.createdAt,
             updatedAt: schema_1.users.updatedAt,
-        }).from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
+        }).from(schema_1.users).where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.users.id, id), (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt)));
     }
     async update(id, updateUserDto) {
-        const existingUser = await db_1.db.select().from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
+        const existingUser = await db_1.db.select()
+            .from(schema_1.users)
+            .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.users.id, id), (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt)));
         if (existingUser.length === 0) {
             throw new common_1.NotFoundException('用户不存在');
         }
         if (updateUserDto.username && updateUserDto.username !== existingUser[0].username) {
-            const userWithSameUsername = await db_1.db.select().from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.username, updateUserDto.username));
+            const userWithSameUsername = await db_1.db.select()
+                .from(schema_1.users)
+                .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.users.username, updateUserDto.username), (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt)));
             if (userWithSameUsername.length > 0) {
                 throw new common_1.ConflictException('用户名已存在');
             }
@@ -133,15 +136,19 @@ let UserService = class UserService {
             status: schema_1.users.status,
             createdAt: schema_1.users.createdAt,
             updatedAt: schema_1.users.updatedAt,
-        }).from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
+        }).from(schema_1.users).where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.users.id, id), (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt)));
         return updatedUser[0];
     }
     async remove(id) {
-        const existingUser = await db_1.db.select().from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
+        const existingUser = await db_1.db.select()
+            .from(schema_1.users)
+            .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.users.id, id), (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt)));
         if (existingUser.length === 0) {
             throw new common_1.NotFoundException('用户不存在');
         }
-        await db_1.db.delete(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
+        await db_1.db.update(schema_1.users)
+            .set({ deletedAt: (0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP` })
+            .where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
         return { message: '用户删除成功' };
     }
 };

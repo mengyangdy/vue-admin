@@ -15,6 +15,7 @@ exports.users = (0, mysql_core_1.mysqlTable)('users', {
     status: (0, mysql_core_1.int)('status').default(1),
     createdAt: (0, mysql_core_1.datetime)('created_at').default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
     updatedAt: (0, mysql_core_1.datetime)('updated_at').default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    deletedAt: (0, mysql_core_1.datetime)('deleted_at'),
 });
 exports.roles = (0, mysql_core_1.mysqlTable)('roles', {
     id: (0, mysql_core_1.serial)('id').primaryKey(),
