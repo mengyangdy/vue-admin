@@ -1,12 +1,18 @@
 const local: App.I18n.Schema = {
   common: {
-    edit: 'Edit',
-    delete: 'Delete',
-    confirmDelete: 'Confirm Delete',
     status: {
       enable: 'Enable',
       disable: 'Disable',
     },
+    edit: 'Edit',
+    delete: 'Delete',
+    confirmDelete: 'Confirm Delete',
+    check: 'Check',
+    expandColumn: 'Expand',
+    batchDelete: 'Batch Delete',
+    refresh: 'Refresh',
+    add: 'Add',
+    columnSetting: 'Column Setting',
   },
   page: {
     home: {

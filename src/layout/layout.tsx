@@ -32,6 +32,7 @@ export default defineComponent({
   setup(props) {
     const themeVars = useThemeVars();
     const mergedClsPrefix = useNaiveClsPrefix();
+    console.log("🚀 ~ :35 ~ mergedClsPrefix:", mergedClsPrefix)
     const overridedProps = useOverrideProps(name, props);
 
     const {
@@ -51,6 +52,7 @@ export default defineComponent({
       mergedFooterClass,
       mergedContentClass,
     } = useMergeConfig(overridedProps);
+      console.log("🚀 ~ :55 ~ mergedContentClass:", mergedContentClass)
 
     const { disabled } = useDisabledTransitionWhenModeChange(mergedMode);
 

@@ -17,6 +17,7 @@
         :columns="columns"
         :data="data"
         size="small"
+        :flex-height="!themeStore.isMobile"
         :scroll-x="962"
         :loading="loading"
         remote
@@ -76,12 +77,6 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         width: 48,
       },
       {
-        key: 'id',
-        title: `ID`,
-        align: 'center',
-        width: 80,
-      },
-      {
         key: 'index',
         title: `序号`,
         align: 'center',
@@ -99,6 +94,9 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         title: `昵称`,
         align: 'center',
         minWidth: 100,
+        render: (row) => {
+          return <span>{row.nickname || '-'}</span>;
+        },
       },
       {
         key: 'gender',
@@ -132,6 +130,9 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         title: `邮箱`,
         align: 'center',
         minWidth: 200,
+        render: (row) => {
+          return <span>{row.email || '-'}</span>;
+        },
       },
       {
         key: 'status',
@@ -178,7 +179,6 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
       },
     ],
   });
-console.log('🚀 ~ :183 ~ data:', data);
 
 const {
   drawerVisible,

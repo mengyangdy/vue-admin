@@ -1,12 +1,18 @@
 const local: App.I18n.Schema = {
   common: {
-    edit: '编辑',
-    delete: '删除',
-    confirmDelete: '确认删除',
     status: {
       enable: '启用',
       disable: '禁用',
     },
+    edit: '编辑',
+    delete: '删除',
+    confirmDelete: '确认删除',
+    check: '选择',
+    expandColumn: '展开',
+    batchDelete: '批量删除',
+    refresh: '刷新',
+    add: '添加',
+    columnSetting: '列设置',
   },
   page: {
     home: {

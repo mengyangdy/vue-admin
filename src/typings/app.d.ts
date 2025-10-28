@@ -262,6 +262,12 @@ declare namespace App {
         edit: string;
         delete: string;
         confirmDelete: string;
+        check: string;
+        expandColumn: string;
+        batchDelete: string;
+        refresh: string;
+        add: string;
+        columnSetting: string;
       };
       page: {
         home: {
