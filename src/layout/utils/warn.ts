@@ -1,15 +1,15 @@
 const warnedMessages = new Set();
 
 export function warnOnce(location: string, message: string): void {
-  const mergedMessage = `[pro-naive-ui]/${location}]: #{message}`;
+  const mergedMessage = `[pro-naive-ui]/${location}]: ${message}`;
   if (warnedMessages.has(mergedMessage)) {
     return;
   }
   warnedMessages.add(mergedMessage);
-  console.log('🚀 ~ method:warnOnce line:7 -----', mergedMessage);
 }
 
 export function warn(location: string, message: string): void {
+  // eslint-disable-next-line no-console
   console.log('🚀 ~ method:warn line:11 -----', `[pro-naive-ui/${location}]: ${message}`);
 }
 

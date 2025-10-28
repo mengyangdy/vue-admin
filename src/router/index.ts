@@ -12,10 +12,7 @@ import {
   rbacAccessPlugin,
   refreshPlugin,
 } from './pro-router';
-import type {
-  RbacAccessPluginBaseServiceReturned,
-  RbacAccessPluginRouteRecordRawWithStringComponent,
-} from './pro-router';
+import type { RbacAccessPluginBaseServiceReturned } from './pro-router';
 import {
   LOGIN_ROUTE_PATH,
   ROOT_ROUTE_NAME,
@@ -70,6 +67,7 @@ export async function setupRouter(app: App) {
               if (!dynamicComponent) {
                 dynamicComponent = () => import('@/views/demos/fallback/404.vue');
                 if (__DEV__) {
+                  // eslint-disable-next-line no-console
                   console.warn(`[Router] 未找到组件: ${component}，替换成 404 页面`);
                 }
               }

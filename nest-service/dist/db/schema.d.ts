@@ -247,6 +247,23 @@ export declare const roles: import("drizzle-orm/mysql-core").MySqlTableWithColum
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        code: import("drizzle-orm/mysql-core").MySqlColumn<{
+            name: "code";
+            tableName: "roles";
+            dataType: "string";
+            columnType: "MySqlVarChar";
+            data: string;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
         description: import("drizzle-orm/mysql-core").MySqlColumn<{
             name: "description";
             tableName: "roles";
@@ -260,6 +277,23 @@ export declare const roles: import("drizzle-orm/mysql-core").MySqlTableWithColum
             isAutoincrement: false;
             hasRuntimeDefault: false;
             enumValues: [string, ...string[]];
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        status: import("drizzle-orm/mysql-core").MySqlColumn<{
+            name: "status";
+            tableName: "roles";
+            dataType: "number";
+            columnType: "MySqlInt";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
             baseColumn: never;
             identity: undefined;
             generated: undefined;
@@ -290,6 +324,23 @@ export declare const roles: import("drizzle-orm/mysql-core").MySqlTableWithColum
             driverParam: string | number;
             notNull: false;
             hasDefault: true;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
+        deletedAt: import("drizzle-orm/mysql-core").MySqlColumn<{
+            name: "deleted_at";
+            tableName: "roles";
+            dataType: "date";
+            columnType: "MySqlDateTime";
+            data: Date;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: false;
             isPrimaryKey: false;
             isAutoincrement: false;
             hasRuntimeDefault: false;

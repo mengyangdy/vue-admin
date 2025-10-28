@@ -17,7 +17,6 @@ let UserService = class UserService {
         if (existingUser.length > 0) {
             throw new common_1.ConflictException('用户名已存在');
         }
-        const saltRounds = 10;
     }
     async findAll(query) {
         const { current = 1, size = 10, status, username, nickname, phone, email, gender } = query;
@@ -26,7 +25,6 @@ let UserService = class UserService {
             conditions.push((0, drizzle_orm_1.eq)(schema_1.users.status, status));
         }
         if (gender === 0 || gender === 1 || gender === 2) {
-            console.log(11111);
             conditions.push((0, drizzle_orm_1.eq)(schema_1.users.gender, gender));
         }
         if (username && username.trim() !== '') {
@@ -41,7 +39,6 @@ let UserService = class UserService {
         if (email && email.trim() !== '') {
             conditions.push((0, drizzle_orm_1.like)(schema_1.users.email, `%${email}%`));
         }
-        console.log("🚀 ~ :82 ~ UserService ~ findAll ~ conditions:", conditions);
         const skip = (current - 1) * size;
         const notDeletedCondition = (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt);
         const allConditions = conditions.length > 0
@@ -122,7 +119,6 @@ let UserService = class UserService {
             updateData.status = updateUserDto.status;
         }
         if (updateUserDto.password) {
-            const saltRounds = 10;
         }
         await db_1.db.update(schema_1.users).set(updateData).where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
         const updatedUser = await db_1.db.select({

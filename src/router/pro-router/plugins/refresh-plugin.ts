@@ -1,6 +1,5 @@
 import { nextTick, ref } from 'vue';
 
-import { timestamp } from '@vueuse/core';
 import { NProgress } from 'naive-ui';
 
 import { ROUTE_NAME } from '../constant';

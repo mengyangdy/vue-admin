@@ -1,5 +1,3 @@
-import type { AxiosResponse } from 'axios';
-
 import { useAuthStore } from '@/store/modules/auth';
 import { getServiceBaseURL } from '@/utils/service';
 import { localStg } from '@/utils/storage';
@@ -28,7 +26,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       // 如需自定义此逻辑，可在 `.env` 文件中修改 `VITE_SERVICE_SUCCESS_CODE`
       return String(response.data.code) === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
     },
-    async onBackendFail(response, instance) {
+    async onBackendFail(response) {
       const authStore = useAuthStore();
       const responseCode = String(response.data.code);
 
@@ -84,8 +82,6 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
     },
     // 后台返回错误处理
     async onError(error, instance) {
-      console.log('🚀 ~ :87 ~ instance:', instance);
-      console.log('🚀 ~ :87 ~ error:', error);
       let message = error.message;
       let backendErrorCode = '';
 

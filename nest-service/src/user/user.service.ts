@@ -16,7 +16,7 @@ export class UserService {
     }
 
     // 加密密码
-    const saltRounds = 10;
+    // const saltRounds = 10;
 
     // // 创建用户
     // const result = await db.insert(users).values({
@@ -55,7 +55,6 @@ export class UserService {
     }
     
     if ( gender === 0 || gender === 1 || gender === 2) {
-      console.log(11111);
       
       conditions.push(eq(users.gender, gender));
     }
@@ -75,7 +74,6 @@ export class UserService {
     if (email && email.trim() !== '') {
       conditions.push(like(users.email, `%${email}%`));
     }
-    console.log("🚀 ~ :82 ~ UserService ~ findAll ~ conditions:", conditions)
     
     // 计算分页参数
     const skip = (current - 1) * size;
@@ -166,7 +164,6 @@ export class UserService {
 
     // 如果更新密码，需要加密
     if (updateUserDto.password) {
-      const saltRounds = 10;
     }
 
     // 执行更新

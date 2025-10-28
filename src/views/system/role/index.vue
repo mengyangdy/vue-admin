@@ -36,6 +36,8 @@
 </template>
 
 <script setup lang="tsx">
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+
 import { useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { useThemeStore } from '@/store/modules/theme';
@@ -148,14 +150,12 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
 
   onBatchDeleted();
 }
 
 function handleDelete(id: number) {
   // request
-  console.log(id);
 
   onDeleted();
 }

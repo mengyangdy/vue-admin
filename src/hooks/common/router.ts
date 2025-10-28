@@ -11,7 +11,7 @@ const routeCache = new Map<RouteKey, any>();
  *
  * @param inSetup Whether is in vue script setup
  */
-export function useRouterPush(inSetup = true) {
+export function useRouterPush() {
   const router = useRouter();
 
   const routerPush = router.push;
@@ -46,6 +46,7 @@ export function useRouterPush(inSetup = true) {
       }
 
       if (import.meta.env.DEV) {
+        // eslint-disable-next-line no-console
         console.log(`[Router] Navigating to: ${key}`, options);
       }
 

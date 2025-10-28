@@ -38,7 +38,9 @@ function createProxyItem(
         consola.log(`${requestUrl}\n${proxyUrl}`);
       });
       _proxy.on("error", (_err, req, _res) => {
-        if (!enableLog) {return;}
+        if (!enableLog) {return}
+        // eslint-disable-next-line no-console
+        consola.log(bgRed(`Error: ${req.method} `), green(`${options.target}${req.url}`));
       });
     },
     rewrite: (path) => path.replace(new RegExp(`^${item.proxyPattern}`), ""),

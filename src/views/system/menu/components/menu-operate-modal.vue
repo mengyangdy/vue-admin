@@ -486,9 +486,6 @@ async function handleSubmit() {
   await validate();
 
   const params = getSubmitParams();
-
-  console.log('params: ', params);
-
   // request
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();

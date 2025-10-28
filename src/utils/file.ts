@@ -32,7 +32,7 @@ export async function downloadFileFromUrl(url: string, filename?: string) {
       const finalFilename = filename ?? getFilenameFromUrl(url);
       downloadBlob(blob, finalFilename);
     }
-  } catch (error) {}
+  } catch {}
 }
 
 /**
@@ -97,10 +97,7 @@ export function urlToBase64(url: string, mineType?: string) {
   });
 }
 
-export function fetchBlobResponse<T = any>(
-  url: string,
-  axiosRequestConfig: AxiosRequestConfig = {},
-) {
+export function fetchBlobResponse(url: string, axiosRequestConfig: AxiosRequestConfig = {}) {
   return request({
     url: url,
     method: 'get',
@@ -119,7 +116,7 @@ export async function downloadImage(imageUrl: string, filename?: string) {
     const base64 = await urlToBase64(imageUrl);
     const finalFilename = filename ?? getFilenameFromUrl(imageUrl);
     downloadBase64(base64, finalFilename, 'image/png');
-  } catch (error) {}
+  } catch {}
 }
 
 /**

@@ -84,7 +84,7 @@ let AuthService = class AuthService {
                 refresh_token,
             };
         }
-        catch (error) {
+        catch {
             throw new common_1.UnauthorizedException("Refresh token 已过期，请重新登录");
         }
     }

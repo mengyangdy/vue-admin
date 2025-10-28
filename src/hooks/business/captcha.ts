@@ -1,7 +1,5 @@
 import { computed } from 'vue';
 
-import { time } from 'console';
-
 import { REG_PHONE } from '@/constants/reg';
 
 import useCountDown from '../common/use-count-down';

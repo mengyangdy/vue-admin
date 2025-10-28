@@ -4,12 +4,12 @@ import { cloneDeep } from '@dylanjs/utils';
 import type { PaginationProps } from 'naive-ui';
 
 import { $t } from '@/locales';
+import { FlatResponseData } from '@/service/axios-request';
 import { useAppStore } from '@/store/modules/app';
 import { useThemeStore } from '@/store/modules/theme';
 
 import useBoolean from './use-boolean';
 import useLoading from './use-loading';
-import { FlatResponseData } from '@/service/axios-request';
 
 const appStore = useAppStore();
 
@@ -264,7 +264,6 @@ export function useTableOperate<TableData>(
 function useTable<ResponseData, ApiData, Column, Pagination extends boolean>(
   options: UseTableOptions<ResponseData, ApiData, Column, Pagination>,
 ) {
-
   const { loading, startLoading, endLoading } = useLoading();
   const { bool: empty, setBool: setEmpty } = useBoolean();
   const {
@@ -383,7 +382,7 @@ function getColumns<Column extends NaiveUI.TableColumn<any>>(
 }
 
 export function defaultTransform<ApiData>(
-  response: FlatResponseData<any, Api.Common.PaginatingQueryRecord<ApiData>>,
+  response: FlatResponseData<Api.Common.PaginatingQueryRecord<ApiData>, any>,
 ): PaginationData<ApiData> {
   const { data, error } = response;
   if (!error) {

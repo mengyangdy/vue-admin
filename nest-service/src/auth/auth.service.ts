@@ -101,7 +101,7 @@ export class AuthService {
         token,
         refresh_token,
       };
-    } catch (error) {
+    } catch{
       // refresh token 无效或已过期
       throw new UnauthorizedException("Refresh token 已过期，请重新登录");
     }

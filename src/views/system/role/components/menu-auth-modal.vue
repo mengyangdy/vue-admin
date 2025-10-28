@@ -47,7 +47,6 @@ const title = computed(() => `编辑菜单权限`);
 const home = shallowRef('');
 
 async function getHome() {
-  console.log(props.roleId);
   home.value = 'home';
 }
 
@@ -86,13 +85,11 @@ function closeModal() {
 }
 
 async function getChecks() {
-  console.log(props.roleId);
   // request
   checks.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 }
 
 function handleSubmit() {
-  console.log(checks.value, props.roleId);
   // request
 
   window.$message?.success?.(`修改成功`);

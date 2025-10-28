@@ -21,9 +21,12 @@ export const users = mysqlTable('users', {
 export const roles = mysqlTable('roles', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull().unique(), // 角色名
+  code: varchar('code', { length: 50 }).notNull().unique(), // 角色编码：如 ADMIN, USER, MANAGER
   description: text('description'), // 角色描述
+  status: int('status').default(1), // 角色状态：1-启用，0-禁用
   createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`),
   updatedAt: datetime('updated_at').default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+  deletedAt: datetime('deleted_at'), // 逻辑删除时间
 });
 
 // 菜单 / 权限表

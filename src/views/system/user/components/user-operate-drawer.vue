@@ -3,34 +3,34 @@
     <n-drawer-content :title="title" :native-scrollbar="false" closeable>
       <n-form ref="formRef" :model="model" :rules="rules">
         <n-form-item label="用户名" path="userName">
-          <n-input v-model:value="model.userName" placeholder="请输入用户名" />
+          <n-input v-model:value="model.username" placeholder="请输入用户名" />
         </n-form-item>
         <n-form-item label="性别" path="userGender">
-          <n-radio-group v-model:value="model.userGender">
+          <n-radio-group v-model:value="model.gender">
             <n-radio
               v-for="item in userGenderOptions"
               :key="item.value"
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.label)"
             />
           </n-radio-group>
         </n-form-item>
         <n-form-item label="昵称" path="nickName">
-          <n-input v-model:value="model.nickName" placeholder="请输入昵称" />
+          <n-input v-model:value="model.nickname" placeholder="请输入昵称" />
         </n-form-item>
         <n-form-item label="手机号" path="userPhone">
-          <n-input v-model:value="model.userPhone" placeholder="请输入手机号" />
+          <n-input v-model:value="model.phone" placeholder="请输入手机号" />
         </n-form-item>
         <n-form-item label="邮箱" path="email">
-          <n-input v-model:value="model.userEmail" placeholder="请输入邮箱" />
+          <n-input v-model:value="model.email" placeholder="请输入邮箱" />
         </n-form-item>
         <n-form-item label="用户状态" path="status">
           <n-radio-group v-model:value="model.status">
             <n-radio
-              v-for="item in enableStatusOption"
+              v-for="item in enableStatusOptions"
               :key="item.value"
               :value="item.value"
-              :label="item.label"
+              :label="$t(item.label)"
             />
           </n-radio-group>
         </n-form-item>
@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
+import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 
 defineOptions({
@@ -91,52 +92,51 @@ const title = computed(() => {
 
 type Model = Pick<
   Api.SystemManage.User,
-  'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
+  'username' | 'gender' | 'nickname' | 'phone' | 'email' | 'userRoles' | 'status'
 >;
 
 const model = ref(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    userName: '',
-    userGender: null,
-    nickName: '',
-    userPhone: '',
-    userEmail: '',
+    username: '',
+    gender: 1,
+    nickname: '',
+    phone: '',
+    email: '',
     userRoles: [],
-    status: null,
+    status: 1,
   };
 }
 
-type RuleKey = Extract<keyof Model, 'userName' | 'status'>;
+type RuleKey = Extract<keyof Model, 'username' | 'status'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  userName: defaultRequiredRule,
+  username: defaultRequiredRule,
   status: defaultRequiredRule,
 };
 
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
-async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoles();
+// async function getRoleOptions() {
+//   const { error, data } = await fetchGetAllRoles();
 
-  if (!error) {
-    const options = data.map((item) => ({
-      label: item.roleName,
-      value: item.roleCode,
-    }));
+//   if (!error) {
+//     const options = data.map((item) => ({
+//       label: item.roleName,
+//       value: item.roleCode,
+//     }));
 
-    // the mock data does not have the roleCode, so fill it
-    // if the real request, remove the following code
-    const userRoleOptions = model.value.userRoles.map((item) => ({
-      label: item,
-      value: item,
-    }));
-    // end
-
-    roleOptions.value = [...userRoleOptions, ...options];
-  }
-}
+//     // the mock data does not have the roleCode, so fill it
+//     // if the real request, remove the following code
+//     const userRoleOptions = model.value.userRoles.map((item) => ({
+//       label: item,
+//       value: item,
+//     }));
+//     // end
+//     roleOptions.value = [...userRoleOptions, ...options];
+//   }
+// }
 
 function handleInitModel() {
   model.value = createDefaultModel();
@@ -160,7 +160,7 @@ watch(visible, () => {
   if (visible.value) {
     handleInitModel();
     restoreValidation();
-    getRoleOptions();
+    // getRoleOptions();
   }
 });
 </script>

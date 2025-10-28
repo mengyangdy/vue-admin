@@ -1,0 +1,33 @@
+# Dependencies
+node_modules
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.nuxt
+.output
+
+# Nest service build output
+nest-service/dist
+
+# Cache and logs
+.cache
+.logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+

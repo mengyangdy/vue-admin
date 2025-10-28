@@ -237,7 +237,7 @@ async function buildRoutesByBackend(
   let routes: RouteRecordRawWithStringComponent[] = [];
   try {
     routes = await fetchRoutes();
-  } catch (e) {
+  } catch {
     routes = [];
   }
   return mapTree(

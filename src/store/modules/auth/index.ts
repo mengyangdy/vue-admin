@@ -14,7 +14,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const authStore = useAuthStore();
   const route = useRoute();
   const router = useRouter();
-  const { toLogin, redirectFromLogin } = useRouterPush(false);
+  const { toLogin } = useRouterPush();
   const token = ref(getToken());
   const userInfo: Api.Auth.UserInfo = reactive(
     getCachedUserInfo() || {
@@ -38,7 +38,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   };
 
   const register = async (username: string, phone: string, password: string) => {
-    const { data, error } = await fetchRegister(username, phone, password);
+    const { error } = await fetchRegister(username, phone, password);
     if (!error) {
       window.$notification?.success({
         title: '注册成功,请登陆',

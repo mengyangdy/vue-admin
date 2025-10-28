@@ -1,4 +1,4 @@
-import { type App, type EffectScope, effectScope } from 'vue';
+import { effectScope } from 'vue';
 
 import { Router, RouterOptions as _RouterOptions, createRouter as _createRouter } from 'vue-router';
 

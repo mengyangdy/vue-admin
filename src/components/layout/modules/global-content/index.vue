@@ -2,10 +2,7 @@
   <router-view v-slot="{ Component }">
     <transition>
       <keep-alive>
-        <component
-          :is="Component"
-          class="flex-grow bg-layout transition-300"
-        />
+        <component :is="Component" class="flex-grow bg-layout transition-300" />
       </keep-alive>
     </transition>
   </router-view>

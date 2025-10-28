@@ -228,14 +228,12 @@ function handleAdd() {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
 
   onBatchDeleted();
 }
 
 function handleDelete(id: number) {
   // request
-  console.log(id);
 
   onDeleted();
 }

@@ -12,7 +12,7 @@ const db_1 = require("../../db");
 const schema_1 = require("../../db/schema");
 const drizzle_orm_1 = require("drizzle-orm");
 let RoleService = class RoleService {
-    create(createRoleDto) {
+    create() {
         return "This action adds a new role";
     }
     findAll() {
@@ -21,7 +21,7 @@ let RoleService = class RoleService {
     findOne(id) {
         return db_1.db.select().from(schema_1.roles).where((0, drizzle_orm_1.eq)(schema_1.roles.id, id));
     }
-    update(id, updateRoleDto) {
+    update(id) {
         return `This action updates a #${id} role`;
     }
     remove(id) {

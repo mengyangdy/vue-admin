@@ -20,9 +20,12 @@ exports.users = (0, mysql_core_1.mysqlTable)('users', {
 exports.roles = (0, mysql_core_1.mysqlTable)('roles', {
     id: (0, mysql_core_1.serial)('id').primaryKey(),
     name: (0, mysql_core_1.varchar)('name', { length: 50 }).notNull().unique(),
+    code: (0, mysql_core_1.varchar)('code', { length: 50 }).notNull().unique(),
     description: (0, mysql_core_1.text)('description'),
+    status: (0, mysql_core_1.int)('status').default(1),
     createdAt: (0, mysql_core_1.datetime)('created_at').default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
     updatedAt: (0, mysql_core_1.datetime)('updated_at').default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    deletedAt: (0, mysql_core_1.datetime)('deleted_at'),
 });
 exports.menus = (0, mysql_core_1.mysqlTable)('menus', {
     id: (0, mysql_core_1.serial)('id').primaryKey(),

@@ -28,14 +28,6 @@ const nMenuProps = computed(() => {
     return rest;
   }
   const itemHeight = menuItemHeightWhenCollapsedShowTitle ?? 64;
-  console.log({
-    ...rest,
-    builtinThemeOverrides: {
-      ...(rest.builtinThemeOverrides ?? {}),
-      itemHeight: `${itemHeight}px`,
-    },
-  });
-
   return {
     ...rest,
     builtinThemeOverrides: {

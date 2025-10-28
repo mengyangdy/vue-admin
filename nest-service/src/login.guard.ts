@@ -46,7 +46,7 @@ export class LoginGuard implements CanActivate {
       // 将用户信息存储到 request 中
       request["user"] = data;
       return true;
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException("token失效，请重新登录");
     }
   }

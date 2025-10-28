@@ -134,13 +134,6 @@ const { layout, fullKeys, activeKey, verticalLayout } = useLayoutMenu({
 });
 
 const finalSidebarCollapsedWidth = computed(() => {
-  console.log(
-    themeStore.sider.sidebarCollapsedShowMenuTitle,
-    'themeStore.sider.sidebarCollapsedShowMenuTitle',
-  );
-  console.log(themeStore.sider.collapsedWidth, 'themeStore.sider.collapsedWidth');
-  console.log(themeStore.showMobileSidebarDrawer, 'themeStore.showMobileSidebarDrawer');
-
   return !themeStore.sider.sidebarCollapsedShowMenuTitle
     ? themeStore.sider.collapsedWidth
     : themeStore.showMobileSidebarDrawer;
@@ -184,8 +177,10 @@ watch(
     }
     const key = findAvailableMenuKey();
     if (isNil(key) && __DEV__) {
-      console.warn('This looks like a bug, please open an issue to report this problem');
-      return;
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.warn('This looks like a bug, please open an issue to report this problem');
+      }
     }
     activeKey.value = key!;
   },
