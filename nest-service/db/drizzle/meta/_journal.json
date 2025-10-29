@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1761558158648,
-      "tag": "0000_gigantic_star_brand",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1761621988528,
-      "tag": "0001_many_lockheed",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1761622063943,
-      "tag": "0002_fantastic_whirlwind",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1761637754029,
-      "tag": "0003_dark_madrox",
+      "when": 1761707059448,
+      "tag": "0000_outgoing_lorna_dane",
       "breakpoints": true
     }
   ]

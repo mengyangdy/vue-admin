@@ -25,11 +25,15 @@ CREATE TABLE `role_menus` (
 CREATE TABLE `roles` (
 	`id` serial AUTO_INCREMENT NOT NULL,
 	`name` varchar(50) NOT NULL,
+	`code` varchar(50) NOT NULL,
 	`description` text,
+	`status` int DEFAULT 1,
 	`created_at` datetime DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`deleted_at` datetime,
 	CONSTRAINT `roles_id` PRIMARY KEY(`id`),
-	CONSTRAINT `roles_name_unique` UNIQUE(`name`)
+	CONSTRAINT `roles_name_unique` UNIQUE(`name`),
+	CONSTRAINT `roles_code_unique` UNIQUE(`code`)
 );
 --> statement-breakpoint
 CREATE TABLE `user_roles` (
@@ -47,9 +51,11 @@ CREATE TABLE `users` (
 	`phone` varchar(20),
 	`avatar` varchar(255),
 	`nickname` varchar(50),
+	`gender` int DEFAULT 1,
 	`status` int DEFAULT 1,
 	`created_at` datetime DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`deleted_at` datetime,
 	CONSTRAINT `users_id` PRIMARY KEY(`id`),
 	CONSTRAINT `users_username_unique` UNIQUE(`username`)
 );

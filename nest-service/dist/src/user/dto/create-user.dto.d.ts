@@ -1,10 +1,11 @@
 export declare class CreateUserDto {
     username: string;
-    password: string;
+    password?: string;
     email?: string;
     phone?: string;
     avatar?: string;
     nickname?: string;
     gender?: number;
     status?: number;
+    userRoles?: number[];
 }

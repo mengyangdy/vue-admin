@@ -5,7 +5,9 @@ import { QueryUserDto } from './dto/query-user.dto';
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
-    create(createUserDto: CreateUserDto): Promise<void>;
+    create(createUserDto: CreateUserDto): Promise<{
+        msg: string;
+    }>;
     findAll(query: QueryUserDto): Promise<{
         records: {
             id: number;

@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsOptional, IsInt, MinLength, Matches, Length } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsInt, IsArray, MinLength, Matches, Length } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -7,7 +7,7 @@ export class CreateUserDto {
 
   @IsString()
   @MinLength(6, { message: "密码至少6个字符" })
-  password: string;
+  password?: string;
 
   @IsOptional()
   @IsEmail({}, { message: "邮箱格式不正确" })
@@ -34,4 +34,9 @@ export class CreateUserDto {
   @IsOptional()
   @IsInt()
   status?: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  userRoles?: number[]; // 角色ID数组
 }

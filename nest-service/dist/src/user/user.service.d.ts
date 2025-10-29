@@ -2,7 +2,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
 export declare class UserService {
-    create(createUserDto: CreateUserDto): Promise<void>;
+    create(createUserDto: CreateUserDto): Promise<{
+        msg: string;
+    }>;
     findAll(query: QueryUserDto): Promise<{
         records: {
             id: number;

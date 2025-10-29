@@ -6,6 +6,8 @@ import { db } from "../../db";
 import { users } from "../../db/schema";
 import { eq, like, and, isNull, sql } from "drizzle-orm";
 
+import * as argon2 from "argon2";
+
 @Injectable()
 export class UserService {
   async create(createUserDto: CreateUserDto) {
@@ -14,35 +16,23 @@ export class UserService {
     if (existingUser.length > 0) {
       throw new ConflictException('用户名已存在');
     }
+    // 密码默认是123456
+    const hashedPassword = await argon2.hash('123456');
 
-    // 加密密码
-    // const saltRounds = 10;
-
-    // // 创建用户
-    // const result = await db.insert(users).values({
-    //   username: createUserDto.username,
-    //   // password: hashedPassword,
-    //   email: createUserDto.email,
-    //   phone: createUserDto.phone,
-    //   avatar: createUserDto.avatar,
-    //   nickname: createUserDto.nickname,
-    //   status: createUserDto.status || 1,
-    // });
-
-    // // 返回创建的用户信息（不包含密码）
-    // const newUser = await db.select({
-    //   id: users.id,
-    //   username: users.username,
-    //   email: users.email,
-    //   phone: users.phone,
-    //   avatar: users.avatar,
-    //   nickname: users.nickname,
-    //   status: users.status,
-    //   createdAt: users.createdAt,
-    //   updatedAt: users.updatedAt,
-    // }).from(users).where(eq(users.id, result[0].insertId));
-
-    // return newUser[0];
+    // 创建用户
+    await db.insert(users).values({
+      username: createUserDto.username,
+      password: hashedPassword,
+      email: createUserDto.email,
+      phone: createUserDto.phone,
+      // avatar: createUserDto.avatar,
+      nickname: createUserDto.nickname,
+      status: createUserDto.status || 1,
+      gender: createUserDto.gender || 1,
+    });
+    return {
+      msg: "创建成功",
+    };
   }
 
   async findAll(query: QueryUserDto) {

@@ -23,7 +23,7 @@ let RoleController = class RoleController {
         this.roleService = roleService;
     }
     create(createRoleDto) {
-        return this.roleService.create(createRoleDto);
+        return this.roleService.create();
     }
     findAll() {
         return this.roleService.findAll();
@@ -32,7 +32,7 @@ let RoleController = class RoleController {
         return this.roleService.findOne(+id);
     }
     update(id, updateRoleDto) {
-        return this.roleService.update(+id, updateRoleDto);
+        return this.roleService.update(+id);
     }
     remove(id) {
         return this.roleService.remove(+id);

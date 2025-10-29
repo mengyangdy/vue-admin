@@ -2,23 +2,23 @@
   <n-drawer v-model:show="visible" display-directive="show" :width="360">
     <n-drawer-content :title="title" :native-scrollbar="false" closeable>
       <n-form ref="formRef" :model="model" :rules="rules">
-        <n-form-item label="用户名" path="userName">
+        <n-form-item label="用户名" path="username">
           <n-input v-model:value="model.username" placeholder="请输入用户名" />
         </n-form-item>
-        <n-form-item label="性别" path="userGender">
+        <n-form-item label="性别" path="gender">
           <n-radio-group v-model:value="model.gender">
             <n-radio
               v-for="item in userGenderOptions"
               :key="item.value"
-              :value="item.value"
+              :value="Number(item.value)"
               :label="$t(item.label)"
             />
           </n-radio-group>
         </n-form-item>
-        <n-form-item label="昵称" path="nickName">
+        <n-form-item label="昵称" path="nickname">
           <n-input v-model:value="model.nickname" placeholder="请输入昵称" />
         </n-form-item>
-        <n-form-item label="手机号" path="userPhone">
+        <n-form-item label="手机号" path="phone">
           <n-input v-model:value="model.phone" placeholder="请输入手机号" />
         </n-form-item>
         <n-form-item label="邮箱" path="email">
@@ -29,7 +29,7 @@
             <n-radio
               v-for="item in enableStatusOptions"
               :key="item.value"
-              :value="item.value"
+              :value="Number(item.value)"
               :label="$t(item.label)"
             />
           </n-radio-group>
@@ -46,7 +46,7 @@
       <template #footer>
         <n-space :size="16">
           <n-button @click="closeDrawer">取消</n-button>
-          <n-button type="primary" @click="handleSubmit">确认</n-button>
+          <n-button :loading="loading" type="primary" @click="handleSubmit">确认</n-button>
         </n-space>
       </template>
     </n-drawer-content>
@@ -58,10 +58,14 @@ import { computed, ref, watch } from 'vue';
 
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { fetchUpdateUser,fetchCreateUser } from '@/service/api/system-manage';
+import { objectPick } from '@/utils/object';
 
 defineOptions({
   name: 'UserOperateDrawer',
 });
+
+const loading = ref(false);
 
 interface Props {
   operateType: NaiveUI.TableOperateType;
@@ -109,11 +113,13 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'username' | 'status'>;
+type RuleKey = Extract<keyof Model, 'username' | 'nickname' | 'phone' | 'email'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   username: defaultRequiredRule,
-  status: defaultRequiredRule,
+  nickname: defaultRequiredRule,
+  phone: defaultRequiredRule,
+  email: defaultRequiredRule,
 };
 
 const roleOptions = ref<CommonType.Option<string>[]>([]);
@@ -141,7 +147,19 @@ const roleOptions = ref<CommonType.Option<string>[]>([]);
 function handleInitModel() {
   model.value = createDefaultModel();
   if (props.operateType === 'edit' && props.rowData) {
-    Object.assign(model.value, props.rowData);
+    console.log(props.rowData, 'aaaa');
+    const pick = objectPick(props.rowData, [
+      'username',
+      'gender',
+      'nickname',
+      'phone',
+      'email',
+      'userRoles',
+      'status',
+    ]);
+
+    Object.assign(model.value, pick);
+    console.log(model.value, 'bbbb');
   }
 }
 
@@ -151,10 +169,25 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  // request
-  window.$message?.success(`更新成功`);
-  closeDrawer();
-  emit(`submitted`);
+  if (props.operateType === 'edit' && props.rowData) {
+    loading.value = true;
+    const { error } = await fetchUpdateUser(props.rowData.id, model.value);
+    if (!error) {
+      window.$message?.success(`更新成功`);
+      closeDrawer();
+      emit(`submitted`);
+    }
+    loading.value = false;
+  }
+  if (props.operateType === 'add') {
+    loading.value = true;
+    const { error } = await fetchCreateUser(model.value);
+    if (!error) {
+      window.$message?.success(`新建成功`);
+      closeDrawer();
+      emit(`submitted`);
+    }
+  }
 }
 watch(visible, () => {
   if (visible.value) {

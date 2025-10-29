@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/store/modules/auth';
+import { normalizeErrorMessage } from '@/utils/common';
 import { getServiceBaseURL } from '@/utils/service';
 import { localStg } from '@/utils/storage';
 
@@ -82,6 +83,8 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
     },
     // 后台返回错误处理
     async onError(error, instance) {
+      console.log('🚀 ~ :85 ~ instance:', instance);
+      console.log('🚀 ~ :85 ~ error:', error);
       let message = error.message;
       let backendErrorCode = '';
 
@@ -114,8 +117,9 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
         }
       }
       // HTTP 错误（400/500 等）- 直接提取并显示
-      else if (error.response?.data) {
-        message = error.response?.data?.msg || message;
+      else if (error.response?.data?.msg) {
+        let msg = normalizeErrorMessage(error.response?.data?.msg);
+        message = msg || message;
       }
 
       showErrorMsg(request.state, message);

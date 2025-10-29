@@ -11,12 +11,26 @@ const common_1 = require("@nestjs/common");
 const db_1 = require("../../db");
 const schema_1 = require("../../db/schema");
 const drizzle_orm_1 = require("drizzle-orm");
+const argon2 = require("argon2");
 let UserService = class UserService {
     async create(createUserDto) {
         const existingUser = await db_1.db.select().from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.username, createUserDto.username));
         if (existingUser.length > 0) {
             throw new common_1.ConflictException('用户名已存在');
         }
+        const hashedPassword = await argon2.hash('123456');
+        await db_1.db.insert(schema_1.users).values({
+            username: createUserDto.username,
+            password: hashedPassword,
+            email: createUserDto.email,
+            phone: createUserDto.phone,
+            nickname: createUserDto.nickname,
+            status: createUserDto.status || 1,
+            gender: createUserDto.gender || 1,
+        });
+        return {
+            msg: "创建成功",
+        };
     }
     async findAll(query) {
         const { current = 1, size = 10, status, username, nickname, phone, email, gender } = query;

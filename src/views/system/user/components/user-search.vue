@@ -10,31 +10,31 @@
           :label-width="80"
         >
           <n-grid responsive="screen" item-responsive>
-            <n-form-item-gi span="24 s:12 m:6" label="用户名" path="userName" class="pr-24px">
-              <n-input v-model:value="model.userName" placeholder="请输入用户名" />
+            <n-form-item-gi span="24 s:12 m:6" label="用户名" path="username" class="pr-24px">
+              <n-input v-model:value="model.username" placeholder="请输入用户名" />
             </n-form-item-gi>
-            <n-form-item-gi span="24 s:12 m:6" label="性别" path="usergender" class="pr-24px">
+            <n-form-item-gi span="24 s:12 m:6" label="性别" path="gender" class="pr-24px">
               <n-select
-                v-model:value="model.userGender"
+                v-model:value="model.gender"
                 placeholder="请选择性别"
-                :options="translateOptions(userGenderOptions)"
+                :options="transformRecordToNumberOptions(translateOptions(userGenderOptions))"
                 clearable
               />
             </n-form-item-gi>
-            <n-form-item-gi span="24 s:12 m:6" label="昵称" path="nickName" class="pr-24px">
-              <n-input v-model:value="model.nickName" placeholder="请输入昵称" />
+            <n-form-item-gi span="24 s:12 m:6" label="昵称" path="nickname" class="pr-24px">
+              <n-input v-model:value="model.nickname" placeholder="请输入昵称" />
             </n-form-item-gi>
-            <n-form-item-gi span="24 s:12 m:6" label="手机号" path="userPhone" class="pr-24px">
-              <n-input v-model:value="model.userPhone" placeholder="请输入手机号" />
+            <n-form-item-gi span="24 s:12 m:6" label="手机号" path="phone" class="pr-24px">
+              <n-input v-model:value="model.phone" placeholder="请输入手机号" />
             </n-form-item-gi>
-            <n-form-item-gi span="24 s:12 m:6" label="邮箱" path="userEmail" class="pr-24px">
-              <n-input v-model:value="model.userEmail" placeholder="请输入邮箱" />
+            <n-form-item-gi span="24 s:12 m:6" label="邮箱" path="email" class="pr-24px">
+              <n-input v-model:value="model.email" placeholder="请输入邮箱" />
             </n-form-item-gi>
-            <n-form-item-gi span="24 s:12 m:6" label="用户状态" path="userStatus" class="pr-24px">
+            <n-form-item-gi span="24 s:12 m:6" label="用户状态" path="status" class="pr-24px">
               <n-select
                 v-model:value="model.status"
                 placeholder="请选择用户状态"
-                :options="translateOptions(enableStatusOptions)"
+                :options="transformRecordToNumberOptions(translateOptions(enableStatusOptions))"
                 clearable
               />
             </n-form-item-gi>
@@ -66,7 +66,7 @@ import { computed } from 'vue';
 
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { translateOptions } from '@/utils/common';
+import { transformRecordToNumberOptions, translateOptions } from '@/utils/common';
 
 defineOptions({
   name: 'UserSearch',
@@ -81,13 +81,13 @@ const { formRef, validate, restoreValidation } = useNaiveForm();
 const model = defineModel<Api.SystemManage.UserSearchParams>('model', {
   required: true,
 });
-type RuleKey = Extract<keyof Api.SystemManage.UserSearchParams, 'userEmail' | 'userPhone'>;
+type RuleKey = Extract<keyof Api.SystemManage.UserSearchParams, 'email' | 'phone'>;
 const rules = computed<Record<RuleKey, App.Global.FormRule>>(() => {
   const { patternRules } = useFormRules(); // inside computed to make locale reactive
 
   return {
-    userEmail: patternRules.email,
-    userPhone: patternRules.phone,
+    email: patternRules.email,
+    phone: patternRules.phone,
   };
 });
 function resetModel() {
@@ -95,11 +95,11 @@ function resetModel() {
     current: 1,
     size: 10,
     status: null,
-    userName: null,
-    userGender: null,
-    nickName: null,
-    userPhone: null,
-    userEmail: null,
+    username: null,
+    gender: null,
+    nickname: null,
+    phone: null,
+    email: null,
   };
 }
 

@@ -33,6 +33,8 @@ declare namespace Api {
         CommonSearchParams
     >;
 
+    type UserUpdateParams = Partial<User>;
+
     /** user list */
     type UserList = Common.PaginatingQueryRecord<User>;
   }
