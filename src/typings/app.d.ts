@@ -326,5 +326,10 @@ declare namespace App {
   namespace Global {
     type VNode = import('vue').VNode;
     type FormRule = import('naive-ui').FormItemRule;
+    /** The router push options */
+    type RouterPushOptions = {
+      query?: Record<string, string>;
+      params?: Record<string, string>;
+    };
   }
 }

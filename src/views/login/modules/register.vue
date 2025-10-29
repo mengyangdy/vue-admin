@@ -44,7 +44,9 @@
       />
     </n-form-item>
     <n-flex vertical :size="24">
-      <loading-button attr-type="submit" type="primary" size="large" block>注册</loading-button>
+      <n-button attr-type="submit" type="primary" size="large" block :loading="btnLoading">
+        注册
+      </n-button>
       <div class="flex-y-center justify-between gap-12px">
         <n-button class="flex-1" block @click="authStore.changeLoginComponent('pwd-login')">
           密码登录
@@ -95,9 +97,14 @@ const rules = computed(() => {
     confirmPassword: createConfirmPwdRule(model.value.password),
   };
 });
+const btnLoading = ref(false);
 async function handleSubmit() {
   await validate();
-  await authStore.register(model.value.username, model.value.phone, model.value.password);
-  // request to register
+  try {
+    btnLoading.value = true;
+    await authStore.register(model.value.username, model.value.phone, model.value.password);
+  } finally {
+    btnLoading.value = false;
+  }
 }
 </script>

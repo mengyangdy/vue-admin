@@ -30,3 +30,11 @@ export function fetchCreateUser(params: Api.SystemManage.UserUpdateParams){
     data: params,
   });
 }
+
+// 删除用户信息
+export function fetchDeleteUser(id: number){
+  return request({
+    url: `/api/system/user/${id}`,
+    method: 'delete',
+  });
+}

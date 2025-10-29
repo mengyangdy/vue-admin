@@ -14,7 +14,7 @@ export function useFormRules() {
     },
     phone: {
       pattern: REG_PHONE,
-      message: '请输入4-16位中文、英文、数字、下划线、中划线',
+      message: '请输入正确的手机号',
       trigger: 'change',
     },
     password: {

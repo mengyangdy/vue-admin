@@ -17,7 +17,7 @@
               <n-select
                 v-model:value="model.gender"
                 placeholder="请选择性别"
-                :options="transformRecordToNumberOptions(translateOptions(userGenderOptions))"
+                :options="translateOptions(userGenderOptions)"
                 clearable
               />
             </n-form-item-gi>
@@ -34,7 +34,7 @@
               <n-select
                 v-model:value="model.status"
                 placeholder="请选择用户状态"
-                :options="transformRecordToNumberOptions(translateOptions(enableStatusOptions))"
+                :options="translateOptions(enableStatusOptions)"
                 clearable
               />
             </n-form-item-gi>
@@ -66,7 +66,7 @@ import { computed } from 'vue';
 
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { transformRecordToNumberOptions, translateOptions } from '@/utils/common';
+import { translateOptions } from '@/utils/common';
 
 defineOptions({
   name: 'UserSearch',

@@ -18,7 +18,7 @@ let UserService = class UserService {
         if (existingUser.length > 0) {
             throw new common_1.ConflictException('用户名已存在');
         }
-        const hashedPassword = await argon2.hash('123456');
+        const hashedPassword = await argon2.hash('12345678');
         await db_1.db.insert(schema_1.users).values({
             username: createUserDto.username,
             password: hashedPassword,
@@ -35,10 +35,10 @@ let UserService = class UserService {
     async findAll(query) {
         const { current = 1, size = 10, status, username, nickname, phone, email, gender } = query;
         const conditions = [];
-        if (status === 0 || status === 1) {
+        if (status !== undefined && status !== null) {
             conditions.push((0, drizzle_orm_1.eq)(schema_1.users.status, status));
         }
-        if (gender === 0 || gender === 1 || gender === 2) {
+        if (gender !== undefined && gender !== null) {
             conditions.push((0, drizzle_orm_1.eq)(schema_1.users.gender, gender));
         }
         if (username && username.trim() !== '') {
@@ -132,8 +132,6 @@ let UserService = class UserService {
         if (updateUserDto.status !== undefined) {
             updateData.status = updateUserDto.status;
         }
-        if (updateUserDto.password) {
-        }
         await db_1.db.update(schema_1.users).set(updateData).where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
         const updatedUser = await db_1.db.select({
             id: schema_1.users.id,
@@ -160,6 +158,44 @@ let UserService = class UserService {
             .set({ deletedAt: (0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP` })
             .where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
         return { message: '用户删除成功' };
+    }
+    async removeBatch(ids) {
+        const results = {
+            success: [],
+            failed: [],
+        };
+        for (const id of ids) {
+            try {
+                const existingUser = await db_1.db.select()
+                    .from(schema_1.users)
+                    .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.users.id, id), (0, drizzle_orm_1.isNull)(schema_1.users.deletedAt)))
+                    .limit(1);
+                if (existingUser.length === 0) {
+                    results.failed.push({ id, reason: '用户不存在或已被删除' });
+                    continue;
+                }
+                await db_1.db.update(schema_1.users)
+                    .set({ deletedAt: (0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP` })
+                    .where((0, drizzle_orm_1.eq)(schema_1.users.id, id));
+                results.success.push(id);
+            }
+            catch (error) {
+                results.failed.push({ id, reason: error.message || '删除失败' });
+            }
+        }
+        if (results.success.length === 0) {
+            throw new common_1.NotFoundException({
+                message: '所有用户删除失败',
+                details: results.failed
+            });
+        }
+        return {
+            message: `成功删除 ${results.success.length} 个用户，失败 ${results.failed.length} 个`,
+            successCount: results.success.length,
+            failedCount: results.failed.length,
+            successIds: results.success,
+            failedDetails: results.failed
+        };
     }
 };
 exports.UserService = UserService;

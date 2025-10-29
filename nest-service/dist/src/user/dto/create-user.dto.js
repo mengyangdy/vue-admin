@@ -13,7 +13,6 @@ exports.CreateUserDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateUserDto {
     username;
-    password;
     email;
     phone;
     avatar;
@@ -28,11 +27,6 @@ __decorate([
     (0, class_validator_1.MinLength)(3, { message: "用户名至少3个字符" }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "username", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(6, { message: "密码至少6个字符" }),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "password", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEmail)({}, { message: "邮箱格式不正确" }),

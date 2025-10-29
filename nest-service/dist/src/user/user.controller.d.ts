@@ -2,6 +2,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
+import { DeleteUsersDto } from './dto/delete-users.dto';
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
@@ -390,6 +391,16 @@ export declare class UserController {
         status: number | null;
         createdAt: Date | null;
         updatedAt: Date | null;
+    }>;
+    removeBatch(deleteUsersDto: DeleteUsersDto): Promise<{
+        message: string;
+        successCount: number;
+        failedCount: number;
+        successIds: number[];
+        failedDetails: {
+            id: number;
+            reason: string;
+        }[];
     }>;
     remove(id: string): Promise<{
         message: string;

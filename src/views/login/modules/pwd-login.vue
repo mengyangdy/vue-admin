@@ -25,7 +25,9 @@
           忘记密码?
         </n-button>
       </div>
-      <loading-button attr-type="submit" type="primary" size="large" block>登录</loading-button>
+      <n-button attr-type="submit" type="primary" size="large" block :loading="btnLoading">
+        登录
+      </n-button>
       <div class="flex-y-center justify-between gap-12px">
         <n-button class="flex-1" block @click="authStore.changeLoginComponent('code-login')">
           验证码登录
@@ -72,8 +74,14 @@ const rules = computed(() => {
     password: formRules.password,
   };
 });
+const btnLoading = ref(false);
 async function handleSubmit() {
   await validate();
-  await authStore.login(model.value.userName, model.value.password);
+  try {
+    btnLoading.value = true;
+    await authStore.login(model.value.userName, model.value.password);
+  } finally {
+    btnLoading.value = false;
+  }
 }
 </script>

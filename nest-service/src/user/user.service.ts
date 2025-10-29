@@ -16,8 +16,8 @@ export class UserService {
     if (existingUser.length > 0) {
       throw new ConflictException('用户名已存在');
     }
-    // 密码默认是123456
-    const hashedPassword = await argon2.hash('123456');
+    // 密码默认是12345678
+    const hashedPassword = await argon2.hash('12345678');
 
     // 创建用户
     await db.insert(users).values({
@@ -40,12 +40,11 @@ export class UserService {
     // 构建查询条件
     const conditions: any[] = [];
     
-    if (status === 0 || status === 1) {
+    if (status !== undefined && status !== null) {
       conditions.push(eq(users.status, status));
     }
     
-    if ( gender === 0 || gender === 1 || gender === 2) {
-      
+    if (gender !== undefined && gender !== null) {
       conditions.push(eq(users.gender, gender));
     }
     
@@ -153,8 +152,8 @@ export class UserService {
     if (updateUserDto.status !== undefined) {updateData.status = updateUserDto.status;}
 
     // 如果更新密码，需要加密
-    if (updateUserDto.password) {
-    }
+    // if (updateUserDto.password) {
+    // }
 
     // 执行更新
     await db.update(users).set(updateData).where(eq(users.id, id));
@@ -192,5 +191,53 @@ export class UserService {
       .where(eq(users.id, id));
 
     return { message: '用户删除成功' };
+  }
+
+  async removeBatch(ids: number[]) {
+    const results = {
+      success: [] as number[],    // 成功删除的ID
+      failed: [] as { id: number, reason: string }[], // 失败的ID及原因
+    };
+    
+    for (const id of ids) {
+      try {
+        // 检查用户是否存在
+        const existingUser = await db.select()
+          .from(users)
+          .where(and(eq(users.id, id), isNull(users.deletedAt)))
+          .limit(1);
+        
+        if (existingUser.length === 0) {
+          results.failed.push({ id, reason: '用户不存在或已被删除' });
+          continue;
+        }
+        
+        // 执行删除
+        await db.update(users)
+          .set({ deletedAt: sql`CURRENT_TIMESTAMP` })
+          .where(eq(users.id, id));
+        
+        results.success.push(id);
+        
+      } catch (error) {
+        results.failed.push({ id, reason: error.message || '删除失败' });
+      }
+    }
+    
+    // 如果全部失败，抛异常
+    if (results.success.length === 0) {
+      throw new NotFoundException({
+        message: '所有用户删除失败',
+        details: results.failed
+      });
+    }
+    
+    return {
+      message: `成功删除 ${results.success.length} 个用户，失败 ${results.failed.length} 个`,
+      successCount: results.success.length,
+      failedCount: results.failed.length,
+      successIds: results.success,
+      failedDetails: results.failed
+    };
   }
 }

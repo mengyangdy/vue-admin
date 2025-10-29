@@ -1,5 +1,5 @@
 import { IsOptional, IsInt, IsString, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 
 export class QueryUserDto {
   @IsOptional()
@@ -15,7 +15,7 @@ export class QueryUserDto {
   size?: number = 10; // 每页数量
 
   @IsOptional()
-  @Type(() => Number)
+  @Transform(({ value }) => value === '' || value === null || value === undefined ? undefined : Number(value))
   @IsInt()
   status?: number; // 用户状态
 
@@ -24,7 +24,7 @@ export class QueryUserDto {
   username?: string; // 用户名
 
   @IsOptional()
-  @Type(() => Number)
+  @Transform(({ value }) => value === '' || value === null || value === undefined ? undefined : Number(value))
   @IsInt()
   gender?: number; // 用户性别：0-未知，1-男，2-女
 

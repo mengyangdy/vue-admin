@@ -36,7 +36,7 @@ const rootRoute = {
 const ignoreAccessRoutes: RouteRecordRaw[] = [
   {
     path: LOGIN_ROUTE_PATH,
-    name: 'Login',
+    name: 'login',
     component: () => import('@/views/login/index.vue'),
     meta: {
       title: '登录',
@@ -313,6 +313,22 @@ const accessRoutes: RouteRecordRaw[] = [
         meta: {
           title: 'Loading 指令',
           icon: 'line-md:loading-twotone-loop',
+        },
+      },
+      {
+        path: 'pinyin',
+        component: () => import('@/views/demos/pinyin/index.vue'),
+        meta: {
+          title: '拼音',
+          icon: 'entypo-social:google-hangouts',
+        },
+      },
+      {
+        path: 'pdf',
+        component: () => import('@/views/demos/pdf/index.vue'),
+        meta: {
+          title: 'PDF',
+          icon: 'uiw:file-pdf',
         },
       },
     ],

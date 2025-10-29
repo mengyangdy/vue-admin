@@ -1,18 +1,22 @@
 import { useRouter } from 'vue-router';
 import type { RouteLocationRaw } from 'vue-router';
 
+import { router as globalRouter } from '@/router';
+
 // 路由缓存
 const routeCache = new Map<RouteKey, any>();
 
 /**
- * Router push
+ * 路由跳转
  *
- * Jump to the specified route, it can replace function router.push
+ * 跳转到指定路由，可以替换函数router.push
  *
- * @param inSetup Whether is in vue script setup
+ *
+ * @param inSetup 是否再vue script setup中
  */
-export function useRouterPush() {
-  const router = useRouter();
+export function useRouterPush(inSetup = true) {
+  const router = inSetup ? useRouter() : globalRouter;
+  const route = globalRouter.currentRoute;
 
   const routerPush = router.push;
   const routerBack = router.back;
@@ -89,24 +93,13 @@ export function useRouterPush() {
   async function toLogin(redirectUrl?: string) {
     return safeNavigate(async () => {
       const options: App.Global.RouterPushOptions = {};
-      const redirect = redirectUrl;
+      console.log(route, 'route');
+
+      const redirect = redirectUrl || route.value.fullPath;
       options.query = {
         redirect,
       };
       return routerPushByKey('login', options);
-    });
-  }
-
-  /**
-   * Toggle login module
-   *
-   * @param module
-   */
-  async function toggleLoginModule(module: UnionKey.LoginModule) {
-    return safeNavigate(async () => {
-      const query = getCurrentRoute().query as Record<string, string>;
-
-      return routerPushByKey('login', { query, params: { module } });
     });
   }
 
@@ -197,7 +190,6 @@ export function useRouterPush() {
     routerPushByKey,
     routerPushByKeyWithMetaQuery,
     toLogin,
-    toggleLoginModule,
     redirectFromLogin,
     goBack,
     refreshCurrentPage,

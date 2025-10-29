@@ -15,5 +15,6 @@ declare namespace StorageType {
      */
     overrideThemeFlag: string;
     userInfo: Api.Auth.UserInfo | null;
+    lastLoginUserId: number | null;
   }
 }

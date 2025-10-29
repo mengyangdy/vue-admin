@@ -40,6 +40,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const register = async (username: string, phone: string, password: string) => {
     const { error } = await fetchRegister(username, phone, password);
     if (!error) {
+      currentLoginComponent.value = 'pwd-login';
       window.$notification?.success({
         title: '注册成功,请登陆',
         content: `欢迎注册，${username}`,

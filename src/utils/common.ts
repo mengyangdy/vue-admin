@@ -11,6 +11,7 @@ export function translateOptions<T extends string | number>(
 ) {
   return options.map((option) => ({
     ...option,
+    value: Number(option.value),
     label: $t(option.label),
   }));
 }
@@ -38,14 +39,6 @@ export function transformRecordToOption<T extends Record<string, string>>(record
     label,
   })) as CommonType.Option<keyof T, T[keyof T]>[];
 }
-
-export function transformRecordToNumberOptions(options: Array<{ value: string; label: string }>) {
-  return options.map(({ value, label }) => ({
-    value: Number(value),
-    label: label,
-  }));
-}
-
 /**
  * 统一处理错误消息（msg 字段可能是字符串或数组）
  * @param msg - 错误消息（可能是字符串或字符串数组）

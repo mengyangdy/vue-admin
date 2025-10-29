@@ -391,4 +391,14 @@ export declare class UserService {
     remove(id: number): Promise<{
         message: string;
     }>;
+    removeBatch(ids: number[]): Promise<{
+        message: string;
+        successCount: number;
+        failedCount: number;
+        successIds: number[];
+        failedDetails: {
+            id: number;
+            reason: string;
+        }[];
+    }>;
 }

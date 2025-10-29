@@ -18,6 +18,7 @@ const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const query_user_dto_1 = require("./dto/query-user.dto");
+const delete_users_dto_1 = require("./dto/delete-users.dto");
 let UserController = class UserController {
     userService;
     constructor(userService) {
@@ -34,6 +35,9 @@ let UserController = class UserController {
     }
     update(id, updateUserDto) {
         return this.userService.update(+id, updateUserDto);
+    }
+    removeBatch(deleteUsersDto) {
+        return this.userService.removeBatch(deleteUsersDto.ids);
     }
     remove(id) {
         return this.userService.remove(+id);
@@ -69,6 +73,13 @@ __decorate([
     __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)('batch'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [delete_users_dto_1.DeleteUsersDto]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "removeBatch", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),

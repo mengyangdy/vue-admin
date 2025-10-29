@@ -39,7 +39,7 @@ __decorate([
 ], QueryUserDto.prototype, "size", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_transformer_1.Type)(() => Number),
+    (0, class_transformer_1.Transform)(({ value }) => value === '' || value === null || value === undefined ? undefined : Number(value)),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], QueryUserDto.prototype, "status", void 0);
@@ -50,7 +50,7 @@ __decorate([
 ], QueryUserDto.prototype, "username", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_transformer_1.Type)(() => Number),
+    (0, class_transformer_1.Transform)(({ value }) => value === '' || value === null || value === undefined ? undefined : Number(value)),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], QueryUserDto.prototype, "gender", void 0);

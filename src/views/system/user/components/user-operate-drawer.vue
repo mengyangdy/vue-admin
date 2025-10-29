@@ -58,7 +58,7 @@ import { computed, ref, watch } from 'vue';
 
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchUpdateUser,fetchCreateUser } from '@/service/api/system-manage';
+import { fetchCreateUser, fetchUpdateUser } from '@/service/api';
 import { objectPick } from '@/utils/object';
 
 defineOptions({
@@ -84,7 +84,7 @@ const visible = defineModel<boolean>('visible', {
 });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
-const { defaultRequiredRule } = useFormRules();
+const { defaultRequiredRule, formRules } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -113,13 +113,11 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'username' | 'nickname' | 'phone' | 'email'>;
-
-const rules: Record<RuleKey, App.Global.FormRule> = {
+const rules = {
   username: defaultRequiredRule,
   nickname: defaultRequiredRule,
-  phone: defaultRequiredRule,
-  email: defaultRequiredRule,
+  phone: formRules.phone,
+  email: formRules.email,
 };
 
 const roleOptions = ref<CommonType.Option<string>[]>([]);
@@ -187,6 +185,7 @@ async function handleSubmit() {
       closeDrawer();
       emit(`submitted`);
     }
+    loading.value = false;
   }
 }
 watch(visible, () => {

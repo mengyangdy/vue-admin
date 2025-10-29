@@ -43,7 +43,7 @@ import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { enableStatusRecord, userGenderRecord } from '@/constants/business';
 import { defaultTransform, useNaivePaginatedTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
-import { fetchGetUserList } from '@/service/api';
+import { fetchDeleteUser, fetchGetUserList } from '@/service/api';
 import { useThemeStore } from '@/store/modules/theme';
 
 import UserOperateDrawer from './components/user-operate-drawer.vue';
@@ -54,9 +54,9 @@ const themeStore = useThemeStore();
 const searchParams: Api.SystemManage.UserSearchParams = reactive({
   current: 1,
   size: 10,
-  status: 1,
+  status: null,
   username: null,
-  gender: 1,
+  gender: null,
   nickname: null,
   phone: null,
   email: null,
@@ -198,10 +198,13 @@ async function handleBatchDelete() {
   onBatchDeleted();
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
-
-  onDeleted();
+  const { error } = await fetchDeleteUser(id);
+  if (!error) {
+    window.$message?.success(`删除成功`);
+    onDeleted();
+  }
 }
 
 function edit(id: number) {

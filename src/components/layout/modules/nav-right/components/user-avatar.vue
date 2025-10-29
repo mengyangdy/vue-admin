@@ -27,7 +27,7 @@ const { SvgIconVNode } = useSvgIcon();
 function loginOrRegister() {
   toLogin();
 }
-type DropdownKey = 'logout';
+type DropdownKey = 'user-center' | 'logout';
 type DropdownOption =
   | {
       key: DropdownKey;
@@ -41,6 +41,15 @@ type DropdownOption =
 
 const options = computed(() => {
   const opts: DropdownOption[] = [
+    {
+      label: `个人中心`,
+      key: `user-center`,
+      icon: SvgIconVNode({ icon: 'ph:user-circle', fontSize: 18 }),
+    },
+    {
+      type: 'divider',
+      key: 'divider',
+    },
     {
       label: `退出登录`,
       key: 'logout',
